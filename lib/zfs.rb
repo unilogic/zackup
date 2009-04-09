@@ -29,7 +29,8 @@ module Zfs
       return 1
     end
     result = %x[zpool create#{arglist} 2>&1]
-    return result
+    
+    return $?.exitstatus,result
   end
   
   def zpool_destroy
