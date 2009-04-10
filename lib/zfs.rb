@@ -103,6 +103,10 @@ module Zfs
     
   end
   
+  # args = {"flags" => "ps", "blocksize" => "512", "properties" => { "prop1" => "value1" },"filesystem" => "/home/test"}
+  # args = {"flags" => "ps", "blocksize" => "512", "properties" => { "prop1" => "value1" },"size" => "1024", "volume" => "pool/newpool"}
+  # Returns: [Exit status, Command Output]
+  #
   def zfs_create(args)
     arglist = ""
     if args["flags"]
