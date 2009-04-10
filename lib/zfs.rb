@@ -1,6 +1,7 @@
 module Zfs
-  # args = {"flags" => "fn", "pool" => "test_pool", "properties" => { "prop1" => "value1" },"vdev" => "/dev/test"}
-  # 
+  #
+  # Input: args = {"flags" => "fn", "pool" => "test_pool", "properties" => { "prop1" => "value1" },"vdev" => "/dev/test"}
+  # Returns: [Exit status, Command Output]
   def zpool_create(args)
     arglist = ""
     if args["flags"]
@@ -102,8 +103,38 @@ module Zfs
     
   end
   
-  def zfs_create
+  def zfs_create(args)
+    arglist = ""
+    if args["flags"]
+      arglist << " -#{args["flags"]}"
+    end
     
+    properties = ""
+    if args["properties"]
+      args["properties"].each { |key,value| 
+        properties << " -o #{key}=#{value}"
+      }
+    end
+    
+    if args["filesystem"] && ( args["size"] || args["volume"] )
+      return 1
+    elsif args["filesystem"] && !( args["size"] || args["volume"] )
+      arglist << properties
+      arglist << " #{args["filesystem"]}"
+    elsif args["size"] && args["volume"]
+      if args["blocksize"]
+        arglist << " -b #{args["blocksize"]}"
+      end
+      arglist << properties
+      arglist << " -V #{args["size"]}"
+      arglist << " #{args["volume"]}"
+    else
+      return 1
+    end
+
+    result = %x[zfs create#{arglist} 2>&1]
+    
+    return $?.exitstatus,result
   end
   
   def zfs_destroy
