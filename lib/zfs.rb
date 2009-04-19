@@ -244,8 +244,8 @@ module Zfs
     
   end
     
-  def zfs_list (args)
-    result = parse_output(%x[zfs list 2>&1])
+  def zfs_list(args)
+    result = parse_tab_output(%x[zfs list -H 2>&1])
     return $?.exitstatus,result
   end
   
@@ -299,13 +299,13 @@ module Zfs
   
   protected
   
-  def parse_output(str)
+  def parse_tab_output(str)
     lines = str.split("\n")
-    cols = lines[0].chomp.squeeze(" ").downcase!.split(" ")
+    cols = lines[0].chomp.downcase!.split("\t")
     lines.shift
     record = []
     lines.each do |line|
-      vals = line.chomp.squeeze(" ").split(" ")
+      vals = line.chomp.split("\t")
       record.push((0...cols.size).map {|j|
                     { cols[j] => vals[j] }
             }
