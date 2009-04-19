@@ -321,6 +321,7 @@ module Zfs
   # args = {"flags" => "rHp", "field" => "field1,field2", "source" => "source1,source2", "property" => "nfsshare,iscsishare", 
   # "target" => "filesystem|volume|snapshot"}
   def zfs_get(args)
+    arglist = ""
     cols = ['name', 'property', 'value', 'source']
     arglist << " -H"
     if args["flags"]
