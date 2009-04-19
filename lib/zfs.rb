@@ -248,7 +248,7 @@ module Zfs
     end
     
     if args["source"] && args["target"]
-      arglist << " args["source"] args["target"]"
+      arglist << " #{args["source"]} #{args["target"]}"
     else
       return 1, "Source and Target must be defined"
     end
@@ -306,9 +306,9 @@ module Zfs
     if args["filesystem"] && args["volume"]
       return 1, "Filesystem and volume cannot be defined at the same time"
     elsif args["filesystem"]
-      arglist << args["filesystem"]
+      arglist << " #{args["filesystem"]}"
     elsif args["volume"]
-      arglist << args["volume"]
+      arglist << " #{args["volume"]}"
     else
       return 1, "Filesystem or volume must be defined"
     end
