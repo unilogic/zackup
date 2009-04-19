@@ -270,8 +270,9 @@ module Zfs
     if args["target"]
       arglist << " #{args["target"]}"
     end
-    result = parse_output(%x[zfs list#{arglist}2>&1])
-    return $?.exitstatus,result
+    result = %x[zfs list#{arglist} 2>&1]
+    resultArray = parse_output(result)
+    return $?.exitstatus,resultArray
   end
   
   def zfs_set
