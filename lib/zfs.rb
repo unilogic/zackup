@@ -240,10 +240,24 @@ module Zfs
     return $?.exitstatus,result
   end
   
-  def zfs_rename
+  # args = {"flags" => "rp", "source" => "pool", "target" => "newPool"}
+  def zfs_rename(args)
+    arglist = ""
+    if args["flags"]
+      arglist << "-#{args["flags"]}"
+    end
     
+    if args["source"] && args["target"]
+      arglist << " args["source"] args["target"]"
+    else
+      return 1, "Source and Target must be defined"
+    end
+    result = %x[zfs rename#{arglist} 2>&1]
+    
+    return $?.exitstatus,result
   end
-    
+  
+  # args = {"flags" => "r", "display_properties" => "", "sort_asc" => "", "sort_desc" => "", "type" => "", "target" => ""}
   def zfs_list(args)
     arglist = ""
     if args["flags"]
@@ -272,17 +286,72 @@ module Zfs
     end
     result = %x[zfs list#{arglist} 2>&1]
     if $?.exitstatus == 0
-      resultArray = parse_output(result)
+      result = parse_output(result)
     end
-    return $?.exitstatus,resultArray
+    return $?.exitstatus,result
   end
   
-  def zfs_set
+  #  args = {"properties" => { "prop1" => "value1" }, "filesystem" => "pool/tank", "volume" => "pool"}}
+  def zfs_set(args)
+    arglist = ""
+    if args["properties"]
+      args["properties"].each { |key,value| 
+        arglist << " #{key}=#{value}"
+        break
+      }
+    else
+      return 1, "Property must be defined"
+    end
     
+    if args["filesystem"] && args["volume"]
+      return 1, "Filesystem and volume cannot be defined at the same time"
+    elsif args["filesystem"]
+      arglist << args["filesystem"]
+    elsif args["volume"]
+      arglist << args["volume"]
+    else
+      return 1, "Filesystem or volume must be defined"
+    end
+    
+    result = %x[zfs set#{arglist} 2>&1]
+    
+    return $?.exitstatus,result 
   end
   
-  def zfs_get
+  # args = {"flags" => "rHp", "field" => "field1,field2", "source" => "source1,source2", "property" => "nfsshare,iscsishare", 
+  # "target" => "filesystem|volume|snapshot"}
+  def zfs_get(args)
+    arglist = ""
+    if args["flags"]
+      # Ignore the H flag as its mucks with parse_output
+      arglist << " -#{args["flags"].delete('H')}"
+    end
     
+    if args["field"]
+      arglist << " -o #{args["field"]}"
+    end
+    
+    if args["source"]
+      arglist << " -s #{args["source"]}"
+    end
+    
+    if args["properties"]
+      arglist << " #{args["properties"]}"
+    else
+      arglist << " all"
+    end
+    
+    if args["target"]
+      arglist << " #{args["target"]}"
+    else
+      return 1, "Target must be defined with a filesystem, volume, or snapshot"
+    end
+    
+    result = %x[zfs get#{arglist} 2>&1]
+    if $?.exitstatus == 0
+      result = parse_output(result)
+    end
+    return $?.exitstatus,result
   end
   
   def zfs_inherit
