@@ -321,14 +321,14 @@ module Zfs
   # args = {"flags" => "rHp", "field" => "field1,field2", "source" => "source1,source2", "property" => "nfsshare,iscsishare", 
   # "target" => "filesystem|volume|snapshot"}
   def zfs_get(args)
-    arglist = ""
-    
+    cols = ['name', 'property', 'value', 'source']
     arglist << " -H"
     if args["flags"]
       arglist << args["flags"].delete('H')
     end
     
     if args["field"]
+      cols = args["field"].split(',')
       arglist << " -o #{args["field"]}"
     end
     
@@ -350,7 +350,6 @@ module Zfs
     
     result = %x[zfs get#{arglist} 2>&1]
     if $?.exitstatus == 0
-      cols = ['name', 'property', 'value', 'source']
       result = parse_tabular_output(cols, result)
     end
     return $?.exitstatus,result
