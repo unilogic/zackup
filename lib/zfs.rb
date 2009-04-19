@@ -323,8 +323,8 @@ module Zfs
   def zfs_get(args)
     arglist = ""
     if args["flags"]
-      # Ignore the H flag as its mucks with parse_output
-      arglist << " -#{args["flags"].delete('H')}"
+      # Force the H flag
+      arglist << " -H#{args["flags"].delete('H')}"
     end
     
     if args["field"]
@@ -349,7 +349,8 @@ module Zfs
     
     result = %x[zfs get#{arglist} 2>&1]
     if $?.exitstatus == 0
-      result = parse_output(result)
+      cols = ['name', 'property', 'value', 'source']
+      result = parse_tabular_output(cols, result)
     end
     return $?.exitstatus,result
   end
@@ -411,4 +412,17 @@ module Zfs
     return record
   end
   
+  def parse_tabular_output(cols, str)
+    lines = str.split("\n")
+    
+    record = []
+    lines.each do |line|
+      vals = line.chomp.split("\t")
+      record.push((0...cols.size).map {|j|
+                    { cols[j] => vals[j] }
+            }
+      )
+    end
+    return record
+  end
 end
