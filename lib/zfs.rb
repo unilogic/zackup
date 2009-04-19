@@ -245,7 +245,32 @@ module Zfs
   end
     
   def zfs_list(args)
-    result = parse_tab_output(%x[zfs list -H 2>&1])
+    arglist = ""
+    if args["flags"]
+      # Ignore the H flag as its mucks with parse_output
+      arglist << " -#{args["flags"].delete('H')}"
+    end
+    
+    if args["display_properties"]
+      arglist << " -o #{args["display_properties"]}"
+    end
+    
+    if args["sort_asc"]
+      arglist << " -s #{args["sort_asc"]}"
+    end
+    
+    if args["sort_desc"]
+      arglist << " -S #{args["sort_desc"]}"
+    end
+    
+    if args["type"]
+      arglist << " -t #{args["type"]}"
+    end
+    
+    if args["target"]
+      arglist << " #{args["target"]}"
+    end
+    result = parse_output(%x[zfs list#{arglist}2>&1])
     return $?.exitstatus,result
   end
   
@@ -299,13 +324,13 @@ module Zfs
   
   protected
   
-  def parse_tab_output(str)
+  def parse_output(str)
     lines = str.split("\n")
-    cols = lines[0].chomp.downcase!.split("\t")
+    cols = lines[0].chomp.squeeze(" ").downcase!.split(" ")
     lines.shift
     record = []
     lines.each do |line|
-      vals = line.chomp.split("\t")
+      vals = line.chomp.squeeze(" ").split(" ")
       record.push((0...cols.size).map {|j|
                     { cols[j] => vals[j] }
             }
