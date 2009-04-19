@@ -271,7 +271,9 @@ module Zfs
       arglist << " #{args["target"]}"
     end
     result = %x[zfs list#{arglist} 2>&1]
-    resultArray = parse_output(result)
+    if $?.exitstatus == 0
+      resultArray = parse_output(result)
+    end
     return $?.exitstatus,resultArray
   end
   
