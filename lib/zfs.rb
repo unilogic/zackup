@@ -325,7 +325,7 @@ module Zfs
     
     arglist << " -H"
     if args["flags"]
-      arglist << " {args["flags"].delete('H')}"
+      arglist << args["flags"].delete('H')
     end
     
     if args["field"]
