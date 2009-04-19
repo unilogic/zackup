@@ -322,9 +322,10 @@ module Zfs
   # "target" => "filesystem|volume|snapshot"}
   def zfs_get(args)
     arglist = ""
+    
+    arglist << " -H"
     if args["flags"]
-      # Force the H flag
-      arglist << " -H#{args["flags"].delete('H')}"
+      arglist << " {args["flags"].delete('H')}"
     end
     
     if args["field"]
