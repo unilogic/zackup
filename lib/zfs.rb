@@ -258,7 +258,7 @@ module Zfs
   end
   
   # args = {"flags" => "r", "display_properties" => "", "sort_asc" => "", "sort_desc" => "", "type" => "", "target" => ""}
-  def zfs_list(args)
+  def zfs_list(args = {})
     arglist = ""
     if args["flags"]
       # Ignore the H flag as its mucks with parse_output
@@ -351,21 +351,60 @@ module Zfs
     
     result = %x[zfs get#{arglist} 2>&1]
     if $?.exitstatus == 0
-      result = parse_tabular_output(cols, result)
+      result = parse_tabular_output(result, cols)
     end
     return $?.exitstatus,result
   end
   
-  def zfs_inherit
+  def zfs_inherit(args)
+    arglist = ""
+    if args["flags"]
+      arglist << args["flags"]
+    end
     
+    if args["property"] && args["target"]
+      arglist << " #{args["property"]} #{args["target"]}"
+    else
+      return 1, "Property and Target must be defined"
+    end
+    
+    result = %x[zfs inherit#{arglist} 2>&1]
+    
+    return $?.exitstatus,result 
   end
   
   def zfs_upgrade
     
   end
   
-  def zfs_mount
+  def zfs_mount(args = {})
     
+    if args.length > 0
+      arglist = ""
+      if args["flags"]
+        arglist << " -#{args["flags"]}"
+      end
+  
+      if args["opts"]
+        arglist << " -o #{args["opts"]}"
+      end
+  
+      if args["filesystem"]
+        arglist << " #{args["filesystem"]}"
+      elsif args["all"]
+        arglist << " -a"
+      else
+        return 1, "Filesystem or all must be defined"
+      end
+      result = %x[zfs mount#{arglist} 2>&1]
+    else
+      result = %x[zfs mount 2>&1]
+      if $?.exitstatus == 0
+        result = parse_output(result, ['filesystem','mountpoint'])
+      end
+    end
+    
+    return $?.exitstatus,result
   end
   
   def zfs_unmount
@@ -398,9 +437,9 @@ module Zfs
   
   protected
   
-  def parse_output(str)
+  def parse_output(str, cols = [])
     lines = str.split("\n")
-    cols = lines[0].chomp.squeeze(" ").downcase!.split(" ")
+    cols = lines[0].chomp.squeeze(" ").downcase!.split(" ") unless cols
     lines.shift
     record = []
     lines.each do |line|
@@ -413,7 +452,7 @@ module Zfs
     return record
   end
   
-  def parse_tabular_output(cols, str)
+  def parse_tabular_output(str, cols)
     lines = str.split("\n")
     
     record = []
