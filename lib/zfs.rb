@@ -448,13 +448,15 @@ module Zfs
     return $?.exitstatus,result
   end
   
-  def zfs_share
+  def zfs_share(args)
     arglist = ""
     
     if args["all"]
       arglist << " -a"
     elsif args["filesystem"]
       arglist << " #{args["filesystem"]}"
+    else
+      return 1, "All or filesystem must be defined"
     end
     
     result = %x[zfs share#{arglist} 2>&1]
@@ -462,12 +464,47 @@ module Zfs
     return $?.exitstatus,result
   end
   
-  def zfs_unshare
+  def zfs_unshare(args)
+    arglist = ""
+    if args["all"]
+      arglist << " -a"
+    elsif args["filesystem"]
+      arglist << " #{args["filesystem"]}"
+    elsif args["mountpoint"]
+      arglist << " #{args["mountpoint"]}"
+    else
+      return 1, "All, filesystem, or mountpoint must be defined"
+    end
     
+    result = %x[zfs unshare#{arglist} 2>&1]
+    
+    return $?.exitstatus,result
   end
   
-  def zfs_send
+  def zfs_send(args)
+    arglist = ""
+    if args["flags"]
+      arglist << " -#{args["flags"]}"
+    end
     
+    if args["inter_snapshot"] && args["incre_snapshot"]
+      return 1, "Inter_snapshot and incre_snapshot cannot be defined at the same time"
+    elsif args["inter_snapshot"]
+      arglist << " -I #{args["inter_snapshot"]}"
+    elsif args["incre_snapshot"]
+      arglist << " -i #{args["incre_snapshot"]}"
+    end
+    
+    if args["snapshot"]
+      arglist << " args["snapshot"]"
+    else
+      return 1, "Snapshot must be defined"
+    end
+    
+    # This needs to be plumbed somehow, reading in an entire snapshot into a var will break something.
+    #result = %x[zfs share#{arglist} 2>&1]
+    
+    return $?.exitstatus,result
   end
   
   def zfs_receive
