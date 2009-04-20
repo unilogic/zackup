@@ -373,8 +373,30 @@ module Zfs
     return $?.exitstatus,result 
   end
   
-  def zfs_upgrade
+  def zfs_upgrade(args)
+    arglist = ""
+    if args["flags"]
+      # Currently this module does not support the -v flag on zfs upgrade
+      arglist << " #{args["flags"].delete('v')}"
+    end
     
+    if args["version"]
+      arglist << " -V #{args["version"]}"
+    end
+    
+    if args["all"] && args["filesystem"]
+      return 1, "Cannot define all and filesystem at the same time"
+    elsif args["all"]
+      arglist << " -a"
+    elsif args["filesystem"]
+      arglist << " #{args["filesystem"]}"
+    else
+      return 1, "All or filesystem must be defined"
+    end
+
+    result = %x[zfs upgrade#{arglist} 2>&1]
+    
+    return $?.exitstatus,result
   end
   
   def zfs_mount(args = {})
@@ -407,12 +429,37 @@ module Zfs
     return $?.exitstatus,result
   end
   
-  def zfs_unmount
+  def zfs_unmount(args)
+    arglist = ""
+    if args["flags"]
+      arglist << " -#{args["flags"]}"
+    end
+    if args["filesystem"]
+      arglist << " #{args["filesystem"]}"
+    elsif args["mountpoint"]
+      arglist << " #{args["mountpoint"]}"
+    elsif args["all"]
+      arglist << " -a"
+    else
+      return 1, "Filesystem, mountpoint or all must be defined"
+    end
+    result = %x[zfs unmount#{arglist} 2>&1]
     
+    return $?.exitstatus,result
   end
   
   def zfs_share
+    arglist = ""
     
+    if args["all"]
+      arglist << " -a"
+    elsif args["filesystem"]
+      arglist << " #{args["filesystem"]}"
+    end
+    
+    result = %x[zfs share#{arglist} 2>&1]
+    
+    return $?.exitstatus,result
   end
   
   def zfs_unshare
