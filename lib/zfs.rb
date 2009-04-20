@@ -439,10 +439,11 @@ module Zfs
   
   def parse_output(str, cols = [])
     lines = str.split("\n")
-    unless cols.length
+    if cols.size == 0
       cols = lines[0].chomp.squeeze(" ").downcase!.split(" ")
+      lines.shift
     end
-    lines.shift
+    
     record = []
     lines.each do |line|
       vals = line.chomp.squeeze(" ").split(" ")
