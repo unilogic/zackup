@@ -1,0 +1,16 @@
+<table>
+	<tr>
+		<th>Hostname</th>
+		<th>IP Address</th>
+		<th>Status</th>
+		<th>Edit</th>
+		<th>Disable</th>
+	</tr>
+	<% if @hosts.empty? %>
+		<tr>
+    		<td>No Records</td>
+    	</tr>
+	<% else %>
+		<%= render :partial => 'host', :collection => @hosts %>
+	<% end %>
+</table>

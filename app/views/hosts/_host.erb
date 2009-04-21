@@ -1,0 +1,8 @@
+<tr>
+	<td><%= host.hostname %></td>
+	<td><%= host.ip_addr %></td>
+	<td><%= host.status %></td>
+	<td><%= link_to 'Edit', edit_host_path(host) %></td>
+	<td><%= host.status == 'disabled' ? link_to('enabled', enable_host_path(host)) : link_to('disabled', disable_host_path(host)) %></td>
+</tr>
+	
