@@ -1,0 +1,2 @@
+module ConfigItemsHelper
+end

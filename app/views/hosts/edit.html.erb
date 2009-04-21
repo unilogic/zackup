@@ -1,0 +1,15 @@
+<% content_for 'sub_menu' do %>
+	<ul id="sub_menu">
+		<li><%= link_to 'All Hosts', hosts_path %></li>
+		<li><%= link_to 'Delete Host', host_path(@host), :method => :delete %>
+	</ul>
+<% end %>
+
+<h1>Edit Host</h1>
+
+<% form_for @host, :url => hosts_path do |f| %>
+  <%= f.error_messages %>
+  <%= render :partial => "form", :object => f %>
+	<%= render :partial => "config_item", :collection => @config_items %>
+  <%= f.submit "Update" %>
+<% end %>

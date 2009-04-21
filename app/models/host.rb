@@ -4,26 +4,46 @@ class Host < ActiveRecord::Base
   
   def disable
     status_config = self.find_host_config_by_name('status')
-    status_config.value = 'disabled'
-    status_config.save!
+    unless status_config
+      host_config = HostConfig.create(:host => self, :config_item => ConfigItem.find_by_name('status'), :value => 'disabled')
+    else
+      status_config.value = 'disabled'
+      status_config.save!
+    end
   end
   
   def enable
     status_config = self.find_host_config_by_name('status')
-    status_config.value = 'enabled'
-    status_config.save!
+    unless status_config
+      host_config = HostConfig.create(:host => self, :config_item => ConfigItem.find_by_name('status'), :value => 'enabled')
+    else
+      status_config.value = 'enabled'
+      status_config.save!
+    end
   end
   
   def ip_addr
-    self.find_host_config_by_name('ip_addr').value
+    begin
+      return self.find_host_config_by_name('ip_addr').value
+    rescue NoMethodError
+      return "empty"
+    end
   end
   
   def hostname
-    self.find_host_config_by_name('hostname').value
+    begin
+      return self.find_host_config_by_name('hostname').value 
+    rescue NoMethodError
+      return "empty"
+    end
   end
   
   def status
-    self.find_host_config_by_name('status').value
+    begin
+      return self.find_host_config_by_name('status').value
+    rescue NoMethodError
+      return "empty"
+    end
   end
   
   def find_host_config_by_name(name)

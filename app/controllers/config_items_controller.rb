@@ -1,0 +1,2 @@
+class ConfigItemsController < ApplicationController
+end

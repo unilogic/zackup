@@ -1,8 +1,10 @@
+<% rowclass = cycle('spec','specalt') %>
 <tr>
-	<td><%= host.hostname %></td>
-	<td><%= host.ip_addr %></td>
-	<td><%= host.status %></td>
-	<td><%= link_to 'Edit', edit_host_path(host) %></td>
-	<td><%= host.status == 'disabled' ? link_to('enabled', enable_host_path(host)) : link_to('disabled', disable_host_path(host)) %></td>
+	<th scope="row" class='<%= rowclass %>'><%= host.name %></td>
+	<td class='<%= rowclass %>'><%= host.hostname %></td>
+	<td class='<%= rowclass %>'><%= host.ip_addr %></td>
+	<td class='<%= rowclass %>'><%= host.status %></td>
+	<td class='<%= rowclass %>'><%= link_to 'Edit', edit_host_path(host) %></td>
+	<td class='<%= rowclass %>'><%= host.status == 'disabled' ? link_to('Enable', enable_host_path(host)) : link_to('Disable', disable_host_path(host)) %></td>
 </tr>
 	

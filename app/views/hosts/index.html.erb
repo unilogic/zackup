@@ -1,10 +1,18 @@
-<table>
+<% content_for 'sub_menu' do %>
+	<ul id="sub_menu">
+		<li><%= link_to 'New', new_host_path %></li>
+		<li><%= link_to 'View Config Items', config_items_path %></li>
+	</ul>
+<% end %>
+
+<table id="stdtable" class="sortable" cellspacing="0">
 	<tr>
-		<th>Hostname</th>
-		<th>IP Address</th>
-		<th>Status</th>
-		<th>Edit</th>
-		<th>Disable</th>
+		<th scope="col" class="nobg">Hosts</th>
+		<th scope="col">Hostname</th>
+		<th scope="col">IP Address</th>
+		<th scope="col">Status</th>
+		<th scope="col">Edit</th>
+		<th scope="col">Enable/Disable</th>
 	</tr>
 	<% if @hosts.empty? %>
 		<tr>
