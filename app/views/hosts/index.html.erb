@@ -1,18 +1,18 @@
 <% content_for 'sub_menu' do %>
 	<ul id="sub_menu">
-		<li><%= link_to 'New', new_host_path %></li>
+		<li><%= link_to 'New Host', new_host_path %></li>
 		<li><%= link_to 'View Config Items', config_items_path %></li>
 	</ul>
 <% end %>
 
 <table id="stdtable" class="sortable" cellspacing="0">
 	<tr>
-		<th scope="col" class="nobg">Hosts</th>
-		<th scope="col">Hostname</th>
-		<th scope="col">IP Address</th>
-		<th scope="col">Status</th>
-		<th scope="col">Edit</th>
-		<th scope="col">Enable/Disable</th>
+		<th scope="col" class="nobg" id="tblheader">Hosts</th>
+		<th scope="col" id="tblheader">Hostname</th>
+		<th scope="col" id="tblheader">IP Address</th>
+		<th scope="col" id="tblheader">Status</th>
+		<th scope="col" id="tblheader">Edit</th>
+		<th scope="col" id="tblheader">Enable/Disable</th>
 	</tr>
 	<% if @hosts.empty? %>
 		<tr>

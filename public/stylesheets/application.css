@@ -59,17 +59,16 @@ body #menu li#current a {
 #menu #sub_menu,
 {
 	display : none;
-	width: 90%;
 }
 
-body #menu ul#sub_menu {
+#menu ul#sub_menu {
 	display : inline;
 	left : 10px;
 	position : absolute;
 	top : 30px;
 }
 
-body #menu ul#sub_menu a {
+#menu ul#sub_menu a {
 	background : #fff;
 	border : none;
 	border-left : 1px solid #ccc;
@@ -92,25 +91,17 @@ body #menu ul#sub_menu a {
 	border-top : none;
 	clear : both;
 	margin : 0px;
-	margin-top: 20px;
 	padding : 15px;
+	padding-top: 35px;
 }
 
 #stdtable {
-	width: 700px;
 	padding: 0;
 	margin: 0;
 }
 
-caption {
-	padding: 0 0 5px 0;
-	width: 700px;	 
-	font: italic 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
-	text-align: right;
-}
-
 th {
-	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	font: bold 12px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 	color: #4f6b72;
 	border-right: 1px solid #C1DAD7;
 	border-bottom: 1px solid #C1DAD7;
@@ -120,9 +111,12 @@ th {
 	text-align: left;
 	padding: 6px 6px 6px 12px;
 	background: #CAE8EA url(/images/bg_header.jpg) no-repeat;
+	width: 110px;
 }
+
 table.sortable th {
 	cursor: pointer;
+	width: 110px;
 }
 
 th.nobg {
@@ -146,17 +140,19 @@ td.alt {
 	color: #797268;
 }
 
-th.spec {
+td.spec {
 	border-left: 1px solid #C1DAD7;
 	border-top: 0;
 	background: #fff;
-	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	text-transform: uppercase;
 }
 
-th.specalt {
+td.specalt {
 	border-left: 1px solid #C1DAD7;
 	border-top: 0;
 	background: #f5fafa;
-	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	text-transform: uppercase;
 	color: #797268;
 }

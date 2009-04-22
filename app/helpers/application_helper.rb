@@ -7,7 +7,7 @@ module ApplicationHelper
   end
   
   def is_hosts?
-    if controller.controller_name == 'hosts'
+    if controller.controller_name == 'hosts' || controller.controller_name == 'config_items'
       "current"
     end
   end

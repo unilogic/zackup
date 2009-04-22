@@ -1,5 +1,5 @@
 class Host < ActiveRecord::Base
-  has_many :host_configs
+  has_many :host_configs, :dependent => :destroy
   has_many :config_items, :through => :host_configs
   
   def disable

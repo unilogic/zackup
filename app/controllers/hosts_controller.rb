@@ -7,13 +7,17 @@ class HostsController < ApplicationController
   
   def new
     @host = Host.new
-    @config_items = ConfigItem.all
+    @config_items = ConfigItem.find_all_by_configurable true
   end
   
   def create
     @host = Host.new(params[:host])
     
     if @host.save
+      params[:config_item].each {|k,v|
+        HostConfig.create(:host => @host, :config_item_id => k, :value => v)
+      }
+      HostConfig.create(:host => @host, :config_item => ConfigItem.find_by_name('status'), :value => 'new')
       flash[:notice] = "Host created!"
       redirect_to hosts_path
     else
@@ -26,14 +30,13 @@ class HostsController < ApplicationController
   end
 
   def edit
-    @config_items = ConfigItem.all
     @host = Host.find(params[:id])
     @host_configs = @host.host_configs
   end
   
   def update
-    @host = @current_user # makes our views "cleaner" and more consistent
-    if @user.update_attributes(params[:user])
+    @host = Host.find(params[:id]) # makes our views "cleaner" and more consistent
+    if @host.update_attributes(params[:host])
       flash[:notice] = "Host updated!"
       redirect_to hosts_path
     else

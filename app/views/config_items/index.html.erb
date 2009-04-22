@@ -1,0 +1,23 @@
+<% content_for 'sub_menu' do %>
+	<ul id="sub_menu">
+		<li><%= link_to 'All Hosts', hosts_path %></li>
+		<li><%= link_to 'New Config Item', new_config_item_path %></li>
+	</ul>
+<% end %>
+
+<table id="stdtable" class="sortable" cellspacing="0">
+	<tr>
+		<th scope="col" class="nobg" id="tblheader">Name</th>
+		<th scope="col">Description</th>
+		<th scope="col">Configuable</th>
+		<th scope="col" class="sorttable_nosort" >Edit</th>
+		<th scope="col" class="sorttable_nosort" >Delete</th>
+	</tr>
+	<% if @config_items.empty? %>
+		<tr>
+    		<td>No Records</td>
+    	</tr>
+	<% else %>
+		<%= render :partial => 'item', :collection => @config_items %>
+	<% end %>
+</table>
