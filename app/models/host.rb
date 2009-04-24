@@ -23,26 +23,23 @@ class Host < ActiveRecord::Base
   end
   
   def ip_addr
-    begin
-      return self.find_host_config_by_name('ip_addr').value
-    rescue NoMethodError
-      return "empty"
+    item = self.find_host_config_by_name('ip_addr')
+    if item
+      return item.value
     end
   end
   
   def hostname
-    begin
-      return self.find_host_config_by_name('hostname').value 
-    rescue NoMethodError
-      return "empty"
-    end
+    item = self.find_host_config_by_name('hostname') 
+    if item
+      return item.value
+    end   
   end
   
   def status
-    begin
-      return self.find_host_config_by_name('status').value
-    rescue NoMethodError
-      return "empty"
+    item = self.find_host_config_by_name('status')
+    if item
+      return item.value
     end
   end
   
@@ -50,4 +47,17 @@ class Host < ActiveRecord::Base
     config_item = ConfigItem.find_by_name(name)
     self.host_configs.find_by_config_item_id(config_item)
   end
+  
+  def find_host_configs_not_configurable
+    host_configs = self.host_configs
+    
+    configurables = []
+    host_configs.each { |config|
+      if config.configurable? == true
+        configurables.push(config)
+      end
+    }
+    return configurables
+  end
+  
 end

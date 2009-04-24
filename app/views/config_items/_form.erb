@@ -4,3 +4,5 @@
 <%= form.text_field :description %><br />
 <%= form.label :configurable %>
 <%= form.check_box :configurable %><br />
+<%= form.label :parent_id %>
+<%= form.collection_select(:parent_id, @config_groups, :id, :name, {:prompt => 'None'}) %>

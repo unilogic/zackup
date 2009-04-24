@@ -11,5 +11,19 @@
   <%= f.error_messages %>
   <%= render :partial => "form", :object => f %>
 	<%= render :partial => "host_config", :collection => @host_configs %>
+	<%= f.label "Host Type" %><br/>
+	<%= select(:host_config, @host_type.id, @config_groups.collect {|cp| [cp.name, cp.id]}, { :selected => @host_type.value.to_i },
+		  {
+				:onchange => remote_function(
+					:method => "get",
+					:with => "'id='+value",
+					:url => get_sub_form_hosts_path
+				)
+			}
+	) if @config_groups && @host_type %>
+	
+	<div id='sub_form'>
+		<%= yield :sub_form %>
+	</div>
   <%= f.submit "Update" %>
 <% end %>

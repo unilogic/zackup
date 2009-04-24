@@ -2,6 +2,7 @@
 <tr>
 	<td scope="row" class='<%= cycle('spec','specalt') %>'><%= item.name %></td>
 	<td class='<%= rowclass %>'><%= item.description %></td>
+	<td class='<%= rowclass %>'><%= item.parent_name %></td>
 	<td class='<%= rowclass %>'><%= item.configurable %></td>
 	<td class='<%= rowclass %>'><%= link_to 'Edit', edit_config_item_path(item) %></td>
 	<td class='<%= rowclass %>'><%= link_to 'Delete', config_item_path(item), :method => :delete %></td>

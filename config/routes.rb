@@ -41,7 +41,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :user_session
   map.resource :account, :controller => "users"
   map.resources :users
-  map.resources :hosts, :member => { :disable => :get, :enable => :get}
+  map.resources :hosts, :member => { :disable => :get, :enable => :get }, :collection => {:get_sub_form => :get}
   map.resources :config_items
   map.root :controller => "user_sessions", :action => "new"
   

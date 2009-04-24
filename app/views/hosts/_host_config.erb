@@ -1,2 +1,9 @@
-<%= label(:host_config, host_config.name ) %><br />
-<%= text_field(:host_config, host_config.id, :value => host_config.value ) %><br />
+<% unless host_config.parent_name == 'defaults' %>
+	<% content_for 'sub_form' do %>
+		<%= label(:host_config, host_config.name ) %><br />
+		<%= text_field(:host_config, host_config.id, :value => host_config.value ) %><br />
+	<% end %>
+<% else %>
+	<%= label(:host_config, host_config.name ) %><br />
+	<%= text_field(:host_config, host_config.id, :value => host_config.value ) %><br />
+<% end %>

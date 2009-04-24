@@ -9,6 +9,18 @@
 <% form_for @host, :url => hosts_path do |f| %>
   <%= f.error_messages %>
   <%= render :partial => "form", :object => f %>
-	<%= render :partial => "config_item", :collection => @config_items %>
+	<%= render :partial => "config_item", :collection => @default_items if @default_items %>
+	<%= f.label "Host Type" %><br/>
+	<%= collection_select(:config_item, @host_type_item.id, @config_groups, :id, :name, {:prompt => true},
+		  {
+				:onchange => remote_function(
+					:method => "get",
+					:with => "'id='+value",
+					:url => get_sub_form_hosts_path
+				)
+			}
+	) if @config_groups %>
+	<div id='sub_form'></div>
+
   <%= f.submit "Create" %>
 <% end %>
