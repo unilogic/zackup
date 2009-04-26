@@ -30,4 +30,24 @@ module ApplicationHelper
     end
   end
   
+  def display_types
+    return {  'Text Field'      => 'text_field',
+              'Password Field'  => 'password_field',
+              'Text Area'       => 'text_area',
+              'Check Box'       => 'check_box',
+              'File Field'      => 'file_field',
+              'Hidden Field'    => 'hidden_field',
+              'Radio Button'    => 'radio_button' }
+  end
+  
+  def display_types_rev
+    return {  'text_field'      => 'Text Field',
+              'password_field'  => 'Password Field',
+              'text_area'       => 'Text Area',
+              'check_box'       => 'Check Box',
+              'file_field'      => 'File Field',
+              'hidden_field'    => 'Hidden Field',
+              'radio_button'    => 'Radio Button' }
+  end
+
 end

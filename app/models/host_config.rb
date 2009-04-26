@@ -31,4 +31,12 @@ class HostConfig < ActiveRecord::Base
     end
   end
   
+  def display_type
+    item = self.config_item
+    if item
+      return item.display_type
+    else
+      return 'empty'
+    end
+  end
 end

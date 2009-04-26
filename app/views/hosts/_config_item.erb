@@ -1,2 +1,11 @@
 <%= label(:config_item, config_item.name) %><br />
-<%= text_field(:config_item, config_item.id) %><br />
+<% if config_item.display_type.length > 0 && display_types_rev.include?(config_item.display_type) %>
+	
+	<% if config_item.display_type == 'password_field' %>
+		<%= eval(config_item.display_type + '(:config_item, "#{config_item.id}_password")') %><br />
+		<%= label(:config_item, "#{config_item.name}_confirmation") %><br />
+		<%= password_field(:config_item, "#{config_item.id}_confirmation") %><br />
+	<% else %>
+		<%= eval(config_item.display_type + '(:config_item, config_item.id)') %><br />
+	<% end %>
+<% end %>

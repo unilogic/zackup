@@ -7,19 +7,7 @@ class HostsController < ApplicationController
   
   def new
     @host = Host.new
-    @config_groups = ConfigItem.find_all_by_parent_id nil
-    
-    @config_groups.each { |item|
-      if item.name == 'defaults'
-        @default_group = item
-        @config_groups.delete(item)
-        break
-      end
-    }
-    if @default_group
-      @default_items = ConfigItem.find_all_by_parent_id_and_configurable(@default_group.id, true)
-    end
-    @host_type_item = ConfigItem.find_by_name('host_type')
+    config_item_group_and_defaults
   end
   
   def get_sub_form
@@ -31,15 +19,18 @@ class HostsController < ApplicationController
   
   def create
     @host = Host.new(params[:host])
-    
-    if @host.save
-      params[:config_item].each {|k,v|
-        HostConfig.create(:host => @host, :config_item_id => k, :value => v)
+    validated_params = validate_params(params[:config_item])
+    if validated_params && @host.save
+      validated_params.each {|k,v|
+        if k && v
+          HostConfig.create(:host => @host, :config_item_id => k, :value => v) 
+        end   
       }
       HostConfig.create(:host => @host, :config_item => ConfigItem.find_by_name('status'), :value => 'new')
       flash[:notice] = "Host created!"
       redirect_to hosts_path
     else
+      config_item_group_and_defaults
       render :action => :new
     end
   end
@@ -111,5 +102,47 @@ class HostsController < ApplicationController
     else
       render :action => :index
     end
+  end
+  
+  private 
+  
+  # Create all the variables used in new and create
+  def config_item_group_and_defaults
+    @config_groups = ConfigItem.find_all_by_parent_id nil
+    
+    @config_groups.each { |item|
+      if item.name == 'defaults'
+        @default_group = item
+        @config_groups.delete(item)
+        break
+      end
+    }
+    if @default_group
+      @default_items = ConfigItem.find_all_by_parent_id_and_configurable(@default_group.id, true)
+    end
+    @host_type_item = ConfigItem.find_by_name('host_type')
+  end
+  
+  def validate_params(params_hash)
+    params_hash.each { |k,v|
+      
+      #Hack to filter and modify password params, so passwords are filtered in logs
+      modifiable = String.new(k)
+      if modifiable.gsub!(/^(\d+)_password$/,'\1')
+        params_hash[modifiable] = v
+      end
+      
+      # Check confirmation against original
+      if params_hash["#{modifiable}_confirmation"]
+        if params_hash["#{modifiable}_confirmation"] != v
+          config_item = ConfigItem.find modifiable
+          flash[:error] = "#{config_item.name} and Confirmation Do Not Match!"
+          return false
+        else
+          params_hash.delete("#{modifiable}_confirmation")
+        end
+      end
+    }
+    return params_hash
   end
 end

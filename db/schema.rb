@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090423031842) do
+ActiveRecord::Schema.define(:version => 20090424165255) do
 
   create_table "config_items", :force => true do |t|
     t.string   "name"
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(:version => 20090423031842) do
     t.datetime "updated_at"
     t.boolean  "configurable"
     t.integer  "parent_id"
+    t.string   "display_type"
   end
 
   create_table "host_configs", :force => true do |t|
