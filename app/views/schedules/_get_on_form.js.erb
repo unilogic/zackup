@@ -1,0 +1,16 @@
+<%= update_page { |page|
+	if @repeat_type == 'hourly'
+		page.replace_html 'on-label', 'hour(s)'
+		page.replace_html 'on-right', ''
+	elsif @repeat_type == 'daily'
+		page.replace_html 'on-label', 'days(s)'
+		page.replace_html 'on-right', ''
+	elsif @repeat_type == 'weekly'
+		page.replace_html 'on-label', 'week(s) on '
+		page.replace_html 'on-right', :partial => "week_button", :collection => Date::DAYNAMES, :as => :day
+	elsif @repeat_type == 'monthly'
+		page.replace_html 'on-label', 'month(s) on '
+		page.replace_html 'on-right', on_month_select
+	end
+ }
+%>

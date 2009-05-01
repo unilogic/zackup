@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090424165255) do
+ActiveRecord::Schema.define(:version => 20090429184517) do
 
   create_table "config_items", :force => true do |t|
     t.string   "name"
@@ -42,6 +42,18 @@ ActiveRecord::Schema.define(:version => 20090424165255) do
     t.integer  "scheduler_node_id"
     t.integer  "scheduler_job_id"
     t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "schedules", :force => true do |t|
+    t.integer  "host_id",    :null => false
+    t.date     "start_date", :null => false
+    t.time     "start_time", :null => false
+    t.string   "repeat",     :null => false
+    t.string   "every",      :null => false
+    t.string   "on"
+    t.time     "stop"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
