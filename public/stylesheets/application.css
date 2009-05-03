@@ -10,6 +10,10 @@ a {
 	text-decoration: none;
 }
 
+.clear {
+	clear : both;
+}
+
 #menu {
 	font-family: Helvetica, "Lucida Grande", Arial, sans-serif;
 	border-bottom : 1px solid #ccc;
@@ -112,12 +116,10 @@ th {
 	text-align: left;
 	padding: 6px 6px 6px 12px;
 	background: #CAE8EA url(/images/bg_header.jpg) no-repeat;
-	width: 110px;
 }
 
 table.sortable th {
 	cursor: pointer;
-	width: 110px;
 }
 
 th.nobg {
@@ -128,6 +130,7 @@ th.nobg {
 }
 
 td {
+	font-size: 11px;
 	border-right: 1px solid #C1DAD7;
 	border-bottom: 1px solid #C1DAD7;
 	background: #fff;
@@ -167,8 +170,12 @@ td.specalt {
 }
 
 .right {
+	border: 1px solid;
 	padding-top: 26px;
 	height: 120px;
+	width: 380px;
+	margin-left: 220px;
+	padding-bottom: 30px;
 }
 
 .labels{
@@ -183,7 +190,7 @@ td.specalt {
 	height: 34px;
 }
 
-.fields{
+.fields {
 	padding-bottom: 10px;
 }
 
@@ -209,6 +216,7 @@ td.specalt {
 	
 }
 
-.clear {
-	clear : both;
+.submit #schedule_submit {
+	margin-left: 315px;
+	margin-top: 10px;
 }

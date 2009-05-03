@@ -1,2 +1,2 @@
-<%= hidden_field(:schedule, "#{day}", :id => "#{day}_hidden") %>
+<input type="hidden" id="<%= day %>_hidden" name="schedule[<%= day %>]" value="" />
 <%= button_to_function day[0,1], :id => day, :class => 'untoggled_button' do |page| toggle_button(page, day) end %>

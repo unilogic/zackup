@@ -75,6 +75,7 @@ class HostsController < ApplicationController
     @host = Host.find(params[:id])
     if request.delete?
       @host.destroy
+      flash[:notice] = "Host deleted!"
     end
     respond_to do |format|
       format.html { redirect_to hosts_path }
@@ -86,7 +87,7 @@ class HostsController < ApplicationController
     @host = Host.find(params[:id])
     
     if @host.disable
-      flash[:notice] = "Host disabled"
+      flash[:notice] = "Host disabled!"
       redirect_to hosts_path
     else
       render :action => :index
@@ -97,7 +98,7 @@ class HostsController < ApplicationController
     @host = Host.find(params[:id])
     
     if @host.enable
-      flash[:notice] = "Host enabled"
+      flash[:notice] = "Host enabled!"
       redirect_to hosts_path
     else
       render :action => :index

@@ -1,0 +1,20 @@
+<% content_for 'sub_menu' do %>
+	<ul id="sub_menu">
+		<li><%= link_to 'Edit Host', edit_host_path(@host) %></li>
+		<li><%= link_to 'View Schedules', host_schedules_path(@host) %>
+	</ul>
+<% end %>
+
+<h2>Edit Backup Schedule: <%= @schedule.name %></h2> 
+<h3>Host: <%= @host.name %></h3>
+
+<div class='schedule'>
+<% form_for @schedule, :url => host_schedule_path(@host, @schedule) do |f| %>
+	<%= f.hidden_field(:host_id, :value => @host.id)%>
+  <%= f.error_messages %>
+  <%= render :partial => "form", :object => f %>
+	<br/>
+  <div class='submit'><%= f.submit "Update" %></div>
+<% end %>
+</div>
+<div class='clear'></div>

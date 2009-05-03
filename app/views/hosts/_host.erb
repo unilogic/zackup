@@ -4,6 +4,8 @@
 	<td class='<%= rowclass %>'><%= host.hostname %></td>
 	<td class='<%= rowclass %>'><%= host.ip_addr %></td>
 	<td class='<%= rowclass %>'><%= host.status %></td>
-	<td class='<%= rowclass %>'><%= link_to 'Edit', edit_host_path(host) %></td>
-	<td class='<%= rowclass %>'><%= host.status == 'disabled' ? link_to('Enable', enable_host_path(host)) : link_to('Disable', disable_host_path(host)) %></td>
+	<td class='<%= rowclass %>'><%= host.status == 'disabled' || host.status == 'new' ? link_to('Enable', enable_host_path(host)) : link_to('Disable', disable_host_path(host)) %></td>
+	<td class='<%= rowclass %>'><%= link_to image_tag('schedule.png'), host_schedules_path(host) %></td>
+	<td class='<%= rowclass %>'><%= link_to image_tag('edit.png'), edit_host_path(host) %></td>
+	<td class='<%= rowclass %>'><%= link_to image_tag('delete.png'), host_path(host), :method => :delete, :confirm => "Are you sure you want to delete the host: #{host.name}" %></td>
 </tr>

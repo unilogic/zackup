@@ -1,5 +1,5 @@
 <div id='start_date'>
-	<%= form.calendar_date_select :start_date, :embedded => true, :month_year => "label" %>
+	<%= form.calendar_date_select :start_date, :embedded => true, :month_year => "label", :value => @date %>
 </div>
 <div class='right'>
 	<div class='labels'>
@@ -13,7 +13,7 @@
 			<%= form.text_field :name %>
 		</div>
 		<div id='start_time'>
-			<%= select_time(Time.current, :prefix => :schedule, :time_separator => ':') %>
+			<%= select_time(@time, :prefix => :schedule, :time_separator => ':') %>
 		</div>
 		<div id='repeat'>
 			<%= select(:schedule, :repeat, repeat_collection, {}, {
@@ -28,8 +28,7 @@
 			<%= form.text_field :every, :size => 2, :maxlength => 2 %>
 			
 			<span id='on'>
-				<span id='on-label'>hour(s)</span>
-				<span id='on-right'></span>
+				<%= render :partial => 'get_on_form' %>
 			</span>
 		</div>
 	</div>
