@@ -3,11 +3,15 @@
 </div>
 <div class='right'>
 	<div class='labels'>
+		<div class='name'>name</div>
 		<div class='start_label'>start</div>
 		<div class='repeat_label'>repeat</div>
 		<div class='every_label'>every</div>
 	</div>
 	<div class='fields'>
+		<div id='name'>
+			<%= form.text_field :name %>
+		</div>
 		<div id='start_time'>
 			<%= select_time(Time.current, :prefix => :schedule, :time_separator => ':') %>
 		</div>
@@ -16,7 +20,7 @@
 				:onchange => remote_function(
 					:method => "get",
 					:with => "'type='+value",
-					:url => get_on_form_schedules_path
+					:url => get_on_form_host_schedules_path(@host)
 				)
 			}) %>
 		</div>

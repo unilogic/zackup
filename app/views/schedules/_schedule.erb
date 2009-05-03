@@ -1,0 +1,10 @@
+<% rowclass = cycle('','alt', :name => "row_class") %>
+<tr>
+	<td scope="row" class='<%= cycle('spec','specalt') %>'><%= schedule.name %></td>
+	<td><%= "#{schedule.start_date.strftime("%b %d, %Y")} #{schedule.start_time}" %></td>
+	<td class='<%= rowclass %>'><%= schedule.repeat %></td>
+	<td class='<%= rowclass %>'><%= every_sentance(schedule) %></td>
+	<td class='<%= rowclass %>'><%= schedule.status %></td>
+	<td class='<%= rowclass %>'><%= link_to 'Edit', edit_host_schedule_path(schedule.host_id, schedule) %></td>
+	<td class='<%= rowclass %>'><%= schedule.status == 'disabled' ? link_to('Enable', enable_host_schedule_path(@host, schedule)) : link_to('Disable', disable_host_schedule_path(@host, schedule)) %></td>
+</tr>

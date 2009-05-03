@@ -1,7 +1,11 @@
 class SchedulesController < ApplicationController
+  before_filter :require_user
+  
   def index
-    
+    @host = Host.find(params[:host_id])
+    @schedules = Schedule.find_all_by_host_id(params[:host_id])
   end
+  
   def new
     @schedule = Schedule.new
     @host = Host.find(params[:host_id])
@@ -26,12 +30,15 @@ class SchedulesController < ApplicationController
       params[:schedule][:on] = days.to_yaml
     end
     
-    
     @schedule = Schedule.new(params[:schedule])
+    
+    unless @schedule.status
+      @schedule.status = 'new'
+    end
     
     if @schedule.save
       flash[:notice] = "Schedule created!"
-      redirect_to edit_host_path(params[:host_id])
+      redirect_to host_schedules_path(params[:host_id])
     else
       render :action => :new
     end
@@ -43,5 +50,28 @@ class SchedulesController < ApplicationController
       format.js { render :partial => 'get_on_form' }
     end
   end
+  
+  def disable
+    @schedule = Schedule.find(params[:id])
+    
+    if @schedule.update_attributes( :status => 'disabled' )
+      flash[:notice] = "Schedule disabled!"
+      redirect_to host_schedules_path(params[:host_id])
+    else
+      render :action => :index
+    end
+  end
+  
+  def enable
+    @schedule = Schedule.find(params[:id])
+    
+    if @schedule.update_attributes( :status => 'enabled' )
+      flash[:notice] = "Schedule enabled!"
+      redirect_to host_schedules_path(params[:host_id])
+    else
+      render :action => :index
+    end
+  end
+  
   
 end

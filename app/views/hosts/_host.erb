@@ -7,4 +7,3 @@
 	<td class='<%= rowclass %>'><%= link_to 'Edit', edit_host_path(host) %></td>
 	<td class='<%= rowclass %>'><%= host.status == 'disabled' ? link_to('Enable', enable_host_path(host)) : link_to('Disable', disable_host_path(host)) %></td>
 </tr>
-	

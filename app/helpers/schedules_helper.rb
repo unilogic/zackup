@@ -30,4 +30,34 @@ module SchedulesHelper
   def on_month_select
     select(:schedule, :on, month_days_ordinalize)
   end
+  
+  def adj_to_noun(adj)
+    trans_table = { 'hourly' => 'hour',
+                    'daily' => 'day',
+                    'weekly' => 'week',
+                    'monthly' => 'month' }
+    return trans_table[adj]
+  end
+  
+  def every_sentance(schedule)
+    pluralized = ""
+    sentence = ""
+    
+    if schedule.every.to_i > 1
+			pluralized = adj_to_noun(schedule.repeat).pluralize
+		else
+			pluralized = adj_to_noun(schedule.repeat)
+		end
+		
+		if schedule.repeat == 'weekly'
+     sentence = "every #{schedule.every} #{pluralized} on #{YAML::load(schedule.on).join(", ")}"
+    elsif schedule.repeat == 'monthly'
+      sentence = "every #{schedule.every} #{pluralized} on the #{schedule.on.to_i.ordinalize}"
+    else
+      sentence = "every #{schedule.every} #{pluralized}"
+    end
+    
+    return sentence
+  end
+  
 end

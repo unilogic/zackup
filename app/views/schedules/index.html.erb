@@ -1,0 +1,25 @@
+<% content_for 'sub_menu' do %>
+	<ul id="sub_menu">
+		<li><%= link_to 'Edit Host', edit_host_path(@host) %></li>
+		<li><%= link_to 'New Schedule', new_host_schedule_path(@host) %>
+	</ul>
+<% end %>
+
+<table id="stdtable" class="sortable" cellspacing="0">
+	<tr>
+		<th scope="col" class="nobg" id="tblheader">Schedules</th>
+		<th scope="col" id="tblheader">Start</th>
+		<th scope="col" id="tblheader">Repeat</th>
+		<th scope="col" id="tblheader">Frequency</th>
+		<th scope="col" id="tblheader">Status</th>
+		<th scope="col" id="tblheader">Edit</th>
+		<th scope="col" id="tblheader">Enable/Disable</th>
+	</tr>
+	<% if @schedules.empty? %>
+		<tr>
+    		<td>No Records</td>
+    	</tr>
+	<% else %>
+		<%= render :partial => 'schedule', :collection => @schedules %>
+	<% end %>
+</table>
