@@ -2,10 +2,10 @@
 	<span id='on-label'>days(s)</span>
 	<span id='on-right'></span>
 <% elsif @repeat_type == 'weekly' %>
-	<span id='on-label'>week(s)</span>
+	<span id='on-label'>week(s) on</span>
 	<span id='on-right'><%= render :partial => "week_button", :collection => Date::DAYNAMES, :as => :day %></span>
 <% elsif @repeat_type == 'monthly' %>
-	<span id='on-label'>month(s)</span>
+	<span id='on-label'>month(s) on</span>
 	<span id='on-right'><%= on_month_select %></span>
 <% else %>
 	<span id='on-label'>hour(s)</span>

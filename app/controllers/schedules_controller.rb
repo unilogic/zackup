@@ -53,6 +53,10 @@ class SchedulesController < ApplicationController
     @time = Time.parse(@schedule.start_time)
     @date = @schedule.start_date
     @repeat_type = @schedule.repeat
+    
+    if @repeat_type == 'weekly'
+      @set_days = YAML::load(@schedule.on)
+    end
   end
   
   def update
