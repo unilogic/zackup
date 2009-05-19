@@ -1,0 +1,25 @@
+<% content_for 'sub_menu' do %>
+	<ul id="sub_menu">
+		<li><%= link_to 'New User', new_user_path %>
+	</ul>
+<% end %>
+
+<h2>Users</h2>
+<table id="stdtable" class="sortable" cellspacing="0">
+	<tr>
+		<th scope="col" class="nobg" id="tblheader">Login</th>
+		<th scope="col" id="tblheader">Name</th>
+		<th scope="col" id="tblheader">Email</th>
+		<th scope="col" id="tblheader">Last Seen</th>
+		<th scope="col" id="tblheader">IP</th>
+		<th scope="col" id="tblheader" class="sorttable_nosort">Edit</th>
+		<th scope="col" id="tblheader" class="sorttable_nosort">Delete</th>
+	</tr>
+	<% if @users.empty? %>
+		<tr>
+    		<td>No Records</td>
+    	</tr>
+	<% else %>
+		<%= render :partial => 'user', :collection => @users %>
+	<% end %>
+</table>

@@ -1,0 +1,12 @@
+<% content_for 'sub_menu' do %>
+	<ul id="sub_menu">
+		<li><%= link_to 'New Host', new_host_path %></li>
+	</ul>
+	
+<% end %>
+
+<% form_for settings do |f| %>
+	<%= f.label :registration_enable, "User Registration Enable" %>
+	<%= f.check_box :registration_enable %><br/>
+	<%= submit_tag 'Update' %>
+<% end %>

@@ -12,8 +12,14 @@ module ApplicationHelper
     end
   end
   
+  def is_user?
+    if controller.controller_name == 'users' && request.path !~ /\/account.*/
+      "current"
+    end
+  end
+  
   def is_account?
-    if controller.controller_name == 'users'
+    if request.path =~ /\/account.*/
       "current"
     end
   end
@@ -30,6 +36,12 @@ module ApplicationHelper
     end
   end
   
+  def is_setting?
+    if controller.controller_name == 'settings'
+      "current"
+    end
+  end
+    
   def display_types
     return {  'Text Field'      => 'text_field',
               'Password Field'  => 'password_field',

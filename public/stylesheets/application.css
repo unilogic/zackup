@@ -20,6 +20,11 @@ a {
 	margin : 0;
 	padding-bottom : 19px;
 	padding-left : 10px;
+	width: 850px;
+}
+
+.menu-right {
+	float: right;
 }
 
 #menu ul, #menu li	{
@@ -98,6 +103,7 @@ body #menu li#current a {
 	margin: 0;
 	padding: 15px;
 	padding-top: 35px;
+	width: 828px;
 }
 
 #stdtable {

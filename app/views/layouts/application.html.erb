@@ -16,15 +16,22 @@
 	  <li id=<%= is_dashboard? %>><%= link_to 'Dashboard', root_path %></li>
 	  <li id=<%= is_hosts? %>><%= link_to 'Hosts', hosts_path %></li>
 	  <li><a href="#">Jobs</a></li>
-	  <li id=<%= is_account? %>><%= link_to 'My Account', account_path %></li>
-		<li><%= link_to "Logout", user_session_path, :method => :delete, :confirm => "Are you sure you want to logout?" %></li>
+	  <li id=<%= is_user? %>><%= link_to 'Users', users_path %></li>
+		<li id=<%= is_setting? %>><%= link_to 'Settings', settings_path %></li>
+		<span class="menu-right">
+			<li id=<%= is_account? %>>
+				<%= link_to 'My Account', account_path %>
+			</li>
+			<li>
+				<%= link_to "Logout", user_session_path, :method => :delete, :confirm => "Are you sure you want to logout?" %>
+			</li>
+		</span>
 	<% else %>
 		<li id=<%= is_login_form? %>><%= link_to "Log In", new_user_session_path %></li>
 		<li id=<%= is_register_form? %>><%= link_to "Register", new_account_path %></li>
 	<% end %>
 	<li><%= yield :sub_menu %></li>
 </ul>
-
 
 <div id="contents">
 	

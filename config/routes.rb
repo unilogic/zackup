@@ -45,8 +45,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :hosts, :member => { :disable => :get, :enable => :get }, :collection => {:get_sub_form => :get} do |host|
     host.resources :schedules, :member => { :disable => :get, :enable => :get }, :collection => {:get_on_form => :get}
   end
-  map.root :controller => "user_sessions", :action => "new"
-  
-  #map.connect ':controller/:action/:id'
-  #map.connect ':controller/:action/:id.:format'
+  map.resources :settings
+  map.root :controller => "hosts"
+
 end

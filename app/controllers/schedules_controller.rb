@@ -88,6 +88,18 @@ class SchedulesController < ApplicationController
     
   end
   
+  def destroy
+    @schedule = Schedule.find(params[:id])
+    if request.delete?
+      @schedule.destroy
+      flash[:notice] = "Schedule deleted!"
+    end
+    respond_to do |format|
+      format.html { redirect_to host_schedules_path(params[:host_id]) }
+      format.xml  { head :ok }
+    end
+  end
+  
   def get_on_form
     @repeat_type = params[:type]
     respond_to do |format|
@@ -116,6 +128,4 @@ class SchedulesController < ApplicationController
       render :action => :index
     end
   end
-  
-  
 end

@@ -1,5 +1,14 @@
-<h1>Register</h1>
-
+<% if current_user %>
+	<% content_for 'sub_menu' do %>
+		<ul id="sub_menu">
+			<li><%= link_to 'All Users', users_path %></li>
+			<li><%= link_to 'New User', new_user_path %>
+		</ul>
+	<% end %>
+	<h2>New User</h2>
+<% else %>
+	<h2>Register</h2>
+<% end %>
 <% form_for @user, :url => account_path do |f| %>
   <%= f.error_messages %>
   <%= render :partial => "form", :object => f %>
