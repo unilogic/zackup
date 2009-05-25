@@ -1,3 +1,3 @@
 <%= update_page { |page|
-	page.replace_html 'sub_form', :partial => 'config_item', :collection => @config_items }
+	page.insert_html :after, "sub_form", :partial => 'config_item', :collection => @config_items }
 %>

@@ -1,11 +1,40 @@
-<%= label(:config_item, config_item.name) %><br />
+<% if @js_replace %>
+	<tr id='sub_form_host_type'>
+<% elsif @js_after %>
+	<tr id='<%= "sub_form_#{config_item.parent_id}" %>'>
+<% else %>
+	<tr>
+<% end %>
+<td class='labelform'><%= label(:config_item, config_item.name) %></td>
 <% if config_item.display_type.length > 0 && display_types_rev.include?(config_item.display_type) %>
-	
 	<% if config_item.display_type == 'password_field' %>
-		<%= eval(config_item.display_type + '(:config_item, "#{config_item.id}_password")') %><br />
-		<%= label(:config_item, "#{config_item.name}_confirmation") %><br />
-		<%= password_field(:config_item, "#{config_item.id}_confirmation") %><br />
+		<td>
+			<%= eval(config_item.display_type + '(:config_item, "#{config_item.id}_password")') %>
+			<% if @js_after %>
+				<%= remove_sub_form_add_link("sub_form_#{config_item.parent_id}") %>
+			<% end %>
+		</td>
+		</tr>
+		<% if @js_replace %>
+			<tr id='sub_form_host_type'>
+		<% elsif @js_after %>
+			<tr id='<%= "sub_form_#{config_item.parent_id}" %>'>
+		<% else %>
+			<tr>
+		<% end %>
+			<td class='labelform'><%= label(:config_item, "#{config_item.name}_confirmation") %></td>
+			<td><%= password_field(:config_item, "#{config_item.id}_confirmation") %></td>
+		</tr>
 	<% else %>
-		<%= eval(config_item.display_type + '(:config_item, config_item.id)') %><br />
+			<td><%= eval(config_item.display_type + '(:config_item, config_item.id)') %>
+					<% if @js_after %>
+						<%= remove_sub_form_add_link("sub_form_#{config_item.parent_id}") %>
+					<% end %>
+			</td>
+		</tr>
 	<% end %>
+<% end %>
+
+<% if @js_replace %>
+	<tr id='sub_form'></tr>
 <% end %>

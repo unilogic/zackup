@@ -49,7 +49,7 @@ class Host < ActiveRecord::Base
     self.host_configs.find_by_config_item_id(config_item)
   end
   
-  def find_host_configs_not_configurable
+  def find_host_configs_configurable
     host_configs = self.host_configs
     
     configurables = []

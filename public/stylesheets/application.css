@@ -226,3 +226,52 @@ td.specalt {
 	margin-left: 315px;
 	margin-top: 10px;
 }
+/* Forms */
+.table_form {
+	border-collapse: collapse; 
+	padding: 0;
+	margin: 0;
+}
+.table_form td {
+	border: 1px solid #D7E5F2; 
+	padding: 2px 2px 2px 4px;
+	margin: 0;
+}
+.table_form label {
+	font-size: 11px;
+	color: #3670A7;
+}
+.table_form .labelform {
+	background-color: transparent;
+	width: 220px;
+}
+.table_form .login_label {
+	background-color: transparent;
+	width: 70px;
+}
+.table_form input {
+	background-color: #D7E5F2;
+}
+.table_form select { 
+	background-color: #D7E5F2; 
+ 	color: #102132; 
+}
+.table_form textarea { 
+	background-color: #D7E5F2; 
+ 	color: #102132; 
+}
+.table_form form { 
+	border: 1px solid #ccc; 
+ 	padding: 5px; 
+}
+
+/* Sub Forms */
+.sub_form_add {
+	border: 1px solid #ccc;
+	padding: 10px;
+	margin-top: 10px;
+	width: 300px;
+}
+.sub_form_del_button {
+	float: right;
+}

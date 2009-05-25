@@ -1,0 +1,6 @@
+<%= update_page { |page|
+	page.select('#sub_form_host_type').each do |value|
+		value.remove
+	end
+	page.replace 'sub_form', :partial => 'config_item', :collection => @config_items }
+%>

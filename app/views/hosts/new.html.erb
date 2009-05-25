@@ -1,26 +1,46 @@
 <% content_for 'sub_menu' do %>
 	<ul id="sub_menu">
 		<li><%= link_to 'All Hosts', hosts_path %></li>
+		<li><%= link_to 'View Config Items', config_items_path %></li>
 	</ul>
 <% end %>
 
-<h1>Create New Host</h1>
+<h2>Create New Host</h2>
 
 <% form_for @host, :url => hosts_path do |f| %>
-  <%= f.error_messages %>
-  <%= render :partial => "form", :object => f %>
-	<%= render :partial => "config_item", :collection => @default_items if @default_items %>
-	<%= f.label "Host Type" %><br/>
-	<%= collection_select(:config_item, @host_type_item.id, @config_groups, :id, :name, {:prompt => true},
-		  {
-				:onchange => remote_function(
-					:method => "get",
-					:with => "'id='+value",
-					:url => get_sub_form_hosts_path
-				)
-			}
-	) if @config_groups %>
-	<div id='sub_form'></div>
+	<%= f.error_messages %>
+	<table class='table_form'>
+	  <%= render :partial => "form", :object => f %>
+		<%= render :partial => "config_item", :collection => @default_items if @default_items %>
+		<tr>
+			<td class='labelform'><%= f.label "Host Type" %></td>
+			<td><%= collection_select(:config_item, @host_type_item.id, @host_type_children, :id, :name, {:prompt => true},
+				  {
+						:onchange => remote_function(
+							:method => "get",
+							:with => "'id='+value",
+							:url => get_sub_form_host_form_hosts_path
+						)
+					}
+				) if @host_type_children %>
+			</td>
+		</tr>
+		<tr>
+			<td class='labelform'><%= f.label "Options" %></td>
+			<td><%= collection_select(:config_item, 'no_submit', @config_groups, :id, :name, {:prompt => true},
+					  {
+							:onchange => remote_function(
+								:method => "get",
+								:with => "'id='+value",
+								:url => get_sub_form_hosts_path
+							)
+						}
+				) if @config_groups %>
+			</td>
+		</tr>
+		<tr id='sub_form'></tr>
+	</table>
+
 
   <%= f.submit "Create" %>
 <% end %>

@@ -1,14 +1,15 @@
-
-
 <% form_for @user_session, :url => user_session_path do |f| %>
-  <%= f.error_messages %>
-  <%= f.label :login %><br />
-  <%= f.text_field :login %><br />
-  <br />
-  <%= f.label :password %><br />
-  <%= f.password_field :password %><br />
-  <br />
-  <%= f.check_box :remember_me %><%= f.label :remember_me %><br />
-  <br />
+	<%= f.error_messages %>
+	<table class='table_form'>
+	  <tr>
+			<td class='login_label'><%= f.label :login %></td>
+	  	<td><%= f.text_field :login %></td>
+		</tr>
+		<tr>
+	  	<td class='login_label'><%= f.label :password %></td>
+	  	<td><%= f.password_field :password %></td>
+	  </tr>
+  </table>
+	<%= f.check_box :remember_me %><%= f.label :remember_me %>
   <%= f.submit "Login" %>
 <% end %>

@@ -1,9 +1,59 @@
 <% unless host_config.parent_name == 'defaults' %>
 	<% content_for 'sub_form' do %>
-		<%= label(:host_config, host_config.name ) %><br />
-		<%= text_field(:host_config, host_config.id, :value => host_config.value ) %><br />
+		<% if host_config.parent_name == @host_type_current.name %>
+			<tr id='sub_form_host_type'>
+		<% elsif @config_groups.include? ConfigItem.find(host_config.config_item.parent_id) %>
+			<tr id='<%= "sub_form_#{host_config.id}" %>'>
+		<% else %>
+			<tr>
+		<% end %>
+		<td class='labelform'><%= label(:host_config, host_config.name ) %></td>
+		<% if host_config.display_type == 'password_field' %>
+			<td>
+				<%= eval(host_config.display_type + '(:host_config, "#{host_config.id}_password", :value => host_config.value)') %>
+				<% if @config_groups.include? ConfigItem.find(host_config.config_item.parent_id) %>
+					<%= remove_sub_form_add_link("sub_form_#{host_config.id}") %>	
+				<% end %>
+			</td>
+		</tr>
+			<% if host_config.parent_name == @host_type_current.name %>
+				<tr id='sub_form_host_type'>
+			<% elsif @config_groups.include? ConfigItem.find(host_config.config_item.parent_id) %>
+				<tr id='<%= "sub_form_#{host_config.id}" %>'>
+			<% else %>
+				<tr>
+			<% end %>
+				<td class='labelform'><%= label(:host_config, "#{host_config.name}_confirmation") %></td>
+				<td>
+					<%= password_field(:host_config, "#{host_config.id}_confirmation", :value => host_config.value) %>
+				</td>
+			</tr>
+		<% else %>
+			<td><%= eval(host_config.display_type + '(:host_config, host_config.id, :value => host_config.value)') %></td>
+		</tr>
+		<% end %>
+
 	<% end %>
 <% else %>
-	<%= label(:host_config, host_config.name ) %><br />
-	<%= text_field(:host_config, host_config.id, :value => host_config.value ) %><br />
+
+	<% if host_config.parent_name == @host_type_current.name %>
+		<tr id='sub_form_host_type'>
+	<% else %>
+		<tr>
+	<% end %>
+	<td class='labelform'><%= label(:host_config, host_config.name ) %></td>
+	<% if host_config.display_type == 'password_field' %>
+		<td>
+			<%= eval(host_config.display_type + '(:host_config, "#{host_config.id}_password", :value => host_config.value)') %>
+		</td>
+	</tr>
+			<tr>
+			<td class='labelform'><%= label(:host_config, "#{host_config.name}_confirmation") %></td>
+			<td><%= password_field(:host_config, "#{host_config.id}_confirmation", :value => host_config.value) %></td>
+		</tr>
+	<% else %>
+		<td><%= eval(host_config.display_type + '(:host_config, host_config.id, :value => host_config.value)') %></td>
+	</tr>
+	<% end %>
+	
 <% end %>

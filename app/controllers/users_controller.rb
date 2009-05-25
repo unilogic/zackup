@@ -1,5 +1,9 @@
 class UsersController < ApplicationController
-  before_filter :require_user, :only => [:show, :edit, :update]
+  if Setting.default.registration_enable
+    before_filter :require_user, :only => [:index, :show, :edit, :update, :destroy]
+  else
+    before_filter :require_user
+  end
   
   def index
     @users = User.all

@@ -11,11 +11,11 @@ class ApplicationController < ActionController::Base
   helper_method :current_user_session, :current_user, :validate_params, :settings
   filter_parameter_logging :password, :password_confirmation, :_confirmation
   
+  def settings
+    @settings ||= Setting.default
+  end
   
   private
-    def settings
-      @settings ||= Setting.default
-    end
     
     def current_user_session
       return @current_user_session if defined?(@current_user_session)

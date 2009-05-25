@@ -10,21 +10,39 @@
 
 <% form_for @host, :url => host_path do |f| %>
   <%= f.error_messages %>
-  <%= render :partial => "form", :object => f %>
-	<%= render :partial => "host_config", :collection => @host_configs %>
-	<%= f.label "Host Type" %><br/>
-	<%= select(:host_config, @host_type.id, @config_groups.collect {|cp| [cp.name, cp.id]}, { :selected => @host_type.value.to_i },
-		  {
-				:onchange => remote_function(
-					:method => "get",
-					:with => "'id='+value",
-					:url => get_sub_form_hosts_path
-				)
-			}
-	) if @config_groups && @host_type %>
-	
-	<div id='sub_form'>
+	<table class='table_form'>
+	  <%= render :partial => "form", :object => f %>
+		<%= render :partial => "host_config", :collection => @host_configs %>
+		<tr>
+			<td class="formlabel"><%= f.label "Host Type" %></td>
+			<td><%= select(:host_config, @host_type.id, @host_type_children.collect {|cp| [cp.name, cp.id]}, { :selected => @host_type.value.to_i },
+				  {
+						:onchange => remote_function(
+							:method => "get",
+							:with => "'id='+value",
+							:url => get_sub_form_host_form_hosts_path
+						)
+					}
+			) if @host_type_children && @host_type %>
+			</td>
+		</tr>
+		<tr>
+			<td class="formlabel"><%= f.label "Options" %></td>
+			<td>
+				<%= collection_select(:host_config, 'no_submit', @config_groups, :id, :name, {:prompt => true},
+				  	{
+							:onchange => remote_function(
+								:method => "get",
+								:with => "'id='+value",
+								:url => get_sub_form_hosts_path
+							)
+						}
+				) if @config_groups %>
+			</td>
+		</tr>
+		<tr id='sub_form'></tr>
 		<%= yield :sub_form %>
-	</div>
+		
+	</table>
   <%= f.submit "Update" %>
 <% end %>

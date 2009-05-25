@@ -7,7 +7,7 @@ class ConfigItemsController < ApplicationController
 
   def new
     @config_item = ConfigItem.new
-    @config_groups = ConfigItem.find_all_by_parent_id nil
+    @config_groups = ConfigItem.all
   end
 
   def create
@@ -27,7 +27,7 @@ class ConfigItemsController < ApplicationController
 
   def edit
     @config_item = ConfigItem.find(params[:id])
-    @config_groups = ConfigItem.find_all_by_parent_id nil
+    @config_groups = ConfigItem.all
     @config_groups.delete(@config_item)
   end
 

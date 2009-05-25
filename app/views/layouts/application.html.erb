@@ -28,7 +28,9 @@
 		</span>
 	<% else %>
 		<li id=<%= is_login_form? %>><%= link_to "Log In", new_user_session_path %></li>
-		<li id=<%= is_register_form? %>><%= link_to "Register", new_account_path %></li>
+		<% if settings.registration_enable %>
+			<li id=<%= is_register_form? %>><%= link_to "Register", new_account_path %></li>
+		<% end %>
 	<% end %>
 	<li><%= yield :sub_menu %></li>
 </ul>
