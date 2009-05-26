@@ -33,12 +33,13 @@ class NodesController < ApplicationController
   end
   
   def destroy
-    @config_item = ConfigItem.find(params[:id])
+    @node = Node.find(params[:id])
     if request.delete?
-      @config_item.destroy
+      flash[:notice] = "Node deleted!"
+      @node.destroy
     end
     respond_to do |format|
-      format.html { redirect_to config_items_path }
+      format.html { redirect_to nodes_path }
       format.xml  { head :ok }
     end
   end
