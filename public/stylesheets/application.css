@@ -258,7 +258,8 @@ td.specalt {
 }
 .table_form textarea { 
 	background-color: #D7E5F2; 
- 	color: #102132; 
+ 	color: #102132;
+	height: 100px;
 }
 .table_form form { 
 	border: 1px solid #ccc; 

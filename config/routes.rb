@@ -45,6 +45,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :hosts, :member => { :disable => :get, :enable => :get }, :collection => {:get_sub_form => :get, :get_sub_form_host_form => :get} do |host|
     host.resources :schedules, :member => { :disable => :get, :enable => :get }, :collection => {:get_on_form => :get}
   end
+  map.resources :jobs, :member => { :update_status => :post }
+  map.resources :nodes
   map.resources :settings
   map.root :controller => "hosts"
 

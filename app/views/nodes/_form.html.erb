@@ -1,0 +1,17 @@
+<tr>
+	<td class='labelform'><%= form.label :hostname %></td>
+	<td><%= form.text_field :hostname %></td>
+</tr>
+<tr>
+	<td class='labelform'><%= form.label :ip_address %></td>
+	<td><%= form.text_field :ip_address %></td>
+</tr>
+<tr>
+	<td class='labelform'><%= form.label :description %></td>
+	<td><%= form.text_area :description %></td>
+</tr>
+<tr>
+	<td class='labelform'><%= form.label :services %></td>
+	<td><%= select(:node, :services, service_list, {}, {:multiple => true }) %></td>
+</tr>
+	

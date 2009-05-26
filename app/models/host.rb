@@ -2,6 +2,7 @@ class Host < ActiveRecord::Base
   has_many :host_configs, :dependent => :destroy
   has_many :config_items, :through => :host_configs
   has_many :schedules, :dependent => :destroy
+  has_many :jobs, :dependent => :destroy
   
   def disable
     status_config = self.find_host_config_by_name('status')
@@ -23,8 +24,8 @@ class Host < ActiveRecord::Base
     end
   end
   
-  def ip_addr
-    item = self.find_host_config_by_name('ip_addr')
+  def ip_address
+    item = self.find_host_config_by_name('ip_address')
     if item
       return item.value
     end

@@ -41,7 +41,19 @@ module ApplicationHelper
       "current"
     end
   end
-    
+  
+  def is_jobs?
+    if controller.controller_name == 'jobs'
+      "current"
+    end
+  end
+  
+  def is_node?  
+    if controller.controller_name == 'nodes'
+      "current"
+    end
+  end
+  
   def display_types
     return {  'Text Field'      => 'text_field',
               'Password Field'  => 'password_field',

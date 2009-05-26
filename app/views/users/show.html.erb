@@ -10,37 +10,33 @@
 	</ul>
 <% end %>
 
-<p>
-  <b>Login:</b>
-  <%=h @user.login %>
-</p>
-
-<p>
-  <b>Login count:</b>
-  <%=h @user.login_count %>
-</p>
-
-<p>
-  <b>Last request at:</b>
-  <%=h @user.last_request_at %>
-</p>
-
-<p>
-  <b>Last login at:</b>
-  <%=h @user.last_login_at %>
-</p>
-
-<p>
-  <b>Current login at:</b>
-  <%=h @user.current_login_at %>
-</p>
-
-<p>
-  <b>Last login ip:</b>
-  <%=h @user.last_login_ip %>
-</p>
-
-<p>
-  <b>Current login ip:</b>
-  <%=h @user.current_login_ip %>
-</p>
+<table class='table_form'>
+	<tr>
+		<th class='labelform'>Login</th>
+  	<th><%=h @user.login %></th>
+	</tr>
+	<tr>
+		<td class='labelform'>Login Count</td>
+  	<td><%=h @user.login_count %></td>
+	</tr>
+	<tr>
+		<td class='labelform'>Last Request At</td>
+  	<td><%=h @user.last_request_at.strftime("%m/%d/%Y %I:%M%p") %></td>
+	</tr>
+	<tr>
+		<td class='labelform'>Last Login At</td>
+  	<td><%=h @user.last_login_at.strftime("%m/%d/%Y %I:%M%p") %></td>
+	</tr>
+	<tr>
+		<td class='labelform'>Current Login At</td>
+  	<td><%=h @user.current_login_at.strftime("%m/%d/%Y %I:%M%p") %></td>
+	</tr>
+	<tr>
+		<td class='labelform'>Last Login IP</td>
+  	<td><%=h @user.last_login_ip %></td>
+	</tr>
+	<tr>
+		<td class='labelform'>Current Login IP</td>
+  	<td><%=h @user.current_login_ip %></td>
+	</tr>
+</table>

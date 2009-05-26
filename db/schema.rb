@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090519060017) do
+ActiveRecord::Schema.define(:version => 20090525233642) do
 
   create_table "config_items", :force => true do |t|
     t.string   "name"
@@ -41,6 +41,19 @@ ActiveRecord::Schema.define(:version => 20090519060017) do
     t.integer  "backup_node_id"
     t.integer  "scheduler_node_id"
     t.integer  "scheduler_job_id"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "data"
+    t.string   "type"
+    t.integer  "host_id"
+  end
+
+  create_table "nodes", :force => true do |t|
+    t.string   "ip_address"
+    t.string   "hostname"
+    t.string   "description"
+    t.string   "services"
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"

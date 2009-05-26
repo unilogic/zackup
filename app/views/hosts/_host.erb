@@ -2,7 +2,7 @@
 <tr>
 	<td scope="row" class='<%= cycle('spec','specalt') %>'><%= host.name %></td>
 	<td class='<%= rowclass %>'><%= host.hostname %></td>
-	<td class='<%= rowclass %>'><%= host.ip_addr %></td>
+	<td class='<%= rowclass %>'><%= host.ip_address %></td>
 	<td class='<%= rowclass %>'><%= host.status %></td>
 	<td class='<%= rowclass %>'><%= host.status == 'disabled' || host.status == 'new' ? link_to('Enable', enable_host_path(host)) : link_to('Disable', disable_host_path(host)) %></td>
 	<td class='<%= rowclass %>'><%= link_to image_tag('schedule.png'), host_schedules_path(host) %></td>

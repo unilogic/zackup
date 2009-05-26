@@ -3,7 +3,7 @@
 	<td scope="row" class='<%= cycle('spec','specalt') %>'><%= link_to user.login, user_path(user) %></td>
 	<td class='<%= rowclass %>'><%= "#{user.first_name} #{user.last_name}" %></td>
 	<td class='<%= rowclass %>'><%= user.email %></td>
-	<td class='<%= rowclass %>'><%= user.last_request_at %></td>
+	<td class='<%= rowclass %>'><%= user.last_request_at.strftime("%m/%d/%Y %I:%M%p") %></td>
 	<td class='<%= rowclass %>'><%= user.current_login_ip %></td>
 	<td class='<%= rowclass %>'><%= link_to image_tag('edit.png'), edit_user_path(user) %></td>
 	<td class='<%= rowclass %>'><%= link_to image_tag('delete.png'), user_path(user), :method => :delete, :confirm => "Are you sure you want to delete the host: #{user.login}" %></td>

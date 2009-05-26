@@ -1,0 +1,24 @@
+<% content_for 'sub_menu' do %>
+	<ul id="sub_menu">
+		<li><%= link_to 'New Job', new_job_path %>
+	</ul>
+<% end %>
+
+<h2>Jobs</h2>
+<table id="stdtable" class="sortable" cellspacing="0">
+	<tr>
+		<th scope="col" class="nobg" id="tblheader">Job ID</th>
+		<th scope="col" id="tblheader">Type</th>
+		<th scope="col" id="tblheader">Status</th>
+		<th scope="col" id="tblheader">Host</th>
+		<th scope="col" id="tblheader">Backup Node</th>
+		<th scope="col" id="tblheader">Scheduler Node</th>
+	</tr>
+	<% if @jobs.empty? %>
+		<tr>
+    		<td>No Records</td>
+    	</tr>
+	<% else %>
+		<%= render :partial => 'job', :collection => @jobs %>
+	<% end %>
+</table>
