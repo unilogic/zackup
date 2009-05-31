@@ -7,6 +7,7 @@
 		<div class='start_label'>start</div>
 		<div class='repeat_label'>repeat</div>
 		<div class='every_label'>every</div>
+		<div class='media_label'>media</div>
 	</div>
 	<div class='fields'>
 		<div id='name'>
@@ -14,6 +15,7 @@
 		</div>
 		<div id='start_time'>
 			<%= select_time(@time, :prefix => :schedule, :time_separator => ':') %>
+			<span class='timezone'><%= @time.zone %></span>
 		</div>
 		<div id='repeat'>
 			<%= select(:schedule, :repeat, repeat_collection, {}, {
@@ -30,6 +32,9 @@
 			<span id='on'>
 				<%= render :partial => 'get_on_form' %>
 			</span>
+		</div>
+		<div id='media'>
+			<%= form.collection_select(:backup_node_id, @backup_nodes, :id, :name, {:prompt => true}) %>
 		</div>
 	</div>
 </div>

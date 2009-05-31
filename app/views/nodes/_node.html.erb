@@ -3,7 +3,7 @@
 	<td scope="row" class='<%= cycle('spec','specalt') %>'><%= node.hostname %></td>
 	<td class='<%= rowclass %>'><%= node.ip_address %></td>
 	<td class='<%= rowclass %>'><%= node.description %></td>
-	<td class='<%= rowclass %>'><%= node.services.join(', ') if node.services %></td>
+	<td class='<%= rowclass %>'><%= node.services %></td>
 	<td class='<%= rowclass %>'><%= node.status %></td>
 	<td class='<%= rowclass %>'><%= link_to image_tag('edit.png'), edit_node_path(node) %></td>
 	<td class='<%= rowclass %>'><%= link_to image_tag('delete.png'), node_path(node), :method => :delete, :confirm => "Are you sure you want to delete the node: #{node.name}" %>

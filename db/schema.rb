@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090525233642) do
+ActiveRecord::Schema.define(:version => 20090531000307) do
 
   create_table "config_items", :force => true do |t|
     t.string   "name"
@@ -53,17 +53,18 @@ ActiveRecord::Schema.define(:version => 20090525233642) do
     t.string   "ip_address"
     t.string   "hostname"
     t.string   "description"
-    t.string   "services"
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "backup_node"
+    t.boolean  "scheduler_node"
   end
 
   create_table "schedules", :force => true do |t|
-    t.integer  "host_id",    :null => false
-    t.date     "start_date", :null => false
-    t.string   "repeat",     :null => false
-    t.string   "every",      :null => false
+    t.integer  "host_id",        :null => false
+    t.date     "start_date",     :null => false
+    t.string   "repeat",         :null => false
+    t.string   "every",          :null => false
     t.string   "on"
     t.time     "stop"
     t.datetime "created_at"
@@ -71,6 +72,7 @@ ActiveRecord::Schema.define(:version => 20090525233642) do
     t.string   "name"
     t.string   "status"
     t.string   "start_time"
+    t.integer  "backup_node_id"
   end
 
   create_table "sessions", :force => true do |t|

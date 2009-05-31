@@ -11,7 +11,10 @@
 	<td><%= form.text_area :description %></td>
 </tr>
 <tr>
-	<td class='labelform'><%= form.label :services %></td>
-	<td><%= select(:node, :services, service_list, {}, {:multiple => true }) %></td>
+	<td class='labelform'><%= form.label :backup_node %></td>
+	<td><%= form.check_box :backup_node %></td>
 </tr>
-	
+<tr>
+	<td class='labelform'><%= form.label :scheduler_node %></td>
+	<td><%= form.check_box :scheduler_node %></td>
+</tr>

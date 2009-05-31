@@ -177,14 +177,14 @@ td.specalt {
 
 .right {
 	border: 1px solid;
-	padding-top: 26px;
-	height: 120px;
+	padding-top: 18px;
+	height: 145px;
 	width: 380px;
 	margin-left: 220px;
 	padding-bottom: 30px;
 }
 
-.labels{
+.labels {
 	float: left;
 	text-align: right;
 	width: 55px;
@@ -193,17 +193,20 @@ td.specalt {
 }
 
 .labels div {
-	height: 34px;
+	height: 35px;
 }
-
+.fields .timezone {
+	font-size: 12px;
+	font-weight: bold;
+}
 .fields {
 	padding-bottom: 10px;
 }
 
 .fields div {
 	height: 35px;
-	
 }
+
 
 #on #on-right input {
 	border: 1px solid;

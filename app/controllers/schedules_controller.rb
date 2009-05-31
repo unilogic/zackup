@@ -11,6 +11,7 @@ class SchedulesController < ApplicationController
     @host = Host.find(params[:host_id])
     @date = Date.today
     @time = Time.current
+    @backup_nodes = Node.find_all_by_backup_node(true)
   end
   
   def create
@@ -53,6 +54,7 @@ class SchedulesController < ApplicationController
     @time = Time.parse(@schedule.start_time)
     @date = @schedule.start_date
     @repeat_type = @schedule.repeat
+    @backup_nodes = Node.find_all_by_backup_node(true)
     
     if @repeat_type == 'weekly'
       @set_days = YAML::load(@schedule.on)
