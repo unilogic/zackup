@@ -4,6 +4,8 @@ class Node < ActiveRecord::Base
   has_many :schedules, :foreign_key => "backup_node_id"
   validates_presence_of :hostname
   validates_presence_of :ip_address
+  validates_uniqueness_of :hostname
+  validates_uniqueness_of :ip_address
   
   def name
     self.hostname || self.ip_address
