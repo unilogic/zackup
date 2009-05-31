@@ -5,7 +5,7 @@ class Setting < ActiveRecord::Base
   validate_on_update :validate_settings
   
   #Defaults
-  setting :registration_enable, :boolean, false
+  setting :registration_enable, :boolean, true
   
   def initialize
     super

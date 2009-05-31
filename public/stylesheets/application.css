@@ -10,6 +10,11 @@ a {
 	text-decoration: none;
 }
 
+h2 {
+	font-size: 20px;
+	padding-left: 5px;
+	color: #666;
+}
 .clear {
 	clear : both;
 }
