@@ -2,7 +2,7 @@
 	<tr>
 		<td class='labelform'>
 			<%= form.label "Keep Backup Set at Least N" %>
-			<%= select :types, :min_time_type, ['Minutes', 'Hours', 'Days', 'Weeks', 'Months', 'Years'], {:prompt => true} %>	
+			<%= form.select :min_time_type, ['Minutes', 'Hours', 'Days', 'Weeks', 'Months', 'Years'], {:prompt => true} %>	
 		</td>
 		<td>
 			N = <%= form.text_field :keep_min_time %>
@@ -12,7 +12,7 @@
 		<td class='labelform'>
 			<%= form.label "Keep Backup Set at Most N" %>
 			
-			<%= select :types, :max_time_type, ['Minutes', 'Hours', 'Days', 'Weeks', 'Months', 'Years'], {:prompt => true} %>
+			<%= form.select :max_time_type, ['Minutes', 'Hours', 'Days', 'Weeks', 'Months', 'Years'], {:prompt => true} %>
 		</td>
 		<td>
 			N = <%= form.text_field :keep_max_time %>

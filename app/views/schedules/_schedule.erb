@@ -6,7 +6,12 @@
 	<td class='<%= rowclass %>'><%= every_sentance(schedule) %></td>
 	<td class='<%= rowclass %>'><%= schedule.status %></td>
 	<td class='<%= rowclass %>'><%= schedule.status == 'disabled' || schedule.status == 'new' ? link_to('Enable', enable_host_schedule_path(@host, schedule)) : link_to('Disable', disable_host_schedule_path(@host, schedule)) %></td>
-	<td class='<%= rowclass %>'><%= link_to 'Policy', edit_host_schedule_retention_policy_path(schedule.host_id, schedule) %>
+	<td class='<%= rowclass %>'>
+		<% if schedule.retention_policy %> 
+			<%= link_to('Policy', edit_host_schedule_retention_policy_path(schedule.host_id, schedule)) %>
+		<% else %>
+			<%= link_to('Missing', edit_host_schedule_retention_policy_path(schedule.host_id, schedule)) %>
+		<% end %>
 	<td class='<%= rowclass %>'><%= link_to image_tag('edit.png'), edit_host_schedule_path(schedule.host_id, schedule) %></td>
 	<td class='<%= rowclass %>'><%= link_to image_tag('delete.png'), host_schedule_path(schedule.host_id, schedule), :method => :delete, :confirm => "Are you sure you want to delete the schedule: #{schedule.name}" %></td>
 </tr>

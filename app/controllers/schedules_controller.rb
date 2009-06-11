@@ -41,7 +41,7 @@ class SchedulesController < ApplicationController
     
     if @schedule.save
       flash[:notice] = "Schedule created!"
-      redirect_to host_schedules_path(params[:host_id])
+      redirect_to edit_host_schedule_retention_policy_path(params[:host_id], @schedule.id)
     else
       @host = Host.find(params[:host_id])
       render :action => :new
