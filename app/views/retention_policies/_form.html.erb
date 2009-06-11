@@ -1,0 +1,29 @@
+<table class='table_form'>
+	<tr>
+		<td class='labelform'>
+			<%= form.label "Keep Backup Set at Least N" %>
+			<%= select :types, :min_time_type, ['Minutes', 'Hours', 'Days', 'Weeks', 'Months', 'Years'], {:prompt => true} %>	
+		</td>
+		<td>
+			N = <%= form.text_field :keep_min_time %>
+		</td>
+	</tr>
+	<tr>
+		<td class='labelform'>
+			<%= form.label "Keep Backup Set at Most N" %>
+			
+			<%= select :types, :max_time_type, ['Minutes', 'Hours', 'Days', 'Weeks', 'Months', 'Years'], {:prompt => true} %>
+		</td>
+		<td>
+			N = <%= form.text_field :keep_max_time %>
+		</td>
+	</tr>
+	<tr>
+		<td class='labelform'><%= form.label "Keep Backup Set at Least N Versions" %></td>
+		<td>N = <%= form.text_field :keep_min_versions %></td>
+	</tr>
+	<tr>
+		<td class='labelform'><%= form.label "Keep Backup Set at Most N Versions" %></td>
+		<td>N = <%= form.text_field :keep_max_versions %></td>
+	</tr>
+</table>

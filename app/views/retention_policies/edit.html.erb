@@ -1,0 +1,25 @@
+<% content_for 'sub_menu' do %>
+	<ul id="sub_menu">
+		<li><%= link_to 'Edit Host', edit_host_path(@host) %></li>
+		<li><%= link_to 'View Schedules', host_schedule_path(@host, @schedule) %>
+	</ul>
+<% end %>
+
+<h2>Edit Backup Retention Policy For Schedule: <%= @schedule.name %></h2> 
+<h2>Host: <%= @host.name %></h2>
+
+<% form_for @retention_policy, :url => host_schedule_retention_policy_path(@host, @schedule) do |f| %>
+	<%= f.hidden_field(:schedule_id, :value => @schedule.id)%>
+  <%= f.error_messages %>
+  <%= render :partial => "form", :object => f %>
+	<br/>
+  <div class='submit'>
+		<% if @retention_policy.new_record? %>
+			<%= f.submit "Save" %>
+		<% else %>
+			<%= f.submit "Update" %>
+		<% end %>
+	</div>
+<% end %>
+
+<div class='clear'></div>
