@@ -1,5 +1,9 @@
 <div id='start_date'>
-	<%= form.calendar_date_select :start_date, :embedded => true, :month_year => "label", :value => @date %>
+	<% if @schedule.start_date %>
+		<%= form.calendar_date_select :start_date, :embedded => true, :month_year => "label"  %>
+	<% else %>
+		<%= form.calendar_date_select :start_date, :embedded => true, :month_year => "label", :value => Date.today %>
+	<% end %>
 </div>
 <div class='right'>
 	<div class='labels'>

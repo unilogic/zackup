@@ -5,6 +5,7 @@
 	
 <% end %>
 
+<h2>Settings</h2>
 <% form_for settings do |f| %>
 	<%= f.error_messages %>
 	<table class='table_form'>
@@ -12,6 +13,23 @@
 			<td class='form_label'><%= f.label :registration_enable, "User Registration Enable" %></td>
 			<td><%= f.check_box :registration_enable %></td>
 		</tr>
+		<tr>
+			<td class='form_label'><%= f.label :max_error_retries, "Max Number of Retries for Errors" %></td>
+			<td><%= f.text_field :max_error_retries %></td>
+		</tr>
+		<tr>
+			<td class='form_label'><%= f.label :force_backup_runs, "Force New Backup Jobs to be Create Even if Existing Jobs Exist" %></td>
+			<td><%= f.check_box :force_backup_runs %></td>
+		</tr>
+		<tr>
+			<td class='form_label'><%= f.label :new_job_based_start, "When Starting a New Job, Base the Start Time of Job on the Latest" %></td>
+			<td><%= f.select :new_job_based_start, [['Start','start'], ['Finish','finish']] %></td>
+		</tr>
+		<tr>
+			<td class='form_label'><%= f.label :schedule_parse_interval, "Interval in Minutes at Which Schedules are Parsed" %></td>
+			<td><%= f.text_field :schedule_parse_interval %></td>
+		</tr>
+		
 	</table>
 	<%= submit_tag 'Update' %>
 <% end %>

@@ -6,6 +6,12 @@ class Setting < ActiveRecord::Base
   
   #Defaults
   setting :registration_enable, :boolean, true
+  setting :max_error_retries, :integer, 3
+  setting :force_backup_runs, :boolean, false
+  setting :new_job_based_start, :string, 'start'
+  setting :schedule_parse_interval, :integer, 5
+  
+  
   
   def initialize
     super
@@ -13,7 +19,6 @@ class Setting < ActiveRecord::Base
   end
   
   def self.default
-    #debugger
     s = Setting.find :first
     if s.nil?
       Setting.new

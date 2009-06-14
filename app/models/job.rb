@@ -4,8 +4,9 @@ class Job < ActiveRecord::Base
   belongs_to :host
   belongs_to :scheduler_node, :class_name => "Node"
   belongs_to :backup_node, :class_name => "Node"
+  belongs_to :schedule
   
-  validates_inclusion_of :type, :in => %w( backup restore )
+  validates_inclusion_of :operation, :in => %w( backup restore )
   
   serialize :data, Hash
   
