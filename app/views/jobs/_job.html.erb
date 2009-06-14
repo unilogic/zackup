@@ -2,8 +2,10 @@
 <tr>
 	<td scope="row" class='<%= cycle('spec','specalt') %>'><%= job.id %></td>
 	<td class='<%= rowclass %>'><%= job.operation %></td>
-	<td class='<%= rowclass %>'><%= job.status %></td>
+	<td class='<%= rowclass %>'><%= job.aasm_current_state.to_s if job.aasm_current_state %></td>
 	<td class='<%= rowclass %>'><%= job.host.name if job.host %></td>
 	<td class='<%= rowclass %>'><%= job.backup_node.name if job.backup_node %></td>
 	<td class='<%= rowclass %>'><%= job.schedule.name if job.schedule %></td>
+	<td class='<%= rowclass %>'><%= link_to image_tag('pause.png'), update_status_job_path(job, :status => 'pause'), { :method => 'POST' } %></td>
+	<td class='<%= rowclass %>'><%= link_to image_tag('cancel.png'), update_status_job_path(job, :status => 'cancel'), { :method => 'POST' } %>
 </tr>

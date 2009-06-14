@@ -3,25 +3,26 @@ class JobsController < ApplicationController
     @jobs = Job.all
   end
   
-  def new
-    
-  end
-  
-  def create
-    
-  end
-  
   def update_status
-    @job = Job.find(params[:id])
-    if job.aasm_events_for_current_state.include? params[:job][:status].intern
-      @job.aasm_write_state(params[:job][:status].intern)
+    job = Job.find(params[:id])
+    if job.aasm_current_state == :paused && params[:status] == 'pause'
+      job.unpause
+      params[:status] = 'waiting'
+    elsif job.aasm_events_for_current_state.include? params[:status].intern
+      eval("job.#{params[:status]}")
     else
-      redirect_to job_path(@job)
+      flash[:error] = "Job status could not be updated!"
+      redirect_to jobs_path
+      return
     end
-  end
-  
-  def destroy
     
+    if job.save!
+      flash[:notice] = "Job #{job.aasm_current_state}!"
+    else
+      flash[:error] = "Job status could not be updated!"
+    end
+    
+    redirect_to jobs_path
   end
   
 end

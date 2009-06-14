@@ -1,6 +1,5 @@
 <% content_for 'sub_menu' do %>
 	<ul id="sub_menu">
-		<li><%= link_to 'New Job', new_job_path %>
 	</ul>
 <% end %>
 
@@ -13,8 +12,8 @@
 		<th scope="col" id="tblheader">Host</th>
 		<th scope="col" id="tblheader">Backup Node</th>
 		<th scope="col" id="tblheader">Schedule</th>
-		<th scope="col" id="tblheader">Pause</th>
-		<th scope="col" id="tblheader">Cancel</th>
+		<th scope="col" id="tblheader" class="sorttable_nosort">Pause</th>
+		<th scope="col" id="tblheader" class="sorttable_nosort">Cancel</th>
 	</tr>
 	<% if @jobs.empty? %>
 		<tr>
