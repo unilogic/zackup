@@ -14,10 +14,10 @@ module Scheduler
         schedule = parseExistingJobs(schedule)
         
         if schedule == 1
-          Rails.logger.error "ERROR, Too many errored jobs found"
+          Rails.logger.error "Scheduler - ERROR, Too many errored jobs found"
           return 1
         elsif schedule == 2
-          Rails.logger.error "ERROR, Existing job still running, waiting, paused, new, or assigned"
+          Rails.logger.error "Scheduler - ERROR, Existing job still running, waiting, paused, new, or assigned"
           return 2
         end
         
@@ -88,11 +88,16 @@ module Scheduler
             end
           end
         end
+        
+        # Don't add the job yet if we are more than one parse interval away from starting time
+        # This is to reduce clutter in the jobs window.
+        # Note: schedule_parse_interval is in minutes
         if job.start_at - Time.now <= (Setting.default.schedule_parse_interval * 60)
           if job.save!
             schedule.update_attributes!( :last_start => job.start_at )
           end
         else
+          #TODO, Delete this when done testing
           return "Not Yet"
         end
       end
@@ -121,14 +126,17 @@ module Scheduler
       end
     end
     
+    # Check to make sure finished_time actually was touched, then save the schedule back to the db
     unless finished_time == DateTime.new
       schedule.update_attributes!(:last_finish => finished_time)
     end
     
+    # If we are over the max error count, return 1
     if error_count >= Setting.default.max_error_retries
       return 1
     end
     
+    # If there are other running jobs and we're not forcing, return 2
     if running_jobs > 0 && Setting.default.force_backup_runs == false
       return 2
     end
