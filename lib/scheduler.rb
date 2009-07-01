@@ -74,17 +74,21 @@ module Scheduler
             end
           end
         elsif schedule.repeat == 'monthly'
-          if Setting.default.new_job_based_start == 'finish'
-            if schedule.last_finish
-              job.start_at = schedule.last_finish + (schedule.every.to_i * 3600)
-            else
-              job.start_at = Time.now
-            end
-          elsif Setting.default.new_job_based_start == 'start'
-            if schedule.last_start
-              job.start_at = schedule.last_start + (schedule.every.to_i * 3600)
-            else
-              job.start_at = Time.now
+          # Don't bother going any further if the monthly job isn't supposed to run today.
+          if schedule.on.to_i == Date.today.mday
+            if Setting.default.new_job_based_start == 'finish'
+              if schedule.last_finish
+                if Date.today - (schedule.last_finish.to_date >>(schedule.every.to_i)) <= 0
+                  job.start_at = schedule.last_finish + (schedule.every.to_i * 86400 * Time::days_in_month())
+              else
+                job.start_at = Time.now
+              end
+            elsif Setting.default.new_job_based_start == 'start'
+              if schedule.last_start
+                job.start_at = schedule.last_start + (schedule.every.to_i * 3600)
+              else
+                job.start_at = Time.now
+              end
             end
           end
         end
