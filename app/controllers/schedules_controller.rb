@@ -16,7 +16,7 @@ class SchedulesController < ApplicationController
   
   def create
     if params[:schedule][:hour] && params[:schedule][:minute]
-      params[:schedule][:start_time] = "#{params[:schedule][:hour]}:#{params[:schedule][:minute]}"
+      params[:schedule][:start_time] = "#{params[:schedule][:hour]}:#{params[:schedule][:minute]} #{Time.now.zone}"
       params[:schedule].delete(:hour)
       params[:schedule].delete(:minute)
     end
@@ -63,7 +63,7 @@ class SchedulesController < ApplicationController
   
   def update
     if params[:schedule][:hour] && params[:schedule][:minute]
-      params[:schedule][:start_time] = "#{params[:schedule][:hour]}:#{params[:schedule][:minute]}"
+      params[:schedule][:start_time] = "#{params[:schedule][:hour]}:#{params[:schedule][:minute]} #{Time.now.zone}"
       params[:schedule].delete(:hour)
       params[:schedule].delete(:minute)
     end

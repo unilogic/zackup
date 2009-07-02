@@ -8,9 +8,13 @@ module Scheduler
   
   def parseSchedule(schedule)
     if schedule.status == 'enabled'
-      # As long as start time is now or in the past process the schedule
+      
+      time_now = Time.now
+      date_today = Date.today
+      
       start_datetime = Time.parse("#{schedule.start_date} #{schedule.start_time}")
-      if start_datetime - Time.now <= 0
+      # As long as start time is now or in the past process the schedule
+      if start_datetime - time_now <= 0
         schedule = parseExistingJobs(schedule)
         
         if schedule == 1
@@ -36,13 +40,13 @@ module Scheduler
             if schedule.last_finish
               job.start_at = schedule.last_finish + (schedule.every.to_i * 3600)
             else
-              job.start_at = Time.now
+              job.start_at = time_now
             end
           elsif Setting.default.new_job_based_start == 'start'
             if schedule.last_start
               job.start_at = schedule.last_start + (schedule.every.to_i * 3600)
             else
-              job.start_at = Time.now
+              job.start_at = time_now
             end
           end
         elsif schedule.repeat == 'daily'
@@ -50,53 +54,78 @@ module Scheduler
             if schedule.last_finish
               job.start_at = schedule.last_finish + (schedule.every.to_i * 86400)
             else
-              job.start_at = Time.now
+              job.start_at = time_now
             end
           elsif Setting.default.new_job_based_start == 'start'
             if schedule.last_start
               job.start_at = schedule.last_start + (schedule.every.to_i * 86400)
             else
-              job.start_at = Time.now
+              job.start_at = time_now
             end
           end
         elsif schedule.repeat == 'weekly'
-          if Setting.default.new_job_based_start == 'finish'
-            if schedule.last_finish
-              job.start_at = schedule.last_finish + (schedule.every.to_i * 3600)
-            else
-              job.start_at = Time.now
-            end
-          elsif Setting.default.new_job_based_start == 'start'
+          # Note: We don't care if new_job_based_start is start or finish we use start time here. It doesn't make sense otherwise.
+          
+          if schedule.on
+            # De-YAML our selected days array
+            days = YAML::load(schedule.on)
+          else
+            # TODO: Better handling of this error
+            return 3
+          end
+  
+          if days.include? Date::DAYNAMES[date_today.wday]
+            # From now on we know a backup is supposed to be run today
+            
+            # Week day number of last day of week selected in this schedule 
+            last_dayOfWeek_index = Date::DAYNAMES.index(days.last)
+            
             if schedule.last_start
-              job.start_at = schedule.last_start + (schedule.every.to_i * 3600)
+
+              # The number of days from today to the last day selected in schedule, plus the number of days since the last backup.
+              # This calculation allows for easy checking to see if we need to skip weeks.
+              days_plus_correction = (last_dayOfWeek_index - date_today.wday) + ((time_now - schedule.last_start) / 86400).to_i
+              
+              if days_plus_correction <= 7
+                
+                # Still in the same week as the last start, so just start the job based on start_time
+                job.start_at = Time.parse(schedule.start_time)
+                
+              elsif (schedule.every.to_i * 7) <= days_plus_correction
+                
+                # At this point we should know we have skipped the appropriate number of weeks.
+                job.start_at = Time.parse(schedule.start_time)
+              end                
             else
-              job.start_at = Time.now
+              
+              # Job has never been run before
+              job.start_at = time_now
             end
           end
+
         elsif schedule.repeat == 'monthly'
-          # Don't bother going any further if the monthly job isn't supposed to run today.
-          if schedule.on.to_i == Date.today.mday
-            if Setting.default.new_job_based_start == 'finish'
-              if schedule.last_finish
-                if Date.today - (schedule.last_finish.to_date >>(schedule.every.to_i)) <= 0
-                  job.start_at = schedule.last_finish + (schedule.every.to_i * 86400 * Time::days_in_month())
-              else
-                job.start_at = Time.now
-              end
-            elsif Setting.default.new_job_based_start == 'start'
-              if schedule.last_start
-                job.start_at = schedule.last_start + (schedule.every.to_i * 3600)
-              else
-                job.start_at = Time.now
-              end
+          
+          # Note: We don't care if new_job_based_start is start or finish we use start time here.
+          # It doesn't make sense to pay attention to finish time in a monthly context.
+          if schedule.last_start
+            
+            # If last start is is at least "every" months back from today
+            if (schedule.last_start.to_date >>(schedule.every.to_i)) - date_today <= 0
+              
+              #Using start_time instead of last_start time. 
+              job.start_at = Time.parse(schedule.start_time)
             end
+          else
+            job.start_at = time_now
           end
+        
         end
         
         # Don't add the job yet if we are more than one parse interval away from starting time
-        # This is to reduce clutter in the jobs window.
+        # This is to reduce clutter in the jobs window. Also don't add if start_at is nil as that means nothing was found for
+        # this schedule to be run.
         # Note: schedule_parse_interval is in minutes
-        if job.start_at - Time.now <= (Setting.default.schedule_parse_interval * 60)
+        if ! job.start_at.nil? && job.start_at - time_now <= (Setting.default.schedule_parse_interval * 60)
           if job.save!
             schedule.update_attributes!( :last_start => job.start_at )
           end
@@ -147,5 +176,5 @@ module Scheduler
     
     return schedule
   end
-  
+   
 end
