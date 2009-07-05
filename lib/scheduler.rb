@@ -1,8 +1,25 @@
 module Scheduler
+  def schedule_init(theScheduler)
+    theScheduler.every "#{Setting.default.schedule_parse_interval}m", :tags => 'scheduler' do
+      parseSchedules
+    end
+  end
+  
+  def reschedule(interval=Setting.default.schedule_parse_interval, theScheduler)
+
+    theScheduler.find_by_tag("scheduler").each do |job|
+      job.unschedule
+    end
+    theScheduler.every "#{interval.to_i}m", :tags => 'scheduler' do
+      parseSchedules
+    end
+  end
+  
   def parseSchedules
+    Rails.logger.info "Scheduler - NOTICE, Starting to parse schedules at #{Time.now}"
     schedules = Schedule.all
     schedules.each do |schedule|
-      puts parseSchedule(schedule)
+      parseSchedule(schedule)
     end
   end
   

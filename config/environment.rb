@@ -45,5 +45,6 @@ Rails::Initializer.run do |config|
   # config.i18n.default_locale = :de
 end
 
-# Start a New Scheduler
-MyScheduler = Rufus::Scheduler.start_new
+@theScheduler ||= Rufus::Scheduler.start_new
+include Scheduler
+schedule_init(@theScheduler)

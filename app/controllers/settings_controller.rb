@@ -1,3 +1,5 @@
+include Scheduler
+
 class SettingsController < ApplicationController
   # View form of settings
   def index
@@ -8,6 +10,7 @@ class SettingsController < ApplicationController
   def update
     respond_to do |format|
       if settings.update_attributes(params[:setting])
+        reschedule(params[:setting][:schedule_parse_interval], theScheduler)
         flash[:notice] = 'Settings were successfully updated.'
         format.html { redirect_to settings_path }
       else
@@ -15,4 +18,8 @@ class SettingsController < ApplicationController
       end
     end
   end
+  
+  private
+  
+
 end

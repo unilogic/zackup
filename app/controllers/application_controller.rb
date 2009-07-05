@@ -8,8 +8,12 @@ class ApplicationController < ActionController::Base
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password
   
-  helper_method :current_user_session, :current_user, :validate_params, :settings
+  helper_method :current_user_session, :current_user, :validate_params, :settings, :theScheduler
   filter_parameter_logging :password, :password_confirmation, :_confirmation
+  
+  def theScheduler
+    @theScheduler
+  end
   
   def settings
     @settings ||= Setting.default
