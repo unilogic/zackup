@@ -10,10 +10,18 @@
 		<td class='labelform'><%= label(:host_config, host_config.name ) %></td>
 		<% if host_config.display_type == 'password_field' %>
 			<td>
-				<%= eval(host_config.display_type + '(:host_config, "#{host_config.id}_password", :value => host_config.value)') %>
+				<%= 
+					begin
+						password_field(:host_config, "#{host_config.id}_password", :value => the_key.decrypt64(host_config.value)) 
+					rescue OpenSSL::Cipher::CipherError
+						password_field(:host_config, "#{host_config.id}_password", :value => host_config.value) 
+					end
+				%>
+				
 				<% if @config_groups.include? ConfigItem.find(host_config.config_item.parent_id) %>
 					<%= remove_sub_form_add_link("sub_form_#{host_config.id}") %>	
 				<% end %>
+				
 			</td>
 		</tr>
 			<% if host_config.parent_name == @host_type_current.name %>
@@ -25,7 +33,13 @@
 			<% end %>
 				<td class='labelform'><%= label(:host_config, "#{host_config.name}_confirmation") %></td>
 				<td>
-					<%= password_field(:host_config, "#{host_config.id}_confirmation", :value => host_config.value) %>
+					<%= 
+						begin
+							password_field(:host_config, "#{host_config.id}_confirmation", :value => the_key.decrypt64(host_config.value)) 
+						rescue OpenSSL::Cipher::CipherError
+							password_field(:host_config, "#{host_config.id}_confirmation", :value => host_config.value)
+						end 
+					%>
 				</td>
 			</tr>
 		<% else %>
@@ -44,12 +58,24 @@
 	<td class='labelform'><%= label(:host_config, host_config.name ) %></td>
 	<% if host_config.display_type == 'password_field' %>
 		<td>
-			<%= eval(host_config.display_type + '(:host_config, "#{host_config.id}_password", :value => host_config.value)') %>
+			<%=
+				begin
+					password_field(:host_config, "#{host_config.id}_password", :value => the_key.decrypt64(host_config.value)) 
+				rescue OpenSSL::Cipher::CipherError
+					password_field(:host_config, "#{host_config.id}_password", :value => host_config.value) 
+				end
+			 %>
 		</td>
 	</tr>
 			<tr>
 			<td class='labelform'><%= label(:host_config, "#{host_config.name}_confirmation") %></td>
-			<td><%= password_field(:host_config, "#{host_config.id}_confirmation", :value => host_config.value) %></td>
+			<td><%= 
+		 		begin
+					password_field(:host_config, "#{host_config.id}_confirmation", :value => the_key.decrypt64(host_config.value)) 
+				rescue OpenSSL::Cipher::CipherError
+					password_field(:host_config, "#{host_config.id}_confirmation", :value => host_config.value)
+				end
+			%></td>
 		</tr>
 	<% else %>
 		<td><%= eval(host_config.display_type + '(:host_config, host_config.id, :value => host_config.value)') %></td>

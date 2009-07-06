@@ -30,6 +30,7 @@ ConfigItem.seed do |s|
   s.display_type = 'text_field'
 end
 
+# Status Field, not configurable
 ConfigItem.seed do |s|
   s.id = 4
   s.name = 'status'
@@ -37,6 +38,26 @@ ConfigItem.seed do |s|
   s.configurable = false
   s.parent_id = 1
   s.display_type = nil
+end
+
+# Backup Dirs
+ConfigItem.seed do |s|
+  s.id = 5
+  s.name = 'backup_directories'
+  s.description = 'Remote Directories to be Backed Up'
+  s.configurable = true
+  s.parent_id = 1
+  s.display_type = 'text_area'
+end
+
+# Backup Dirs
+ConfigItem.seed do |s|
+  s.id = 6
+  s.name = 'exclusions'
+  s.description = 'Exclusions to be not backed up'
+  s.configurable = true
+  s.parent_id = 1
+  s.display_type = 'text_area'
 end
 
 # Host Type
@@ -63,12 +84,23 @@ end
 
 ConfigItem.seed do |s|
   s.id = 22
-  s.name = 'Samba Password'
+  s.name = 'samba_login'
+  s.description = 'Samba Login'
+  s.configurable = true
+  s.parent_id = 21
+  s.display_type = 'text_field'
+end
+
+ConfigItem.seed do |s|
+  s.id = 23
+  s.name = 'samba_password'
   s.description = 'Samba user\'s password'
   s.configurable = true
   s.parent_id = 21
   s.display_type = 'password_field'
 end
+
+
 
 #FTP
 ConfigItem.seed do |s|
@@ -82,10 +114,73 @@ end
 
 ConfigItem.seed do |s|
   s.id = 31
-  s.name = 'FTP Password'
+  s.name = 'ftp_login'
+  s.description = 'FTP login'
+  s.configurable = true
+  s.parent_id = 30
+  s.display_type = 'text_field'
+end
+
+ConfigItem.seed do |s|
+  s.id = 32
+  s.name = 'ftp_password'
   s.description = 'FTP user\'s password'
   s.configurable = true
   s.parent_id = 30
   s.display_type = 'password_field'
 end
 
+#SFTP
+ConfigItem.seed do |s|
+  s.id = 40
+  s.name = 'sftp'
+  s.description = 'All SFTP Related Configuration Items'
+  s.configurable = false
+  s.parent_id = 20
+  s.display_type = nil
+end
+
+ConfigItem.seed do |s|
+  s.id = 31
+  s.name = 'sftp_login'
+  s.description = 'SFTP user'
+  s.configurable = true
+  s.parent_id = 40
+  s.display_type = 'text_field'
+end
+
+ConfigItem.seed do |s|
+  s.id = 32
+  s.name = 'sftp_password'
+  s.description = 'SFTP user\'s password'
+  s.configurable = true
+  s.parent_id = 40
+  s.display_type = 'password_field'
+end
+
+ConfigItem.seed do |s|
+  s.id = 33
+  s.name = 'sftp port'
+  s.description = 'SFTP Port Number'
+  s.configurable = true
+  s.parent_id = 40
+  s.display_type = 'text_field'
+end
+
+ConfigItem.seed do |s|
+  s.id = 34
+  s.name = 'sftp_private_key'
+  s.description = 'SFTP Private Key'
+  s.configurable = true
+  s.parent_id = 40
+  s.display_type = 'text_area'
+end
+
+ConfigItem.seed do |s|
+  s.id = 35
+  s.name = 'sftp_private_key_password'
+  s.description = 'SFTP Private Key Password'
+  s.configurable = true
+  s.parent_id = 40
+  s.display_type = 'text_field'
+end

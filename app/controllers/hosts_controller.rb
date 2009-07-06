@@ -190,6 +190,9 @@ class HostsController < ApplicationController
           flash[:error] = "#{config_item.name} and Confirmation Do Not Match!"
           return false
         else
+          
+          #Encrypt before they're saved to the DB
+          params_hash[modifiable] = the_key.encrypt64(v)
           params_hash.delete("#{modifiable}_confirmation")
         end
       end
