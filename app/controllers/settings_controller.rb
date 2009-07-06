@@ -10,7 +10,7 @@ class SettingsController < ApplicationController
   def update
     respond_to do |format|
       if settings.update_attributes(params[:setting])
-        reschedule(params[:setting][:schedule_parse_interval], theScheduler)
+        Rooster::ControlClient.send_command('restart ParseSchedulesTask')
         flash[:notice] = 'Settings were successfully updated.'
         format.html { redirect_to settings_path }
       else

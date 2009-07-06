@@ -1,0 +1,3 @@
+[submodule "vendor/plugins/rooster"]
+	path = vendor/plugins/rooster
+	url = git://github.com/findchris/rooster.git
