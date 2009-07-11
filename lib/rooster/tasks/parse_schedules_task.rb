@@ -1,16 +1,12 @@
 include Scheduler
 
 class ParseSchedulesTask < Rooster::Task
-  # Fail-safe Default
-  schedule_parse_interval = "5m"
-
+  
   define_schedule do |s|
-    begin
-      # The Schedule_parse_interval setting is in minutes
-      schedule_parse_interval = "#{Setting.default.schedule_parse_interval}m"
-    ensure
-      ActiveRecord::Base.connection_pool.release_connection
-    end
+    
+    config_file = YAML.load_file(File.dirname(__FILE__) + '/../../../config/scheduler.yml')
+    options = config_file[ENV["RAILS_ENV"]]
+    schedule_parse_interval = options['parse_interval'] || "2m"
     
     s.every schedule_parse_interval, :tags => [self.name] do 
       begin
@@ -25,4 +21,5 @@ class ParseSchedulesTask < Rooster::Task
       end
     end
   end
+
 end

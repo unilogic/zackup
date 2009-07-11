@@ -127,6 +127,9 @@ module Scheduler
         # this schedule to be run.
         # Note: schedule_parse_interval is in minutes
         if ! job.start_at.nil? && job.start_at - time_now <= (Setting.default.schedule_parse_interval * 60)
+          if host = schedule.host
+            job.data = host.host_configs_to_yaml
+          end
           if job.save!
             schedule.update_attributes!( :last_start => job.start_at )
           end
@@ -174,5 +177,5 @@ module Scheduler
     
     return schedule
   end
-   
+  
 end

@@ -1,0 +1,8 @@
+development:
+  parse_interval: 1m
+
+test:
+  parse_interval: 1m
+
+production:
+  parse_interval: 1m

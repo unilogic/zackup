@@ -62,4 +62,14 @@ class Host < ActiveRecord::Base
     return configurables
   end
   
+  def host_configs_to_yaml
+    host_configs = self.host_configs
+    
+    parsed_configs = {}
+    host_configs.each do |host_config|
+      parsed_configs[host_config.name] = { :config_item_id => host_config.config_item_id, :value => host_config.value }
+    end
+    
+    return parsed_configs.to_yaml
+  end
 end

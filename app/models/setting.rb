@@ -8,10 +8,7 @@ class Setting < ActiveRecord::Base
   setting :registration_enable, :boolean, true
   setting :max_error_retries, :integer, 3
   setting :force_backup_runs, :boolean, false
-  setting :new_job_based_start, :string, 'start'
-  setting :schedule_parse_interval, :integer, 5
-  
-  
+  setting :new_job_based_start, :string, 'start'  
   
   def initialize
     super

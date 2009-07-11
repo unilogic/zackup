@@ -25,10 +25,6 @@
 			<td class='form_label'><%= f.label :new_job_based_start, "When Starting a New Job, Base the Start Time of Job on the Latest" %></td>
 			<td><%= f.select :new_job_based_start, [['Start','start'], ['Finish','finish']] %></td>
 		</tr>
-		<tr>
-			<td class='form_label'><%= f.label :schedule_parse_interval, "Interval in Minutes at Which Schedules are Parsed" %></td>
-			<td><%= f.text_field :schedule_parse_interval %></td>
-		</tr>
 		
 	</table>
 	<%= submit_tag 'Update' %>
