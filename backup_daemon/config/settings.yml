@@ -1,0 +1,14 @@
+development:
+  ip_address: 127.0.0.1
+  hostname: localhost
+  loop_interval: 10
+  #Zvol Used to Store all Backups
+  backup_zvol: rpool/backup
+  
+test:
+  ip_address: 127.0.0.1
+  hostname: localhost
+
+production:
+  ip_address: 127.0.0.1
+  hostname: localhost

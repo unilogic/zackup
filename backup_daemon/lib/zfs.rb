@@ -36,77 +36,77 @@ module Zfs
     return $?.exitstatus,result
   end
   
-  def zpool_destroy
-    
-  end
-  
-  def zpool_add
-    
-  end
-  
-  def zpool_remove
-    
-  end
-  
-  def zpool_list
-    
-  end
-  
-  def zpool_iostat
-    
-  end
-  
-  def zpool_online
-    
-  end
-  
-  def zpool_offline
-    
-  end
-  
-  def zpool_clear
-    
-  end
-  
-  def zpool_attach
-    
-  end
-  
-  def zpool_detach
-    
-  end
-  
-  def zpool_replace
-    
-  end
-  
-  def zpool_scrub
-    
-  end
-  
-  def zpool_import
-    
-  end
-  
-  def zpool_export
-    
-  end
-  
-  def zpool_upgrade
-    
-  end
-  
-  def zpool_history
-    
-  end
-  
-  def zpool_get
-    
-  end
-  
-  def zpool_set
-    
-  end
+#  def zpool_destroy
+#    
+#  end
+#  
+#  def zpool_add
+#    
+#  end
+#  
+#  def zpool_remove
+#    
+#  end
+#  
+#  def zpool_list
+#    
+#  end
+#  
+#  def zpool_iostat
+#    
+#  end
+#  
+#  def zpool_online
+#    
+#  end
+#  
+#  def zpool_offline
+#    
+#  end
+#  
+#  def zpool_clear
+#    
+#  end
+#  
+#  def zpool_attach
+#    
+#  end
+#  
+#  def zpool_detach
+#    
+#  end
+#  
+#  def zpool_replace
+#    
+#  end
+#  
+#  def zpool_scrub
+#    
+#  end
+#  
+#  def zpool_import
+#    
+#  end
+#  
+#  def zpool_export
+#    
+#  end
+#  
+#  def zpool_upgrade
+#    
+#  end
+#  
+#  def zpool_history
+#    
+#  end
+#  
+#  def zpool_get
+#    
+#  end
+#  
+#  def zpool_set
+#    
+#  end
   
   # args = {"flags" => "ps", "blocksize" => "512", "properties" => { "prop1" => "value1" },"filesystem" => "/home/test"}
   # args = {"flags" => "ps", "blocksize" => "512", "properties" => { "prop1" => "value1" },"size" => "1024", "volume" => "pool/newpool"}
@@ -481,43 +481,43 @@ module Zfs
     return $?.exitstatus,result
   end
   
-  def zfs_send(args)
-    arglist = ""
-    if args["flags"]
-      arglist << " -#{args["flags"]}"
-    end
-    
-    if args["inter_snapshot"] && args["incre_snapshot"]
-      return 1, "Inter_snapshot and incre_snapshot cannot be defined at the same time"
-    elsif args["inter_snapshot"]
-      arglist << " -I #{args["inter_snapshot"]}"
-    elsif args["incre_snapshot"]
-      arglist << " -i #{args["incre_snapshot"]}"
-    end
-    
-    if args["snapshot"]
-      arglist << " args["snapshot"]"
-    else
-      return 1, "Snapshot must be defined"
-    end
-    
-    # This needs to be plumbed somehow, reading in an entire snapshot into a var will break something.
-    #result = %x[zfs share#{arglist} 2>&1]
-    
-    return $?.exitstatus,result
-  end
+#  def zfs_send(args)
+#    arglist = ""
+#    if args["flags"]
+#      arglist << " -#{args["flags"]}"
+#    end
+#    
+#    if args["inter_snapshot"] && args["incre_snapshot"]
+#      return 1, "Inter_snapshot and incre_snapshot cannot be defined at the same time"
+#    elsif args["inter_snapshot"]
+#      arglist << " -I #{args["inter_snapshot"]}"
+#    elsif args["incre_snapshot"]
+#      arglist << " -i #{args["incre_snapshot"]}"
+#    end
+#    
+#    if args["snapshot"]
+#      arglist << " args["snapshot"]"
+#    else
+#      return 1, "Snapshot must be defined"
+#    end
+#    
+#    # This needs to be plumbed somehow, reading in an entire snapshot into a var will break something.
+#    #result = %x[zfs share#{arglist} 2>&1]
+#    
+#    return $?.exitstatus,result
+#  end
   
-  def zfs_receive
-    
-  end
-  
-  def zfs_allow
-    
-  end
-  
-  def zfs_unallow
-    
-  end
+#  def zfs_receive
+#    
+#  end
+#  
+#  def zfs_allow
+#    
+#  end
+#  
+#  def zfs_unallow
+#    
+#  end
   
   protected
   

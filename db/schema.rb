@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090614030329) do
+ActiveRecord::Schema.define(:version => 20090718204205) do
 
   create_table "config_items", :force => true do |t|
     t.string   "name"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(:version => 20090614030329) do
     t.datetime "updated_at"
     t.boolean  "backup_node"
     t.boolean  "scheduler_node"
+    t.datetime "last_seen"
   end
 
   create_table "retention_policies", :force => true do |t|

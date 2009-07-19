@@ -21,3 +21,4 @@ DaemonKit::Initializer.run do |config|
   # config.safety_net.handler = :mail # (or :hoptoad )
   # config.safety_net.mail.host = 'localhost'
 end
+

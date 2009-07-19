@@ -1,13 +1,8 @@
-# When updating this file remember to update the associated class in the back daemon.
-
 class Job < ActiveRecord::Base
   include AASM
   
-  belongs_to :host
-  belongs_to :scheduler_node, :class_name => "Node"
   belongs_to :backup_node, :class_name => "Node"
-  belongs_to :schedule
-  
+
   validates_inclusion_of :operation, :in => %w( backup restore setup maintenance )
   
   serialize :data, Hash

@@ -1,6 +1,6 @@
 class Node < ActiveRecord::Base
-  has_many :backup_jobs, :class_name => "Job"
-  has_many :scheduler_jobs, :class_name => "Job"
+  has_many :backup_jobs, :class_name => "Job", :foreign_key => "backup_node_id"
+  has_many :scheduler_jobs, :class_name => "Job", :foreign_key => "scheduler_node_id"
   has_many :schedules, :foreign_key => "backup_node_id"
   validates_presence_of :hostname
   validates_presence_of :ip_address
