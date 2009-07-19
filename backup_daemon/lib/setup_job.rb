@@ -4,10 +4,11 @@ include Zfs
 class SetupJob
   FIELDS = %w{ hostname size ip_address }.map! { |s| s.to_sym }.freeze
   attr_accessor *FIELDS
-
+  @@settings = DaemonKit::Config.load('settings').to_h
+  
   DEFAULTS = { :hostname => nil, :size => nil, :ip_address => nil }.freeze
   
-  @settings ||= DaemonKit::Config.load('settings').to_h
+  
   
   def initialize(args = {})
     args = args ? args.merge(DEFAULTS).merge(args) : DEFAULTS
@@ -17,6 +18,7 @@ class SetupJob
           instance_variable_set("@#{attr}", args[attr])
       end
     end
+    
   end
   
   def hostname
@@ -44,7 +46,7 @@ class SetupJob
   end
     
   def create_zfs_fs!
-    unless volume_root = @settings['backup_zvol']
+    unless volume_root = @@settings['backup_zvol']
       raise ArgumentError, "backup_zvol not specified in settings.yml"
     end
     volume = volume_root + '/' + self.ip_address
