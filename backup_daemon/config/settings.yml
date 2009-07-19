@@ -2,8 +2,8 @@ development:
   ip_address: 127.0.0.1
   hostname: localhost
   loop_interval: 10
-  #Zvol Used to Store all Backups
-  backup_zvol: rpool/backup
+  #Mount Point of ZFS FS to Store all Backups
+  backup_root: /backup
   
 test:
   ip_address: 127.0.0.1
