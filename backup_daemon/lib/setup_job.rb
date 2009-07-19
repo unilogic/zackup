@@ -46,11 +46,11 @@ class SetupJob
   end
     
   def create_zfs_fs!
-    unless backup_root = @@settings['backup_root']
+    unless backup_zvol = @@settings['backup_zvol']
       raise ArgumentError, "backup_root not specified in settings.yml"
     end
     
-    filesystem = backup_root + '/' + self.ip_address
+    filesystem = backup_zvol + '/' + self.ip_address
     
     zfs_create({"properties" => { "quota" => self.size }, "filesystem" => filesystem})
   end

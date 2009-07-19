@@ -44,10 +44,10 @@ ActiveRecord::Base.connection_pool.with_connection do |conn|
   end
 end
 
-unless @settings['backup_root'] && File.directory?(@settings['backup_root'])
-  DaemonKit.logger.error "Cannot File Directory Specified as backup_root in settings.yml, EXITING!"
-  exit
-end
+#unless @settings['backup_root'] && File.directory?(@settings['backup_root'])
+#  DaemonKit.logger.error "Cannot File Directory Specified as backup_root in settings.yml, EXITING!"
+#  exit
+#end
 
 # Main loop
 loop do
