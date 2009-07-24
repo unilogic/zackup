@@ -21,15 +21,15 @@
 	</tr>
 	<tr>
 		<td class='labelform'>Last Request At</td>
-  	<td><%=h @user.last_request_at.strftime("%m/%d/%Y %I:%M%p") %></td>
+  	<td><%=h @user.last_request_at.strftime("%m/%d/%Y %I:%M%p") if @user.last_request_at %></td>
 	</tr>
 	<tr>
 		<td class='labelform'>Last Login At</td>
-  	<td><%=h @user.last_login_at.strftime("%m/%d/%Y %I:%M%p") %></td>
+  	<td><%=h @user.last_login_at.strftime("%m/%d/%Y %I:%M%p") if @user.last_login_at %></td>
 	</tr>
 	<tr>
 		<td class='labelform'>Current Login At</td>
-  	<td><%=h @user.current_login_at.strftime("%m/%d/%Y %I:%M%p") %></td>
+  	<td><%=h @user.current_login_at.strftime("%m/%d/%Y %I:%M%p") if @user.current_login_at %></td>
 	</tr>
 	<tr>
 		<td class='labelform'>Last Login IP</td>
