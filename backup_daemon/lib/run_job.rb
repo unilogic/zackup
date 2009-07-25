@@ -22,7 +22,7 @@ class RunJob
             job.save!
           else
             job.error
-            job.data = rstatus[1]
+            job.data = {'exit_code' => rstatus[0], 'message' => rstatus[1]}
             job.save!
             DaemonKit.logger.error "Error while trying to setup host, #{rstatus[1]}"
           end
