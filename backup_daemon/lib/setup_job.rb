@@ -61,5 +61,6 @@ class SetupJob
       check[0] = 1
       check[1] = "#{filesystem} already exists"
       return check
+    end
   end
 end
