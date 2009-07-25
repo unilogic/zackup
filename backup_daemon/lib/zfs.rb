@@ -529,12 +529,14 @@ module Zfs
     end
     
     record = []
+    temp = {}
     lines.each do |line|
       vals = line.chomp.squeeze(" ").split(" ")
-      record.push((0...cols.size).map {|j|
-                    { cols[j] => vals[j] }
-            }
-      )
+      (0...cols.size).map {|j|
+        temp[cols[j]] = vals[j]
+      }
+      record << temp
+      temp = {}
     end
     return record
   end
@@ -543,12 +545,14 @@ module Zfs
     lines = str.split("\n")
     
     record = []
+    temp = {}
     lines.each do |line|
       vals = line.chomp.split("\t")
-      record.push((0...cols.size).map {|j|
-                    { cols[j] => vals[j] }
-            }
-      )
+      (0...cols.size).map {|j|
+         temp[cols[j]] = vals[j]
+      }
+      record << temp
+      temp = {}
     end
     return record
   end
