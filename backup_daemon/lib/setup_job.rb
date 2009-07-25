@@ -56,6 +56,7 @@ class SetupJob
     check = zfs_list("target" => filesystem)
     if check[0] == 1 && check[1] =~ /dataset does not exist/
       return zfs_create({"properties" => { "quota" => self.size }, "filesystem" => filesystem})
-    end
+    else
+      return check
   end
 end
