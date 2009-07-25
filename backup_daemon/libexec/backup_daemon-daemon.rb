@@ -1,5 +1,6 @@
 require 'job'
 require 'node'
+require 'run_job'
 
 # Change this file to be a wrapper around your daemon code.
 
@@ -62,7 +63,7 @@ loop do
     end
     if myJobs = @node.backup_jobs
       myJobs.each do |job|
-        
+        RunJob.run(job)
       end
     end  
   end

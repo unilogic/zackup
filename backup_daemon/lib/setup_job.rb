@@ -52,6 +52,6 @@ class SetupJob
     
     filesystem = backup_zvol + '/' + self.ip_address
     
-    zfs_create({"properties" => { "quota" => self.size }, "filesystem" => filesystem})
+    return zfs_create({"properties" => { "quota" => self.size }, "filesystem" => filesystem})
   end
 end

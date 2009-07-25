@@ -1,11 +1,18 @@
 require 'setup_job'
 
-module RunJob
-  def run(jobs)
+class RunJob
+  def self.run(jobs)
     jobs.each do |job|
       if job.operation == 'setup'
-        job.data
-        setupJob = SetupJob.new()
+        setupJob = SetupJob.new(:ip_address => job.data['ip_address'][:value],
+          :hostname => job.data['hostname'][:value],
+          :size => job.data['quota'][:value]
+        )
+        rstatus = setupJob.create_zfs_fs!
+        unless rstatus[0] == 0
+          raise "Error while trying to setup host, #{rstatus[1]}"
+        end
+        
       elsif job.operation == 'maintenance'
     
       elsif job.operation == 'backup'
