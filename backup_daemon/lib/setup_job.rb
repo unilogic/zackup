@@ -52,6 +52,10 @@ class SetupJob
     
     filesystem = backup_zvol + '/' + self.ip_address
     
-    return zfs_create({"properties" => { "quota" => self.size }, "filesystem" => filesystem})
+    # Check that the filesystem does not already exist.
+    check = zfs_list("target" => filesystem)
+    if check[0] == 1 && check[1] =~ /dataset does not exist/
+      return zfs_create({"properties" => { "quota" => self.size }, "filesystem" => filesystem})
+    end
   end
 end
