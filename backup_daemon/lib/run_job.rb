@@ -4,15 +4,18 @@ class RunJob
   def self.run(jobs)
     jobs.each do |job|
       if job.aasm_events_for_current_state.include? :finish
-      
-        job.run
-        job.save!
+        
+        unless job.aasm_current_state == :running
+          job.run
+          job.save!
+        end
         
         if job.operation == 'setup'
           setupJob = SetupJob.new(:ip_address => job.data['ip_address'][:value],
             :hostname => job.data['hostname'][:value],
             :size => job.data['quota'][:value]
           )
+          
           rstatus = setupJob.create_zfs_fs!
           if rstatus[0] == 0
             job.finish  

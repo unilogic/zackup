@@ -62,9 +62,7 @@ loop do
       exit
     end
     if myJobs = @node.backup_jobs
-      myJobs.each do |job|
-        RunJob.run(job)
-      end
+      RunJob.run(myJobs)
     end  
   end
   sleep @settings['loop_interval'] || 60
