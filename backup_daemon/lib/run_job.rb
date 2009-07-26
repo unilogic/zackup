@@ -24,7 +24,7 @@ class RunJob
             job.error
             job.data = {'exit_code' => rstatus[0], 'message' => rstatus[1]}
             job.save!
-            DaemonKit.logger.error "Error while trying to setup host, #{rstatus[1]}"
+            DaemonKit.logger.warn "Error while trying to setup host, #{rstatus[1]}"
           end
         
         elsif job.operation == 'maintenance'
