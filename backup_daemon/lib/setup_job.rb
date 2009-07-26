@@ -8,8 +8,6 @@ class SetupJob
   
   DEFAULTS = { :hostname => nil, :size => nil, :ip_address => nil }.freeze
   
-  
-  
   def initialize(args = {})
     args = args ? args.merge(DEFAULTS).merge(args) : DEFAULTS
     
@@ -19,30 +17,6 @@ class SetupJob
       end
     end
     
-  end
-  
-  def hostname
-    @hostname
-  end
-  
-  def hostname=(hostname)
-    @hostname = hostname
-  end
-  
-  def size
-    @size
-  end
-  
-  def size=(size)
-    @size = size
-  end
-  
-  def ip_address
-    @ip_address
-  end
-  
-  def ip_address=(ip_address)
-    @ip_address = ip_address
   end
     
   def create_zfs_fs!

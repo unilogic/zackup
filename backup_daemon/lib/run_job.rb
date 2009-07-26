@@ -1,4 +1,5 @@
 require 'setup_job'
+require 'backp_job'
 
 class RunJob
   def self.run(jobs)
@@ -20,6 +21,7 @@ class RunJob
           if rstatus[0] == 0
             job.finish  
             job.save!
+            DaemonKit.logger.info "Successfully setup host #{job.data['ip_address'][:value]}"
           else
             job.error
             job.data = {'exit_code' => rstatus[0], 'message' => rstatus[1]}
@@ -28,11 +30,17 @@ class RunJob
           end
         
         elsif job.operation == 'maintenance'
-    
+          nil
         elsif job.operation == 'backup'
-    
+          backupJob = BackupJob.new(:ip_address => job.data['ip_address'][:value],
+            :hostname => job.data['hostname'][:value],
+            :host_type => job.data['host_type'][:value]
+             )
+          rstatus = backupJob.run(job.data)
+          
+          
         elsif job.operation == 'restore'
-    
+          nil
         end
       end
     end
