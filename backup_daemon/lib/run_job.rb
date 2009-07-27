@@ -56,7 +56,7 @@ class RunJob
             DaemonKit.logger.info "Successfully setup host #{job.data['ip_address'][:value]}"
           else
             job.error
-            job.data = {'exit_code' => rstatus[0], 'message' => rstatus[1]}
+            job.data['error'] = {'exit_code' => rstatus[0], 'message' => rstatus[1]}
             job.save!
             DaemonKit.logger.warn "Error while trying to setup host, #{rstatus[1]}"
           end

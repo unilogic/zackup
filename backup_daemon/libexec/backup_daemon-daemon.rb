@@ -2,14 +2,6 @@ require 'job'
 require 'node'
 require 'run_job'
 
-#Need the net-dns gem, put this here so we get an error on startup if not installed.
-begin
-  require 'net/dns/resolver'
-rescue
-  DaemonKit.logger.error "The net-dns gem missing, please install it, EXITING!"
-  exit 1
-end
-
 # Change this file to be a wrapper around your daemon code.
 
 # Do your post daemonization configuration here
