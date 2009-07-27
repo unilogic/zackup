@@ -51,7 +51,7 @@ class RunJob
           path = setupJob.path
           if rstatus[0] == 0 && path[0] == 0
             job.finish
-            job.data = { 'backup_dir' => path[1] }
+            job.data['backup_dir'] = { :value => path[1] }
             job.save!
             DaemonKit.logger.info "Successfully setup host #{job.data['ip_address'][:value]}"
           else
