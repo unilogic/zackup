@@ -1,11 +1,11 @@
-# Original Source taken from http://github.com/kevincolyar/rbsync
+# Heavily modified from original Source taken from http://github.com/kevincolyar/rbsync
 
 class Rbsync
   
   FIELDS = %w{ remote remote_paths local_path argv }.map! { |s| s.to_sym }.freeze
   attr_accessor *FIELDS
   
-  DEFAULTS = { :remote => nil, :remote_paths => nil, :local_path => nil, :argv => nil }.freeze
+  DEFAULTS = { :remote => nil, :remote_paths => nil, :local_path => nil, :argv => '-av --rsh=ssh' }.freeze
   
   def initialize(args = {})
     args = args ? args.merge(DEFAULTS).merge(args) : DEFAULTS
@@ -16,51 +16,46 @@ class Rbsync
       end
     end
     
+    test_rsync = %x[rsync --version 2>&1]
+    unless $?.exitstatus == 0
+      raise "Rsync executable could not be run ensure it's installed, Error: #{test_rsync}"
+    end
   end
  
   def remote(paths)
-    remote = self.remote
-    paths.split("\n").each do |path|
-      path.chomp!
-      remote << ":#{path} "
+    if remote = self.remote
+      
+      paths.split("\n").each do |path|
+        path.chomp!
+        remote << ":#{path} "
+      end
     end
   end
- 
-  def get_paths(argv)
-    path = {}
-    path[:remote] = argv.shift
- 
-    if argv[0] and /^\-/ =~ argv[0]
-      path[:local] = File.expand_path('.')
+  
+  def pull
+    unless self.remote
+      return 1, "Remote must be specified!"
+    end
+    
+    unless remote = remote(self.remote_paths)
+      return 1, "Remote paths must be specified!"
+    end
+    
+    unless local = self.local_path
+      return 1, "Local path much be specified!"
+    end
+    
+    rsync_args = self.argv
+    
+    unless File.directory? local
+      DaemonKit.logger.warn "Local directory #{local} does not exist!"
+      return 1, "Rbsync: Local directory #{local} does not exist!"
     else
-      path[:local] = File.expand_path(argv.shift || '.') 
+    
+      DaemonKit.logger.info "Pulling #{self.remote_paths} to #{path[:local]} with options #{rsync_args}"
+      result = %x[rsync #{rsync_args} "#{remote}" "#{local}"]
+      return $?.exitstatus,result
     end
- 
-    path[:local] += '/' if File.directory? path[:local]
-    path[:remote] = map_path(path[:remote] + ':' +  path[:local])
-    return path
-  end
- 
-  def get_rsync_args(argv)
-    rsync_args = @rsync_args + ' '
-    rsync_args += argv.join ' '
-    return rsync_args
-  end
- 
-  def push_to(argv)
-    path = get_paths(argv)
-    rsync_args = get_rsync_args(argv)
- 
-    DaemonKit.logger.info "Pushing #{path[:local]} to #{path[:remote]} with options #{rsync_args}"
-    exec("rsync \"#{path[:local]}\" \"#{path[:remote]}\" #{rsync_args}")
-  end
- 
-  def pull_from(argv)
-    path = get_paths(argv)
-    rsync_args = get_rsync_args(argv)
- 
-    DaemonKit.logger.info "Pulling #{path[:remote]} to #{path[:local]} with options #{rsync_args}"
-    exec("rsync \"#{path[:remote]}\" \"#{path[:local]}\" #{rsync_args}")
   end
  
 end

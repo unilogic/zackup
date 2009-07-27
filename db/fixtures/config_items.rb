@@ -60,6 +60,25 @@ ConfigItem.seed do |s|
   s.display_type = 'text_area'
 end
 
+# Quota
+ConfigItem.seed do |s|
+  s.id = 7
+  s.name = 'quota'
+  s.description = 'Quota per backup daemon for a host'
+  s.configurable = true
+  s.parent_id = 1
+  s.display_type = 'text_field'
+end
+
+ConfigItem.seed do |s|
+  s.id = 8
+  s.name = 'backup_dir'
+  s.description = 'Hash of backup directories, keys are the node_id of each backup daemon.'
+  s.configurable = false
+  s.parent_id = 1
+  s.display_type = nil
+end
+
 # Host Type
 ConfigItem.seed do |s|
   s.id = 20
@@ -184,3 +203,4 @@ ConfigItem.seed do |s|
   s.parent_id = 40
   s.display_type = 'text_field'
 end
+

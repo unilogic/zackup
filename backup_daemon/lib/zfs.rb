@@ -318,7 +318,7 @@ module Zfs
     return $?.exitstatus,result 
   end
   
-  # args = {"flags" => "rHp", "field" => "field1,field2", "source" => "source1,source2", "property" => "nfsshare,iscsishare", 
+  # args = {"flags" => "rHp", "field" => "field1,field2", "source" => "source1,source2", "properties" => "nfsshare,iscsishare", 
   # "target" => "filesystem|volume|snapshot"}
   def zfs_get(args)
     arglist = ""

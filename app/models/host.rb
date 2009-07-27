@@ -69,7 +69,7 @@ class Host < ActiveRecord::Base
     host_configs.each do |host_config|
       if host_config.name == 'host_type'
         newName = ConfigItem.find host_config.value
-        host_config.value = newName.name
+        parsed_configs[host_config.name] = { :config_item_id => host_config.config_item_id, :value => newName }
       end
       parsed_configs[host_config.name] = { :config_item_id => host_config.config_item_id, :value => host_config.value }
     end

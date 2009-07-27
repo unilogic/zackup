@@ -2,6 +2,14 @@ require 'job'
 require 'node'
 require 'run_job'
 
+#Need the net-dns gem, put this here so we get an error on startup if not installed.
+begin
+  require 'net/dns/resolver'
+rescue
+  DaemonKit.logger.error "The net-dns gem missing, please install it, EXITING!"
+  exit 1
+end
+
 # Change this file to be a wrapper around your daemon code.
 
 # Do your post daemonization configuration here
@@ -30,19 +38,31 @@ ActiveRecord::Base.connection_pool.with_connection do |conn|
 
   unless @node
     DaemonKit.logger.error "Node matching IP Address or Hostname not found in Database, EXITING!"
-    exit
+    exit 1
   else
     unless @node.backup_node
       DaemonKit.logger.error "Found Node Does Not Have Backup Service Enabled, EXITING!"
-      exit
+      exit 1
     end
     DaemonKit.logger.info "I am node id: #{@node.id}"
     @node.last_seen = Time.now
     unless @node.save!
       DaemonKit.logger.error "Cannot Successfully Update Last Seen Time in Database, EXITING!"
-      exit
+      exit 1
     end
   end
+end
+
+# Test that rsync is available.
+test_rsync = %x[rsync --version 2>&1]
+unless $?.exitstatus == 0
+  DaemonKit.logger.error "Rsync executable could not be run, EXITING! Ensure it's installed, Error: #{test_rsync}"
+  exit 1
+end
+
+# Make sure that the temp keys dir exists. If not create it.
+unless File.directory? "#{DAEMON_ROOT}/tmp/keys"
+  File.makedirs("#{DAEMON_ROOT}/tmp/keys")
 end
 
 #unless @settings['backup_root'] && File.directory?(@settings['backup_root'])
