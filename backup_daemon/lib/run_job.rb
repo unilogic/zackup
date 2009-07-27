@@ -34,7 +34,7 @@ class RunJob
           job.save!
         end
         
-        if job.data['hostname'][:value] && job.data['ip_address'][:value])
+        if job.data['hostname'][:value] && job.data['ip_address'][:value]
           unless self.check_hostname(job.data['hostname'][:value], job.data['ip_address'][:value])
             DaemonKit.logger.warn "Hostname #{job.data['hostname'][:value]} does not match IP address given. Tested by resolving hostname. SKIPPING!"
             next
@@ -76,7 +76,9 @@ class RunJob
         elsif job.operation == 'restore'
           nil
         end
-      end
-    end
-  end
-end
+      end # End if
+    end # End each
+    
+  end # End run method
+  
+end # End Class
