@@ -54,7 +54,7 @@ end
 
 # Make sure that the temp keys dir exists. If not create it.
 unless File.directory? "#{DAEMON_ROOT}/tmp/keys"
-  File.makedirs("#{DAEMON_ROOT}/tmp/keys")
+  FileUtils::mkdir_p "#{DAEMON_ROOT}/tmp/keys", :mode => 0700
 end
 
 #unless @settings['backup_root'] && File.directory?(@settings['backup_root'])
