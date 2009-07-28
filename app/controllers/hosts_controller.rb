@@ -192,7 +192,7 @@ class HostsController < ApplicationController
         else
           
           #Encrypt before they're saved to the DB
-          if v
+          if v.length > 0
             params_hash[modifiable] = the_key.encrypt64(v)
           end
           params_hash.delete("#{modifiable}_confirmation")
