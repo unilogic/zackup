@@ -13,10 +13,6 @@ class HostConfig < ActiveRecord::Base
     end
   end
   
-  def value
-    YAML::load(self.value)
-  end
-  
   def parent_name
     item = ConfigItem.find(self.config_item.parent_id)
     if item

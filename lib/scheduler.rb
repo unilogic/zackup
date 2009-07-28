@@ -167,7 +167,8 @@ module Scheduler
             # For safety if for some reason we find a job for a schedule that already has a backu_dir set
             # we'll skip it for now.
             # TODO: figure out how better to handle this condition
-            if host_config.value[schedule.id] && host_config.value[schedule.id] != job.data['backup_dir'][:value]
+            host_config_value = YAML::load(host_config.value)
+            if host_config_value[schedule.id] && host_config_value[schedule.id] != job.data['backup_dir'][:value]
               Rails.logger.error "ERROR: Found a new Backup Dir for schedule: #{schedule.name} on #{host.name}. This schedule will be skipped!"
               return 1
             elsif host_config.value[schedule.id].nil?
