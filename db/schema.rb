@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090728011418) do
+ActiveRecord::Schema.define(:version => 20090728012650) do
 
   create_table "config_items", :force => true do |t|
     t.string   "name"
@@ -22,9 +22,9 @@ ActiveRecord::Schema.define(:version => 20090728011418) do
   end
 
   create_table "host_configs", :force => true do |t|
-    t.integer  "host_id",        :null => false
-    t.integer  "config_item_id", :null => false
-    t.string   "value",          :null => false
+    t.integer  "host_id",                       :null => false
+    t.integer  "config_item_id",                :null => false
+    t.text     "value",          :limit => 255, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

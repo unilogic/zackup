@@ -201,6 +201,6 @@ ConfigItem.seed do |s|
   s.description = 'SFTP Private Key Password'
   s.configurable = true
   s.parent_id = 40
-  s.display_type = 'text_field'
+  s.display_type = 'password_field'
 end
 
