@@ -1,5 +1,6 @@
 *.sqlite*
 *.log
+log/*
 tmp/*
 log/rooster_daemon.pid
 database.yml
