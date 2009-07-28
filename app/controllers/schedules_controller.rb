@@ -36,7 +36,7 @@ class SchedulesController < ApplicationController
     @schedule = Schedule.new(params[:schedule])
     
     unless @schedule.status
-      @schedule.status = 'new'
+      @schedule.status = 'enabled'
     end
     
     if @schedule.save

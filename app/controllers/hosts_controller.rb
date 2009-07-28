@@ -40,7 +40,7 @@ class HostsController < ApplicationController
           end
         end   
       }
-      HostConfig.create(:host => @host, :config_item => ConfigItem.find_by_name('status'), :value => 'new')
+      HostConfig.create(:host => @host, :config_item => ConfigItem.find_by_name('status'), :value => 'enabled')
       flash[:notice] = "Host created!"
       redirect_to hosts_path
     else
