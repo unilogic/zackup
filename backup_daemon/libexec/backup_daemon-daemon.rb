@@ -68,10 +68,11 @@ loop do
   ActiveRecord::Base.connection_pool.with_connection do |conn|
     DaemonKit.logger.info "I'm running"
     # Update Last Seen
+    @node = Node.find @node.id
     @node.last_seen = Time.now
     unless @node.save!
       DaemonKit.logger.error "Cannot Successfully Update Last Seen Time in Database, EXITING!"
-      exit
+      exit 1
     end
     if myJobs = @node.backup_jobs
       RunJob.run(myJobs)
