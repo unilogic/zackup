@@ -13,7 +13,7 @@ class ParseSchedulesTask < Rooster::Task
         
         log "#{self.name} starting at #{Time.now.to_s(:db)}"
         
-        parseSchedules
+        parseSchedules(options)
         
       ensure
         log "#{self.name} completed at #{Time.now.to_s(:db)}"

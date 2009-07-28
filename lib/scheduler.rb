@@ -1,13 +1,13 @@
 module Scheduler
   
-  def parseSchedules
+  def parseSchedules(options)
     schedules = Schedule.all
     schedules.each do |schedule|
-      parseSchedule(schedule)
+      parseSchedule(schedule,options)
     end
   end
   
-  def parseSchedule(schedule)
+  def parseSchedule(schedule,options)
     if schedule.status == 'enabled'
       
       time_now = Time.now
@@ -125,8 +125,8 @@ module Scheduler
         # Don't add the job yet if we are more than one parse interval away from starting time
         # This is to reduce clutter in the jobs window. Also don't add if start_at is nil as that means nothing was found for
         # this schedule to be run.
-        # Note: schedule_parse_interval is in minutes
-        if ! job.start_at.nil? && job.start_at - time_now <= (Setting.default.schedule_parse_interval * 60)
+        # Note: parse_interval is in minutes
+        if ! job.start_at.nil? && job.start_at - time_now <= ((options['parse_interval'] || "2m") * 60)
           if host = schedule.host
             job.data = host.host_configs_to_yaml
           end
@@ -145,13 +145,42 @@ module Scheduler
     finished_time = DateTime.new
     error_count = 0
     running_jobs = 0
-    
+
     jobs.each do |job|
+      puts "Found a job"
       # See if there are updates to the schedule's last_finished_at time
       if job.aasm_current_state == :finished && job.finished_at
-        if job.finished_at > finished_time
+        puts "Found a finished job"
+        if schedule.last_finish && job.finished_at > schedule.last_finish
           finished_time = job.finished_at
-        end      
+        elsif schedule.last_finish.nil?
+          finished_time = job.finished_at
+        end
+        
+        # Check for finished jobs that have a backup_dir value in the data field.
+        if job.data['backup_dir'][:value]
+          puts "Found a job with backup_dir data"
+          host = schedule.host
+          if host_config = host.find_host_config_by_name('backup_dir')
+            
+            puts "Found a host with existing backup_dir data"
+            # For safety if for some reason we find a job for a schedule that already has a backu_dir set
+            # we'll skip it for now.
+            # TODO: figure out how better to handle this condition
+            if host_config.value[schedule.id] && host_config.value[schedule.id] != job.data['backup_dir'][:value]
+              Rails.logger.error "ERROR: Found a new Backup Dir for schedule: #{schedule.name} on #{host.name}. This schedule will be skipped!"
+              return 1
+            elsif host_config.value[schedule.id].nil?
+              host_config.value[schedule.id] = job.data['backup_dir'][:value]
+              host_config.save!
+            end
+            
+          else
+            puts "Host without backup_dir data"
+            config_item = ConfigItem.find_by_name('backup_dir')
+            HostConfig.create(:host_id => schedule.host.id, :config_item_id => config_item.id, :value => {schedule.id => job.data['backup_dir'][:value]})
+          end
+        end
       # Count how many errored jobs the schedule has
       elsif job.aasm_current_state == :errored
         error_count += 1
