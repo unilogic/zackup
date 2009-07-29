@@ -66,11 +66,18 @@ class RunJob
           nil
           
         elsif job.operation == 'backup'
-          if job.data['backup_dir'][job.schedule_id]
+          
+          # Make sure we have a backup dir for this job's schedule before we go on.
+          backup_dirs = YAML::load(job.data['backup_dir'][:value])
+          unless backup_dirs && backup_dirs[job.schedule_id]
+            DaemonKit.logger.warn "Could not find a backup_dir for host #{job.data['hostname'][:value]}, schedule id #{job.schedule_id}, SKIPPING!"
+            next
+          end
+          
           backupJob = BackupJob.new(:ip_address => job.data['ip_address'][:value],
             :hostname => job.data['hostname'][:value],
             :host_type => job.data['host_type'][:value],
-            :local_backup_dir => job.data['backup_dir'][:value]
+            :local_backup_dir => backup_dirs[job.schedule_id]
           )
           rstatus = backupJob.run(job.data)
           
