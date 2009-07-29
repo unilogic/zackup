@@ -21,10 +21,10 @@ module Scheduler
         schedule = parseExistingJobs(schedule)
         
         if schedule == 1
-          Rails.logger.error "Scheduler - ERROR, Too many errored jobs found"
+          Rails.logger.error "Zackup::Scheduler - #{schedule.name} for host #{schedule.host.name} has too many errored jobs found, SKIPPING!"
           return 1
         elsif schedule == 2
-          Rails.logger.error "Scheduler - ERROR, Existing job still running, waiting, paused, new, or assigned"
+          Rails.logger.error "Zackup::Scheduler - #{schedule.name} for host #{schedule.host.name} has an existing job still running, waiting, paused, new, or assigned, SKIPPING!"
           return 2
         end
         
@@ -167,7 +167,7 @@ module Scheduler
             # TODO: figure out how better to handle this condition
             host_config_value = YAML::load(host_config.value)
             if host_config_value[schedule.id] && host_config_value[schedule.id] != job.data['backup_dir'][:value]
-              Rails.logger.error "ERROR: Found a new Backup Dir for schedule: #{schedule.name} on #{host.name}. This schedule will be skipped!"
+              Rails.logger.error "Zackup::Scheduler - ERROR: Found a new backup Dir for schedule: #{schedule.name} on #{host.name}, SKIPPING!"
               return 1
             elsif host_config.value[schedule.id].nil?
               host_config.value[schedule.id] = job.data['backup_dir'][:value]
