@@ -147,10 +147,8 @@ module Scheduler
     running_jobs = 0
 
     jobs.each do |job|
-      puts "Found a job"
       # See if there are updates to the schedule's last_finished_at time
       if job.aasm_current_state == :finished && job.finished_at
-        puts "Found a finished job"
         if schedule.last_finish && job.finished_at > schedule.last_finish
           finished_time = job.finished_at
         elsif schedule.last_finish.nil?
@@ -159,11 +157,9 @@ module Scheduler
         
         # Check for finished jobs that have a backup_dir value in the data field.
         if job.data['backup_dir'][:value]
-          puts "Found a job with backup_dir data"
           host = schedule.host
           if host_config = host.find_host_config_by_name('backup_dir')
             
-            puts "Found a host with existing backup_dir data"
             # For safety if for some reason we find a job for a schedule that already has a backu_dir set
             # we'll skip it for now.
             # TODO: figure out how better to handle this condition
@@ -177,7 +173,6 @@ module Scheduler
             end
             
           else
-            puts "Host without backup_dir data"
             config_item = ConfigItem.find_by_name('backup_dir')
             HostConfig.create(:host_id => schedule.host.id, :config_item_id => config_item.id, :value => {schedule.id => job.data['backup_dir'][:value]})
           end
