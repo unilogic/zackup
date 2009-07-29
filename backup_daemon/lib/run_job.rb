@@ -66,6 +66,7 @@ class RunJob
           nil
           
         elsif job.operation == 'backup'
+          if job.data['backup_dir'][job.schedule_id]
           backupJob = BackupJob.new(:ip_address => job.data['ip_address'][:value],
             :hostname => job.data['hostname'][:value],
             :host_type => job.data['host_type'][:value],

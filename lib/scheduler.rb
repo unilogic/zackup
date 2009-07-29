@@ -18,15 +18,17 @@ module Scheduler
       start_datetime = Time.parse("#{schedule.start_date} #{schedule.start_time}")
       # As long as start time is now or in the past process the schedule
       if start_datetime - time_now <= 0
+        schedule_alt = schedule
         schedule = parseExistingJobs(schedule)
         
         if schedule == 1
-          Rails.logger.error "Zackup::Scheduler - #{schedule.name} for host #{schedule.host.name} has too many errored jobs found, SKIPPING!"
+          Rails.logger.error "Zackup::Scheduler - #{schedule_alt.name} for host #{schedule_alt.host.name} has too many errored jobs found, SKIPPING!"
           return 1
         elsif schedule == 2
-          Rails.logger.error "Zackup::Scheduler - #{schedule.name} for host #{schedule.host.name} has an existing job still running, waiting, paused, new, or assigned, SKIPPING!"
+          Rails.logger.error "Zackup::Scheduler - #{schedule_alt.name} for host #{schedule_alt.host.name} has an existing job still running, waiting, paused, new, or assigned, SKIPPING!"
           return 2
         end
+        schedule_alt = nil
         
         job = Job.new
         job.schedule_id = schedule.id
