@@ -58,7 +58,8 @@ class BackupJob
         DaemonKit.logger.warn message
         return 1, message
       end
-      do_sftp_backup(args['sftp_login'][:value], key)
+      rstatus = do_ssh_backup(args['sftp_login'][:value], key)
+      return rstatus
     end
   end
   
