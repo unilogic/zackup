@@ -1,9 +1,11 @@
 module Scheduler
   
   def parseSchedules(options)
-    schedules = Schedule.all
+    schedules = Schedule.find_all_by_status 'enabled'
     schedules.each do |schedule|
-      parseSchedule(schedule,options)
+      if schedule.host.status == 'enabled'
+        parseSchedule(schedule,options)
+      end
     end
   end
   
