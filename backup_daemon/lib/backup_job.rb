@@ -102,7 +102,8 @@ class BackupJob
     # Ensure we close the tempfile that has the ssh key in it.
     ensure
       tempfile.close!
-    end 
+    end
+    return rbsync
   end
   
   def do_snapshot(filesystem)
