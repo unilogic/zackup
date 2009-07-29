@@ -77,7 +77,9 @@ class RunJob
           backupJob = BackupJob.new(:ip_address => job.data['ip_address'][:value],
             :hostname => job.data['hostname'][:value],
             :host_type => job.data['host_type'][:value],
-            :local_backup_dir => backup_dirs[job.schedule_id]
+            :local_backup_dir => backup_dirs[job.schedule_id],
+            :exclusions => job.data['exclusions'][:value],
+            :directories => job.data['backup_directories'][:value]
           )
           rstatus = backupJob.run(job.data)
           

@@ -86,13 +86,17 @@ class BackupJob
       tempfile.write(key)
       #remote remote_paths local_path argv
       ssh_args = "ssh -l #{ssh_login} -i #{tempfile.path}"
+      
+      # Adding this so SSH will never prompt for anything. Security be damned!
+      option_args = "-o stricthostkeychecking=no -o userknownhostsfile=/dev/null -o batchmode=yes -o passwordauthentication=no "
+      
       exclude_args = ""
       if self.exclusions && exclude_array = self.exclusions.split("\n")
         exclude_array.each do |exclude|
           exclude_args << "--exclude=#{exclude} "
         end
       end
-      argv = "-av #{exclude_args} -e \"#{ssh_args}\" "
+      argv = "-av #{option_args} #{exclude_args} -e \"#{ssh_args}\" "
       rbsync = Rbsync.new(:remote => self.hostname, :remote_paths => self.directories, :argv => argv )
     
     # Ensure we close the tempfile that has the ssh key in it.
