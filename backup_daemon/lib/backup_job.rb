@@ -95,6 +95,7 @@ class BackupJob
       argv = "-av #{exclude_args} -e \"#{ssh_args}\" "
       rbsync = Rbsync.new(:remote => self.hostname, :remote_paths => self.directories, :argv => argv )
     
+    # Ensure we close the tempfile that has the ssh key in it.
     ensure
       tempfile.close!
     end 

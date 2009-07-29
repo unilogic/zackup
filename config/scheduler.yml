@@ -1,8 +1,8 @@
 development:
-  parse_interval: 1m
+  parse_interval: 60
 
 test:
-  parse_interval: 1m
+  parse_interval: 60
 
 production:
-  parse_interval: 1m
+  parse_interval: 60

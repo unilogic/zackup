@@ -6,7 +6,7 @@ class ParseSchedulesTask < Rooster::Task
     
     config_file = YAML.load_file(File.dirname(__FILE__) + '/../../../config/scheduler.yml')
     options = config_file[ENV["RAILS_ENV"]]
-    schedule_parse_interval = options['parse_interval'] || "2m"
+    schedule_parse_interval = options['parse_interval'] || 120
     
     s.every schedule_parse_interval, :tags => [self.name] do 
       begin

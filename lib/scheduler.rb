@@ -126,7 +126,7 @@ module Scheduler
         # This is to reduce clutter in the jobs window. Also don't add if start_at is nil as that means nothing was found for
         # this schedule to be run.
         # Note: parse_interval is in minutes
-        if ! job.start_at.nil? && job.start_at - time_now <= ((options['parse_interval'] || "2m") * 60)
+        if ! job.start_at.nil? && job.start_at - time_now <= (options['parse_interval'].to_i || 120)
           if host = schedule.host
             job.data = host.host_configs_to_yaml
           end
