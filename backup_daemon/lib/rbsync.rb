@@ -23,6 +23,7 @@ class Rbsync
   end
   
   def remote_paths(paths)
+    remote = ""
     if remote = self.remote
       
       paths.split("\n").each do |path|
@@ -30,6 +31,8 @@ class Rbsync
         remote << ":#{path} "
       end
     end
+    
+    return remote
   end
   
   def pull
