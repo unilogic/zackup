@@ -89,6 +89,10 @@ class BackupJob
       raise ArgumentError, "IP Address must be specified!"
     end
     
+    unless self.local_backup_dir
+      raise ArgumentError, "Local Backup dir must be specified!"
+    end
+    
     begin     
       tempfile = Tempfile.new(basename, "#{DAEMON_ROOT}/tmp/keys")
       tempfile.write(key)
@@ -105,7 +109,10 @@ class BackupJob
         end
       end
       argv = "-av #{option_args} #{exclude_args} -e \"#{ssh_args}\" "
-      rbsync = Rbsync.new(:remote => self.hostname, :remote_paths => self.directories, :argv => argv )
+      rbsync = Rbsync.new(:remote => self.hostname, 
+        :remote_paths => self.directories, 
+        :local_path => self.local_backup_dir, 
+        :argv => argv )
     
     # Ensure we close the tempfile that has the ssh key in it.
     ensure

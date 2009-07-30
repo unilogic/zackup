@@ -5,7 +5,7 @@ class Rbsync
   FIELDS = %w{ remote remote_paths local_path argv }.map! { |s| s.to_sym }.freeze
   attr_accessor *FIELDS
   
-  DEFAULTS = { :remote => nil, :remote_paths => nil, :local_path => nil, :argv => '-av --rsh=ssh' }.freeze
+  DEFAULTS = { :remote => nil, :remote_paths => nil, :local_path => nil, :argv => nil }.freeze
   
   def initialize(args = {})
     args = args ? args.merge(DEFAULTS).merge(args) : DEFAULTS
