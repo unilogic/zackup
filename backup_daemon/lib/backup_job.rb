@@ -42,12 +42,19 @@ class BackupJob
     if self.host_type == 'sftp'
       
       key = ""
-      
+      key_pass = ""
       begin
         # Open the key and unencrypt it if needed.
         # Note if the key is stored unencrypted already, this line will not complain, 
         # and simply verify its a valid RSA key.
-        key_pass = ZackupCrypt.the_key.decrypt64(args['sftp_private_key_password'][:value])
+        begin
+          key_pass = ZackupCrypt.the_key.decrypt64(args['sftp_private_key_password'][:value])
+        
+        # Theres a chance the password isn't encrypted so we'll use the original string.
+        rescue OpenSSL::Cipher::CipherError
+          key_pass = args['sftp_private_key_password'][:value]
+        end
+        
         key = OpenSSL::PKey::RSA.new(args['sftp_private_key'][:value], key_pass)
       rescue OpenSSL::Cipher::CipherError
         message = "Could not decrypt the private key password for #{self.hostname}"
