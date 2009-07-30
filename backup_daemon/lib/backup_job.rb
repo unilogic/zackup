@@ -117,7 +117,7 @@ class BackupJob
     
     # Ensure we close the tempfile that has the ssh key in it.
     ensure
-      tempfile.close!
+      #tempfile.close!
     end
     return rbsync
   end

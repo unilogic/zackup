@@ -56,7 +56,8 @@ class Rbsync
     else
     
       DaemonKit.logger.info "Pulling #{self.remote_paths} to #{self.local_path} with options #{rsync_args}"
-      result = %x[rsync #{rsync_args} "#{remote}" "#{local}"]
+      return "rsync #{rsync_args} \'#{remote}\' \'#{local}\' 2>&1"
+      result = %x[rsync #{rsync_args} "#{remote}" "#{local}" 2>&1]
       return $?.exitstatus,result
     end
   end
