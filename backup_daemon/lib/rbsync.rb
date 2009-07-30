@@ -18,7 +18,7 @@ class Rbsync
     
     test_rsync = %x[rsync --version 2>&1]
     unless $?.exitstatus == 0
-      raise "Rsync executable could not be run ensure it's installed, Error: #{test_rsync}"
+      raise "Rbsync: Rsync executable could not be run ensure it's installed, Error: #{test_rsync}"
     end
   end
   
@@ -37,15 +37,15 @@ class Rbsync
   
   def pull
     unless self.remote
-      return 1, "Remote must be specified!"
+      return 1, "Rbsync: Remote must be specified!"
     end
     
     unless remote = parse_remote_paths(self.remote_paths)
-      return 1, "Remote paths must be specified!"
+      return 1, "Rbsync: Remote paths must be specified!"
     end
     
     unless local = self.local_path
-      return 1, "Local path much be specified!"
+      return 1, "Rbsync: Local path much be specified!"
     end
     
     rsync_args = self.argv
@@ -55,7 +55,7 @@ class Rbsync
       return 1, "Rbsync: Local directory #{local} does not exist!"
     else
     
-      DaemonKit.logger.info "Pulling #{self.remote_paths} to #{path[:local]} with options #{rsync_args}"
+      DaemonKit.logger.info "Pulling #{self.remote_paths} to #{self.local_path} with options #{rsync_args}"
       result = %x[rsync #{rsync_args} "#{remote}" "#{local}"]
       return $?.exitstatus,result
     end
