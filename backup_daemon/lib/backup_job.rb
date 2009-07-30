@@ -96,11 +96,12 @@ class BackupJob
     begin     
       tempfile = Tempfile.new(basename, "#{DAEMON_ROOT}/tmp/keys")
       tempfile.write(key)
-      #remote remote_paths local_path argv
-      ssh_args = "ssh -l #{ssh_login} -i #{tempfile.path}"
       
       # Adding this so SSH will never prompt for anything. Security be damned!
       option_args = "-o stricthostkeychecking=no -o userknownhostsfile=/dev/null -o batchmode=yes -o passwordauthentication=no "
+      
+      #remote remote_paths local_path argv
+      ssh_args = "ssh -l #{ssh_login} -i #{tempfile.path} #{option_args}"
       
       exclude_args = ""
       if self.exclusions && exclude_array = self.exclusions.split("\n")
