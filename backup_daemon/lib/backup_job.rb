@@ -110,7 +110,7 @@ class BackupJob
           exclude_args << "--exclude=#{exclude} "
         end
       end
-      argv = "-av #{option_args} #{exclude_args} -e \"#{ssh_args}\" "
+      argv = "-a #{exclude_args} -e \"#{ssh_args}\" "
       rbsync = Rbsync.new(:remote => self.hostname, 
         :remote_paths => self.directories, 
         :local_path => self.local_backup_dir, 
