@@ -96,6 +96,7 @@ class BackupJob
     begin     
       tempfile = Tempfile.new(basename, "#{DAEMON_ROOT}/tmp/keys")
       tempfile.write(key)
+      tempfile.close
       
       # Adding this so SSH will never prompt for anything. Security be damned!
       option_args = "-o stricthostkeychecking=no -o userknownhostsfile=/dev/null -o batchmode=yes -o passwordauthentication=no "
