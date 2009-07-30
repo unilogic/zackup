@@ -22,15 +22,7 @@ class Rbsync
     end
   end
   
-  def remote
-    @remote
-  end
-  
-  def remote=(remote)
-    @remote = remote
-  end
-  
-  def remote(paths)
+  def remote_paths(paths)
     if remote = self.remote
       
       paths.split("\n").each do |path|
@@ -45,7 +37,7 @@ class Rbsync
       return 1, "Remote must be specified!"
     end
     
-    unless remote = remote(self.remote_paths)
+    unless remote = remote_paths(self.remote_paths)
       return 1, "Remote paths must be specified!"
     end
     
