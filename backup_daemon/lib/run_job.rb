@@ -81,6 +81,7 @@ class RunJob
             :exclusions => job.data['exclusions'][:value],
             :directories => job.data['backup_directories'][:value]
           )
+          return backupJob
           rstatus = backupJob.run(job.data)
           
           
