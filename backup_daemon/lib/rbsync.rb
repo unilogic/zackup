@@ -22,7 +22,7 @@ class Rbsync
     end
   end
   
-  def remote_paths(paths)
+  def parse_remote_paths(paths)
     remote = ""
     if remote = self.remote
       
@@ -40,7 +40,7 @@ class Rbsync
       return 1, "Remote must be specified!"
     end
     
-    unless remote = remote_paths(self.remote_paths)
+    unless remote = parse_remote_paths(self.remote_paths)
       return 1, "Remote paths must be specified!"
     end
     
