@@ -21,7 +21,15 @@ class Rbsync
       raise "Rsync executable could not be run ensure it's installed, Error: #{test_rsync}"
     end
   end
- 
+  
+  def remote
+    @remote
+  end
+  
+  def remote=(remote)
+    @remote = remote
+  end
+  
   def remote(paths)
     if remote = self.remote
       
