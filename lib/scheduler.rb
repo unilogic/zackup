@@ -22,13 +22,21 @@ module Scheduler
         schedule = parseExistingJobs(schedule)
         
         if schedule == 1
-          Rails.logger.error "Zackup::Scheduler - #{schedule_alt.name} for host #{schedule_alt.host.name} has too many errored jobs found, SKIPPING!"
+          Rails.logger.warn "Zackup::Scheduler - #{schedule_alt.name} for host #{schedule_alt.host.name} has too many errored jobs found, SKIPPING!"
           return 1
         elsif schedule == 2
-          Rails.logger.error "Zackup::Scheduler - #{schedule_alt.name} for host #{schedule_alt.host.name} has an existing job still running, waiting, paused, new, or assigned, SKIPPING!"
+          Rails.logger.info "Zackup::Scheduler - #{schedule_alt.name} for host #{schedule_alt.host.name} has an existing job still running, waiting, paused, new, or assigned, SKIPPING!"
           return 2
         end
         schedule_alt = nil
+        
+        if backup_dirs = schedule.host.find_host_config_by_name('backup_dir')
+          backup_dirs = YAML::load(backup_dirs.value)
+          unless backup_dirs && backup_dirs[schedule.id]
+            Rails.logger.warn "Could not find a backup_dir for host #{schedule.host.name}, schedule id #{schedule.id}, SKIPPING!"
+            retrun 3
+          end
+        end
         
         job = Job.new
         job.schedule_id = schedule.id
