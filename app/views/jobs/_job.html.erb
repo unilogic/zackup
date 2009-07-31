@@ -2,7 +2,7 @@
 <tr>
 	<td scope="row" class='<%= cycle('spec','specalt') %>'><%= link_to job.id, job_path(job) %></td>
 	<td class='<%= rowclass %>'><%= job.operation.capitalize! %></td>
-	<td class='<%= rowclass %>' <%="id=\'#{error}\'" if job.aasm_current_state == :errored %> ><%= job.aasm_current_state.to_s.capitalize! if job.aasm_current_state %></td>
+	<td class='<%= rowclass %>' <%="id=\'error\'" if job.aasm_current_state == :errored %> ><%= job.aasm_current_state.to_s.capitalize! if job.aasm_current_state %></td>
 	<td class='<%= rowclass %>'><%= job.host.name if job.host %></td>
 	<td class='<%= rowclass %>'><%= job.backup_node.name if job.backup_node %></td>
 	<td class='<%= rowclass %>'><%= job.schedule.name if job.schedule %></td>
