@@ -19,6 +19,9 @@ h2 {
 	clear : both;
 }
 
+#error {
+	color: red;
+}
 #menu {
 	font-family: Helvetica, "Lucida Grande", Arial, sans-serif;
 	border-bottom : 1px solid #ccc;
