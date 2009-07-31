@@ -179,8 +179,9 @@ module Scheduler
             if host_config_value[schedule.id] && host_config_value[schedule.id] != job.data['backup_dir'][:value]
               Rails.logger.error "Zackup::Scheduler - ERROR: Found a new backup Dir for schedule: #{schedule.name} on #{host.name}, SKIPPING!"
               return 1
-            elsif host_config.value[schedule.id].nil?
-              host_config.value[schedule.id] = job.data['backup_dir'][:value]
+            elsif host_config_value[schedule.id].nil?
+              host_config_value[schedule.id] = job.data['backup_dir'][:value]
+              host_config.value = host_config_value
               host_config.save!
             end
             
