@@ -3,6 +3,9 @@ class JobsController < ApplicationController
     @jobs = Job.all
   end
   
+  def show
+    @job = Job.find(params[:id])
+  end
   def update_status
     job = Job.find(params[:id])
     if job.aasm_current_state == :paused && params[:status] == 'pause'
