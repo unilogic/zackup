@@ -34,7 +34,7 @@ module Scheduler
           backup_dirs = YAML::load(backup_dirs.value)
           unless backup_dirs && backup_dirs[schedule.id]
             Rails.logger.warn "Could not find a backup_dir for host #{schedule.host.name}, schedule id #{schedule.id}, SKIPPING!"
-            retrun 3
+            return 3
           end
         end
         
