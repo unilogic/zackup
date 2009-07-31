@@ -51,11 +51,11 @@ class Rbsync
     rsync_args = self.argv
     
     unless File.directory? local
-      DaemonKit.logger.warn "Local directory #{local} does not exist!"
+      DaemonKit.logger.warn "Rbsync: Local directory #{local} does not exist!"
       return 1, "Rbsync: Local directory #{local} does not exist!"
     else
     
-      DaemonKit.logger.info "Pulling #{self.remote_paths} to #{self.local_path} with options #{rsync_args}"
+      DaemonKit.logger.info "Rbsync: Pulling #{self.remote_paths} to #{self.local_path}"
       result = %x[rsync #{rsync_args} \"#{remote}\" \"#{local}\" 2>&1]
       return $?.exitstatus,result
     end

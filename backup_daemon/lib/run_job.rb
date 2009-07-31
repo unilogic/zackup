@@ -59,7 +59,7 @@ class RunJob
             job.error
             job.data['error'] = {'exit_code' => rstatus[0], 'message' => rstatus[1]}
             job.save!
-            DaemonKit.logger.warn "Error while trying to setup host, #{rstatus[1]}"
+            DaemonKit.logger.warn "Error while trying to setup host, see job id: #{job.id} for more information."
           end
         
         elsif job.operation == 'maintenance'
@@ -82,8 +82,20 @@ class RunJob
             :directories => job.data['backup_directories'][:value]
           )
          
-          rstatus = backupJob.run(job.data)
-          return rstatus
+          rbsync = backupJob.run(job.data)
+          rstatus = rbsync.pull
+          
+          if rstatus[0] == 0
+            job.finish
+            job.finished_at = Time.now
+            job.save!
+            DaemonKit.logger.info "Successfully ran backup job for #{job.data['ip_address'][:value]}"
+          else
+            job.error
+            job.data['error'] = {'exit_code' => rstatus[0], 'message' => rstatus[1]}
+            job.save!
+            DaemonKit.logger.warn "Error while trying to run backup job for host, #{job.data['ip_address'][:value]}. See job id: #{job.id} for more information."
+          end
           
         elsif job.operation == 'restore'
           nil
