@@ -31,8 +31,8 @@ class SetupJob
     if check[0] == 1 && check[1] =~ /dataset does not exist/
       return zfs_create({"properties" => { "quota" => self.size }, "filesystem" => self.filesystem})
     else
-      # Technically this is an error condition so let RunJob know that.
-      check[0] = 1
+      # Technically this is an error condition so let RunJob know that, but we don't want the job to error out.
+      check[0] = 0
       check[1] = "#{self.filesystem} already exists"
       return check
     end
