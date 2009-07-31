@@ -5,6 +5,10 @@ class JobsController < ApplicationController
   
   def show
     @job = Job.find(params[:id])
+    if @job.data["error"]
+      @error_message = @job.data["error"]["message"]
+      @error_exit_code = @job.data["error"]["exit_code"]
+    end
   end
   def update_status
     job = Job.find(params[:id])

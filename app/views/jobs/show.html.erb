@@ -7,11 +7,32 @@
 <h2>Job ID: <%= @job.id %> </h2>
 <table class='table_form'>
 	<tr>
-		<th class='labelform'>Schedule</th>
-  	<th><%=h @job.schedule.name if @job.schedule %></th>
+		<td class='labelform'>Schedule</td>
+  	<td><%=h @job.schedule.name if @job.schedule %></td>
 	</tr>
 	<tr>
-		<th class='labelform'>Host</th>
-  	<th><%=h @job.host.name if @job.host %></th>
+		<td class='labelform'>Host</td>
+  	<td><%=h @job.host.name if @job.host %></td>
 	</tr>
+	<tr>
+		<td class='labelform'>Status</td>
+  	<td><%=h @job.status %></td>
+	</tr>
+	<tr>
+		<td class='labelform'>Operation</td>
+  	<td><%=h @job.operation %></td>
+	</tr>
+	
+	<% if @error_message %>
+	<tr>
+		<td class='labelform'>Error Messages</td>
+  	<td><%=h @error_message %></td>
+	</tr>
+	<% end %>
+	<% if @error_exit_code %>
+	<tr>
+		<td class='labelform'>Error Exit Code</td>
+  	<td><%=h @error_exit_code %></td>
+	</tr>
+	<% end %>
 </table>
