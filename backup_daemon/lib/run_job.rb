@@ -93,14 +93,29 @@ class RunJob
           rbsync = backupJob.run(job.data)
           rstatus = rbsync.pull
           
+          snap_status = []
           if rstatus[0] == 0
+            snap_status = rbsync.do_snapshot
+          end
+          
+          if rstatus[0] == 0 && snap_status[0] == 0
             job.finish
             job.finished_at = Time.now_zone
             job.save!
             DaemonKit.logger.info "Successfully ran backup job for #{job.data['ip_address'][:value]}"
           else
             job.error
-            job.data['error'] = {'exit_code' => rstatus[0], 'message' => rstatus[1]}
+            exit_code = []
+            message = []
+            if rstatus[0] != 0
+              exit_code << rstatus[0]
+              message << rstatus[1]
+            end
+            if snap_status[0] != 0
+              exit_code << snap_status[0]
+              message << snap_status[1]
+            end
+            job.data['error'] = {'exit_code' => exit_code, 'message' => rstatus[1]}
             job.save!
             DaemonKit.logger.warn "Error while trying to run backup job for host, #{job.data['ip_address'][:value]}. See job id: #{job.id} for more information."
           end
