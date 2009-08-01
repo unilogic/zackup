@@ -95,7 +95,7 @@ class RunJob
           
           snap_status = []
           if rstatus[0] == 0
-            snap_status = rbsync.do_snapshot
+            snap_status = backupJob.do_snapshot
           end
           
           if rstatus[0] == 0 && snap_status[0] == 0
