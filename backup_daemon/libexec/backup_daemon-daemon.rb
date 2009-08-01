@@ -22,6 +22,13 @@ end
 #Load settings.yml
 @settings = DaemonKit::Config.load('settings').to_h
 
+if @settings['time_zone']
+  Time.zone = @settings['time_zone']
+else
+  DaemonKit.logger.warn "Time Zone not set in settings.yml, using UTC!"
+  Time.zone = "UTC"
+end
+
 # Startup Work and Checks 
 ActiveRecord::Base.connection_pool.with_connection do |conn|
   DaemonKit.logger.info "Startup Checks Running"
@@ -37,7 +44,7 @@ ActiveRecord::Base.connection_pool.with_connection do |conn|
       exit 1
     end
     DaemonKit.logger.info "I am node id: #{@node.id}"
-    @node.last_seen = Time.now
+    @node.last_seen = Time.now_zone
     unless @node.save!
       DaemonKit.logger.error "Cannot Successfully Update Last Seen Time in Database, EXITING!"
       exit 1
@@ -69,7 +76,7 @@ loop do
     DaemonKit.logger.info "I'm running"
     # Update Last Seen
     @node = Node.find @node.id
-    @node.last_seen = Time.now
+    @node.last_seen = Time.now_zone
     unless @node.save!
       DaemonKit.logger.error "Cannot Successfully Update Last Seen Time in Database, EXITING!"
       exit 1

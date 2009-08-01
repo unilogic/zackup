@@ -51,7 +51,7 @@ class RunJob
           path = setupJob.path
           if rstatus[0] == 0 && path[0] == 0
             job.finish
-            job.finished_at = Time.now
+            job.finished_at = Time.now_zone
             if backup_dirs = job.data['backup_dir'][:value]
               backup_dirs = YAML::load(backup_dirs)
               backup_dirs[job.schedule_id] = path[1]
@@ -94,7 +94,7 @@ class RunJob
           
           if rstatus[0] == 0
             job.finish
-            job.finished_at = Time.now
+            job.finished_at = Time.now_zone
             job.save!
             DaemonKit.logger.info "Successfully ran backup job for #{job.data['ip_address'][:value]}"
           else
