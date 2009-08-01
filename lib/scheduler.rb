@@ -183,9 +183,9 @@ module Scheduler
               # we'll skip it for now.
               # TODO: figure out how better to handle this condition
               host_config_value = YAML::load(host_config.value)
-            
-              if host_config_value[schedule.id] && host_config_value[schedule.id] != job_backup_dir[schedule.id]
-                 Rails.logger.error "Zackup::Scheduler - Old: #{host_config_value[schedule.id]} New: #{job_backup_dir[schedule.id]}"
+              backup_dir = job_backup_dir[schedule.id]
+              if host_config_value[schedule.id] && host_config_value[schedule.id] != backup_dir
+                 Rails.logger.error "Zackup::Scheduler - Old: #{host_config_value[schedule.id]} New: #{backup_dir}"
                 return 3
               elsif host_config_value[schedule.id].nil?
                 host_config_value[schedule.id] = job.data['backup_dir'][:value]
