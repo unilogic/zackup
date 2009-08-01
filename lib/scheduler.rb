@@ -34,7 +34,11 @@ module Scheduler
         schedule_alt = nil
         
         if backup_dirs = schedule.host.find_host_config_by_name('backup_dir')
-          backup_dirs = YAML::load(backup_dirs.value)
+          begin
+            backup_dirs = YAML::load(backup_dirs.value)
+          rescue TypeError
+            backup_dirs = backup_dirs.value
+          end
           unless backup_dirs && backup_dirs[schedule.id]
             Rails.logger.warn "Could not find a backup_dir for host #{schedule.host.name}, schedule id #{schedule.id}, SKIPPING!"
             return 3
@@ -173,8 +177,12 @@ module Scheduler
         # Check for finished jobs that have a backup_dir value in the data field.
         if job.data['backup_dir'][:value]
           host = schedule.host
-          job_backup_dirs = YAML::load(job.data['backup_dir'][:value])
-          
+          job_backup_dirs = ""
+          begin
+            job_backup_dirs = YAML::load(job.data['backup_dir'][:value])
+          rescue TypeError
+            job_backup_dirs = job.data['backup_dir'][:value]
+          end
           # No reason to bother processing anymore if we don't have a backup_dir for our current schedule.
           if backup_dir = job_backup_dirs[schedule.id]
             if host_config = host.find_host_config_by_name('backup_dir')
@@ -182,7 +190,12 @@ module Scheduler
               # For safety if for some reason we find a job for a schedule that already has a backu_dir set
               # we'll skip it for now.
               # TODO: figure out how better to handle this condition
-              host_config_value = YAML::load(host_config.value)
+              host_config_value = ""
+              begin
+                host_config_value = YAML::load(host_config.value)
+              rescue TypeError
+                host_config_value = host_config.value
+              end
               
               if host_config_value[schedule.id] && host_config_value[schedule.id] != backup_dir
                 Rails.logger.error "Zackup::Scheduler - Old: #{host_config_value[schedule.id]} New: #{backup_dir}"
