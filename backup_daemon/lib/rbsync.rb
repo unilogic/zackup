@@ -23,7 +23,7 @@ class Rbsync
   end
   
   def parse_remote_paths(paths)
-    remote = ""
+    full_remote = ""
     if remote = self.remote
       
       paths.split("\n").each do |path|
@@ -32,7 +32,7 @@ class Rbsync
       end
     end
     
-    return remote
+    return full_remote
   end
   
   def pull
@@ -40,7 +40,7 @@ class Rbsync
       return 1, "Rbsync: Remote must be specified!"
     end
     
-    unless remote = parse_remote_paths(self.remote_paths)
+    unless full_remote = parse_remote_paths(self.remote_paths)
       return 1, "Rbsync: Remote paths must be specified!"
     end
     
@@ -56,7 +56,7 @@ class Rbsync
     else
     
       DaemonKit.logger.info "Rbsync: Pulling #{self.remote_paths} to #{self.local_path}"
-      result = %x[rsync #{rsync_args} \"#{remote}\" \"#{local}\" 2>&1]
+      result = %x[rsync #{rsync_args} \"#{full_remote}\" \"#{local}\" 2>&1]
       return $?.exitstatus,result
     end
   end
