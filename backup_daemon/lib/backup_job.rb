@@ -70,6 +70,20 @@ class BackupJob
     end
   end
   
+  def do_snapshot(mountpoint=self.local_backup_dir)
+    # args = {"flags" => "r", "display_properties" => "", "sort_asc" => "", "sort_desc" => "", "type" => "", "target" => ""}
+    list = zfs_list("target" => mountpoint)
+    if list[0] == 0
+      filesystem = list[1].first['name']
+      
+      #args = {"flags" => "r", "filesystem" => "/pool/folder", volume => "pool", "snapname" => "name"}
+      rstatus = zfs_snapshot("filesystem" => filesystem, "snapname" => Time.now_zone.to_s)
+      return rstatus
+    else
+      return list
+    end
+  end
+  
   private 
   
   def do_ssh_backup(ssh_login, key)
@@ -124,18 +138,5 @@ class BackupJob
     end
     return rbsync
   end
-  
-  def do_snapshot(mountpoint=self.local_backup_dir)
-    # args = {"flags" => "r", "display_properties" => "", "sort_asc" => "", "sort_desc" => "", "type" => "", "target" => ""}
-    list = zfs_list("target" => mountpoint)
-    if list[0] == 0
-      filesystem = list[1].first['name']
-      
-      #args = {"flags" => "r", "filesystem" => "/pool/folder", volume => "pool", "snapname" => "name"}
-      rstatus = zfs_snapshot("filesystem" => filesystem, "snapname" => Time.now_zone.to_s)
-      return rstatus
-    else
-      return list
-    end
-  end
+
 end
