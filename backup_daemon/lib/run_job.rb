@@ -48,6 +48,7 @@ class RunJob
           )
           
           rstatus = setupJob.create_zfs_fs!
+          
           path = setupJob.path
           if rstatus[0] == 0 && path[0] == 0
             job.finish

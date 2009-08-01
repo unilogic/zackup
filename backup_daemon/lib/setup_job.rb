@@ -29,13 +29,23 @@ class SetupJob
     # Check that the filesystem does not already exist.
     check = zfs_list("target" => self.filesystem)
     if check[0] == 1 && check[1] =~ /dataset does not exist/
-      return zfs_create({"properties" => { "quota" => self.size }, "filesystem" => self.filesystem})
+      rstatus = zfs_create({"properties" => { "quota" => self.size }, "filesystem" => self.filesystem})
+      snapdir_status = set_snapdir
+      unless snapdir_status[0] == 0
+        return snapdir_status
+      else
+        return rstatus
+      end
     else
       # Technically this is an error condition so let RunJob know that, but we don't want the job to error out.
       check[0] = 0
       check[1] = "#{self.filesystem} already exists"
       return check
     end
+  end
+  
+  def set_snapdir(filesystem=self.filesystem, prop='visible')
+    zfs_set("properties" => { "snapdir" => prop }, "filesystem" => filesystem )
   end
   
   def path(filesystem=self.filesystem)
