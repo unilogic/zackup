@@ -27,6 +27,9 @@ module Scheduler
         elsif schedule == 2
           Rails.logger.info "Zackup::Scheduler - #{schedule_alt.name} for host #{schedule_alt.host.name} has an existing job still running, waiting, paused, new, or assigned, SKIPPING!"
           return 2
+        elsif schedule == 3
+          Rails.logger.error "Zackup::Scheduler - ERROR: Found a new backup Dir for schedule: #{schedule_alt.name} on #{schedule_alt.host.name}, SKIPPING!"
+          return 3
         end
         schedule_alt = nil
         
@@ -170,24 +173,30 @@ module Scheduler
         # Check for finished jobs that have a backup_dir value in the data field.
         if job.data['backup_dir'][:value]
           host = schedule.host
-          if host_config = host.find_host_config_by_name('backup_dir')
+          job_backup_dir = YAML::load(job.data['backup_dir'][:value])
+          
+          # No reason to bother processing anymore if we don't have a backup_dir for our current schedule.
+          if job_backup_dir[schedule.id]
+            if host_config = host.find_host_config_by_name('backup_dir')
             
-            # For safety if for some reason we find a job for a schedule that already has a backu_dir set
-            # we'll skip it for now.
-            # TODO: figure out how better to handle this condition
-            host_config_value = YAML::load(host_config.value)
-            if host_config_value[schedule.id] && host_config_value[schedule.id] != job.data['backup_dir'][:value]
-              Rails.logger.error "Zackup::Scheduler - ERROR: Found a new backup Dir for schedule: #{schedule.name} on #{host.name}, SKIPPING!"
-              return 1
-            elsif host_config_value[schedule.id].nil?
-              host_config_value[schedule.id] = job.data['backup_dir'][:value]
-              host_config.value = host_config_value
-              host_config.save!
+              # For safety if for some reason we find a job for a schedule that already has a backu_dir set
+              # we'll skip it for now.
+              # TODO: figure out how better to handle this condition
+              host_config_value = YAML::load(host_config.value)
+            
+              if host_config_value[schedule.id] && host_config_value[schedule.id] != job_backup_dir[schedule.id]
+                 #Rails.logger.error "Zackup::Scheduler - ERROR: Found a new backup Dir for schedule: #{schedule.name} on #{host.name}, SKIPPING!"
+                return 3
+              elsif host_config_value[schedule.id].nil?
+                host_config_value[schedule.id] = job.data['backup_dir'][:value]
+                host_config.value = host_config_value
+                host_config.save!
+              end
+            
+            else
+              config_item = ConfigItem.find_by_name('backup_dir')
+              HostConfig.create(:host_id => schedule.host.id, :config_item_id => config_item.id, :value => {schedule.id => job.data['backup_dir'][:value]})
             end
-            
-          else
-            config_item = ConfigItem.find_by_name('backup_dir')
-            HostConfig.create(:host_id => schedule.host.id, :config_item_id => config_item.id, :value => {schedule.id => job.data['backup_dir'][:value]})
           end
         end
       # Count how many errored jobs the schedule has
