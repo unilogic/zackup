@@ -52,7 +52,14 @@ class RunJob
           if rstatus[0] == 0 && path[0] == 0
             job.finish
             job.finished_at = Time.now
-            job.data['backup_dir'] = { :value => path[1] }
+            if backup_dirs = job.data['backup_dir'][:value]
+              backup_dirs = YAML::load(backup_dirs)
+              backup_dirs[job.schedule_id] = path[1]
+              job.data['backup_dir'] = { :value => backup_dirs }
+            else
+              job.data['backup_dir'] = { :value => {job.schedule_id => path[1]} }
+            end
+            
             job.save!
             DaemonKit.logger.info "Successfully setup host #{job.data['ip_address'][:value]}"
           else
