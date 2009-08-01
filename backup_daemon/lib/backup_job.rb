@@ -127,6 +127,6 @@ class BackupJob
   
   def do_snapshot(filesystem)
     #args = {"flags" => "r", "filesystem" => "/pool/folder", volume => "pool", "snapname" => "name"}
-    rstatus = zfs_snapshot("filesystem" => filesystem, "snapname" => )
+    rstatus = zfs_snapshot("filesystem" => filesystem, "snapname" => Time.now_zone.to_s)
   end
 end
