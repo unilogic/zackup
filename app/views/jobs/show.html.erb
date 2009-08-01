@@ -8,31 +8,39 @@
 <table class='table_form'>
 	<tr>
 		<td class='labelform'>Schedule</td>
-  	<td><%=h @job.schedule.name if @job.schedule %></td>
+  	<td><%= @job.schedule.name if @job.schedule %></td>
 	</tr>
 	<tr>
 		<td class='labelform'>Host</td>
-  	<td><%=h @job.host.name if @job.host %></td>
+  	<td><%= @job.host.name if @job.host %></td>
 	</tr>
 	<tr>
 		<td class='labelform'>Status</td>
-  	<td><%=h @job.status %></td>
+  	<td><%= @job.status %></td>
 	</tr>
 	<tr>
 		<td class='labelform'>Operation</td>
-  	<td><%=h @job.operation %></td>
+  	<td><%= @job.operation %></td>
+	</tr>
+	<tr>
+		<td class='labelform'>Started At</td>
+  	<td><%= @job.start_at %></td>
+	</tr>
+	<tr>
+		<td class='labelform'>Finished At</td>
+  	<td><%= @job.finished_at %></td>
 	</tr>
 	
 	<% if @error_message %>
 	<tr>
 		<td class='labelform'>Error Messages</td>
-  	<td><%=h @error_message %></td>
+  	<td><%= @error_message %></td>
 	</tr>
 	<% end %>
 	<% if @error_exit_code %>
 	<tr>
 		<td class='labelform'>Error Exit Code</td>
-  	<td><%=h @error_exit_code %></td>
+  	<td><%= @error_exit_code %></td>
 	</tr>
 	<% end %>
 </table>
