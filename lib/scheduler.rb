@@ -146,7 +146,7 @@ module Scheduler
             job.data = host.host_configs_to_yaml
           end
           if job.save!
-            schedule.update_attributes!( :last_start => job.start_at )
+            schedule.update_attributes!( :last_start => Time.now )
           end
         end
       end
