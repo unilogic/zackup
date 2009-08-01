@@ -196,12 +196,12 @@ module Scheduler
               rescue TypeError
                 host_config_value = host_config.value
               end
-              
+
               if host_config_value[schedule.id] && host_config_value[schedule.id] != backup_dir
                 Rails.logger.error "Zackup::Scheduler - Old: #{host_config_value[schedule.id]} New: #{backup_dir}"
                 return 3
               elsif host_config_value[schedule.id].nil?
-                host_config_value[schedule.id] = job.data['backup_dir'][:value]
+                host_config_value[schedule.id] = job_backup_dirs[schedule.id]
                 host_config.value = host_config_value
                 host_config.save!
               end
