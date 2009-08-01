@@ -173,19 +173,19 @@ module Scheduler
         # Check for finished jobs that have a backup_dir value in the data field.
         if job.data['backup_dir'][:value]
           host = schedule.host
-          job_backup_dir = YAML::load(job.data['backup_dir'][:value])
+          job_backup_dirs = YAML::load(job.data['backup_dir'][:value])
           
           # No reason to bother processing anymore if we don't have a backup_dir for our current schedule.
-          if job_backup_dir[schedule.id]
+          if backup_dir = job_backup_dirs[schedule.id]
             if host_config = host.find_host_config_by_name('backup_dir')
             
               # For safety if for some reason we find a job for a schedule that already has a backu_dir set
               # we'll skip it for now.
               # TODO: figure out how better to handle this condition
               host_config_value = YAML::load(host_config.value)
-              backup_dir = job_backup_dir[schedule.id]
+              
               if host_config_value[schedule.id] && host_config_value[schedule.id] != backup_dir
-                 Rails.logger.error "Zackup::Scheduler - Old: #{host_config_value[schedule.id]} New: #{backup_dir}"
+                 Rails.logger.error "Zackup::Scheduler - Old: #{host_config_value[schedule.id]} New: #{backup_dir}, #{job_backup_dirs}"
                 return 3
               elsif host_config_value[schedule.id].nil?
                 host_config_value[schedule.id] = job.data['backup_dir'][:value]
