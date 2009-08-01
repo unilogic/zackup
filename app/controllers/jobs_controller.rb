@@ -1,6 +1,6 @@
 class JobsController < ApplicationController
   def index
-    @jobs = Job.all
+    @jobs = Job.find(:all, :order => "id DESC")
   end
   
   def show
