@@ -24,13 +24,13 @@ class Rbsync
   
   def parse_remote_paths(paths)
     if remote = self.remote
-      paths = ""
+      parsed_paths = ""
       paths.split("\n").each do |path|
         path.chomp!
-        paths << ":#{path} "
+        parsed_paths << ":#{path} "
       end
       
-      return remote + paths
+      return remote + parsed_paths
     end
     
     
