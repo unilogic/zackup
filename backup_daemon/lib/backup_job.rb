@@ -77,7 +77,7 @@ class BackupJob
       filesystem = list[1].first['name']
       
       #args = {"flags" => "r", "filesystem" => "/pool/folder", volume => "pool", "snapname" => "name"}
-      rstatus = zfs_snapshot("filesystem" => filesystem, "snapname" => Time.now_zone.to_s)
+      rstatus = zfs_snapshot("filesystem" => filesystem, "snapname" => Time.now_zone.to_s.gsub!(/\s/, "_"))
       return rstatus
     else
       return list
