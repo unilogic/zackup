@@ -30,7 +30,7 @@ class Rbsync
         paths << ":#{path} "
       end
       
-      return remote + full_remote
+      return remote + paths
     end
     
     
