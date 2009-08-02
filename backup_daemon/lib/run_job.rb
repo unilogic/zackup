@@ -98,6 +98,15 @@ class RunJob
             snap_status = backupJob.do_snapshot
           end
           
+          if snap_status[0] == 0
+            compressed_file_index = CustomFind.find("#{backup_dirs[job.schedule_id]}/.zfs/snapshots/#{snap_status[1]}")
+            FileIndex.new(:data => compressed_file_index, 
+              :basepath => "#{backup_dirs[job.schedule_id]}/.zfs/snapshots/",
+              :host_id => job.host_id,
+              :schedule_id => job.schedule_id,
+              :snapname => snap_status[1]
+            )
+          end
           if rstatus[0] == 0 && snap_status[0] == 0
             job.finish
             job.data['new_snapshot'] = snap_status[1]
