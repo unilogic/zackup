@@ -3,18 +3,20 @@ require 'zlib'
 require 'yaml'
 
 class CustomFind
-  def self.find(path)
-    data = Hash.new { |l, k| l[k] = Hash.new(&l.default_proc) }
-    Find.find(path) do |path|
-      path_split = path.split('/')
-      dest = ""
-      path_split.each do |base|
-        dest << '["' + base + '"]'
+  def self.find(path, basepath=Dir.pwd)
+    Dir.chdir(basepath) do
+      data = Hash.new { |l, k| l[k] = Hash.new(&l.default_proc) }
+      Find.find(path) do |path|
+        path_split = path.split('/')
+        dest = ""
+        path_split.each do |base|
+          dest << '["' + base + '"]'
       
+        end
+        eval("data#{dest}")
       end
-      eval("data#{dest}")
+      zdirs = Zlib::Deflate.deflate(YAML::dump(data), 9)
+      return zdirs
     end
-    zdirs = Zlib::Deflate.deflate(YAML::dump(data), 9)
-    return zdirs
   end
 end
