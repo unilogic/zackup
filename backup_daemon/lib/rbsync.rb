@@ -28,7 +28,7 @@ class Rbsync
       
       paths.split("\n").each do |path|
         path.chomp!
-        remote << ":#{path} "
+        full_remote << ":#{path} "
       end
     end
     
