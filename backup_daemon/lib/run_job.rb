@@ -1,5 +1,7 @@
 require 'setup_job'
 require 'backup_job'
+require 'file_index'
+require 'custom_find'
 
 class RunJob
   
@@ -98,6 +100,8 @@ class RunJob
             snap_status = backupJob.do_snapshot
           end
           
+          file_index_saved = false
+          
           if snap_status[0] == 0
             compressed_file_index = CustomFind.find(snap_status[1], "#{backup_dirs[job.schedule_id]}/.zfs/snapshot")
             file_index = FileIndex.new(:data => compressed_file_index, 
@@ -106,8 +110,12 @@ class RunJob
               :schedule_id => job.schedule_id,
               :snapname => snap_status[1]
             )
+            if file_index.save!
+              file_index_saved = true
+            end
           end
-          if rstatus[0] == 0 && snap_status[0] == 0
+          
+          if rstatus[0] == 0 && snap_status[0] == 0 && file_index_saved
             job.finish
             job.data['new_snapshot'] = snap_status[1]
             job.finished_at = Time.now_zone
@@ -124,6 +132,9 @@ class RunJob
             if snap_status[0] != 0
               exit_code << snap_status[0]
               message << snap_status[1]
+            end
+            unless file_index_saved
+              message << "File index did not properly save to the database."
             end
             job.data['error'] = {'exit_code' => exit_code, 'message' => rstatus[1]}
             job.save!
