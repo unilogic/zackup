@@ -75,10 +75,15 @@ class BackupJob
     list = zfs_list("target" => mountpoint)
     if list[0] == 0
       filesystem = list[1].first['name']
+      snapname = Time.now_zone.to_s.gsub!(/\s/, "_")
       
       #args = {"flags" => "r", "filesystem" => "/pool/folder", volume => "pool", "snapname" => "name"}
       rstatus = zfs_snapshot("filesystem" => filesystem, "snapname" => Time.now_zone.to_s.gsub!(/\s/, "_"))
-      return rstatus
+      if rstatus[0] == 0
+        return 0,snapname
+      else
+        return rstatus
+      end
     else
       return list
     end

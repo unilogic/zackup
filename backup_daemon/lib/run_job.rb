@@ -100,6 +100,7 @@ class RunJob
           
           if rstatus[0] == 0 && snap_status[0] == 0
             job.finish
+            job.data['new_snapshot'] = snap_status[1]
             job.finished_at = Time.now_zone
             job.save!
             DaemonKit.logger.info "Successfully ran backup job for #{job.data['ip_address'][:value]}"
