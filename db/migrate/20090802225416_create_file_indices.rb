@@ -5,7 +5,7 @@ class CreateFileIndices < ActiveRecord::Migration
       t.string :basepath
       t.integer :schedule_id
       t.integer :host_id
-      t.text :data
+      t.binary :data
       t.timestamps
     end
   end
