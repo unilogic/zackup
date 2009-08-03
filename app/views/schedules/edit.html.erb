@@ -1,3 +1,7 @@
+<% content_for 'head' do %>
+	<%= calendar_date_select_includes "plain" %>
+<% end %>
+
 <% content_for 'sub_menu' do %>
 	<ul id="sub_menu">
 		<li><%= link_to 'Edit Host', edit_host_path(@host) %></li>

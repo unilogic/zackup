@@ -6,8 +6,11 @@
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title><%= controller.controller_name %>: <%= controller.action_name %></title>
   <%= stylesheet_link_tag 'application' %>
-  <%= javascript_include_tag :all %>
-	<%= calendar_date_select_includes "plain" %>
+
+	<%= javascript_include_tag 'prototype' %>
+	<%= javascript_include_tag 'sorttable' %>
+
+	<%= yield :head %>
 </head>
 <body>
 
