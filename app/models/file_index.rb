@@ -24,17 +24,21 @@ class FileIndex < ActiveRecord::Base
         end
       end
     end
-    path_contents = eval("data_inflate#{hash_arg}.keys")
-    path_contents.each do |content|
-      sub_content = eval("data_inflate#{hash_arg}['#{content}']")
-      if sub_content.nil?
-        files << content
-      else
-        dirs << content
+  
+    path_contents = eval("data_inflate#{hash_arg}")
+    if path_contents
+      path_contents_keys = path_contents.keys
+      
+      path_contents_keys.each do |content|
+        sub_content = eval("data_inflate#{hash_arg}['#{content}']")
+        if sub_content.nil?
+          files << content
+        else
+          dirs << content
+        end
       end
+      return [dirs, files]
     end
-    
-    return [dirs, files]
   end
     
 end
