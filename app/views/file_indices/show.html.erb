@@ -31,9 +31,9 @@
 <% content_for 'sub_menu' do %>
 	<ul id="sub_menu">
 			<li><%= link_to 'All Snapshots', host_schedule_file_indices_path(@host_id, @schedule_id) %></li>
-			<li><%= link_to 'Host', host_path(@host_id) %></li>
+			<li><%= link_to 'View Host', host_path(@host_id) %></li>
 	</ul>
 <% end %>
 
-<h2>Snapshot: <%= @file_index.snapname %></h2>
+<h2>Snapshot: <%= @file_index.snapname.gsub!(/_/," ") if @file_index.snapname %></h2>
 <div id="fileTree" class="demo"></div>
