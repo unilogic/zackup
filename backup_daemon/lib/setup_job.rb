@@ -27,6 +27,8 @@ class SetupJob
     
     # Check that the filesystem does not already exist. We loop 5 times looking for a new filesystem name.
     # Break once we find a non-existant name.
+    status = nil
+    
     (0..5).each do
       rand = (0..5).map{ o[rand(o.length)]  }.join
       filesystem = backup_zvol + '/' + self.ip_address + '_' + rand
@@ -35,12 +37,19 @@ class SetupJob
         rstatus = zfs_create({"properties" => { "quota" => self.size }, "filesystem" => filesystem})
         snapdir_status = set_snapdir
         unless snapdir_status[0] == 0
-          return snapdir_status
+          status = snapdir_status
+          break
         else
           self.filesystem = filesystem
-          return rstatus
+          status = rstatus
+          break
         end
       end
+    end
+    if status
+      return status
+    else
+      return 1,"After 5 tries no new backup directory found."
     end
   end
   
