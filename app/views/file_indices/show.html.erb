@@ -8,8 +8,8 @@
 	<%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
   <script type="text/javascript">
 		$(document).ready( function() {
-			tree = $('<div />');
-			tree.fileTree({ 
+		
+			$('#d').fileTree({ 
 				root: '', 
 				script: '<%= content_host_schedule_file_index_path(@host_id, @schedule_id, @file_index.id) + "?authenticity_token=" %>' + encodeURIComponent(AUTH_TOKEN),
 				spinnerImage: '/images/jqueryFileTreeImages/spinner.png',
@@ -33,7 +33,7 @@
 				}
 				
 			});
-			$('#d').append( tree );
+		
 		});
 	</script>
 <% end %>
