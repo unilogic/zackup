@@ -1,5 +1,6 @@
 <% content_for 'head' do %>
 	<%= javascript_include_tag 'jquery' %>
+	<%= javascript_include_tag 'jquery-ui' %>
 	<%= javascript_include_tag 'jquery.easing' %>
 	<%= javascript_include_tag 'jqueryFileTree' %>
 	<%= stylesheet_link_tag 'jqueryFileTree' %>
@@ -16,11 +17,39 @@
           overflow:scroll;
           padding:5px;
           width:200px;
+					cursor: move;
       }
+	    #target {
+	        width:200px;
+	        height:200px;
+	        border:3px solid #000;
+	        position:absolute;
+	        right:20px;
+	        top:20px;
+	        z-index:1;
+	        float:right;
+	        }
   </style>
 	<%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
   <script type="text/javascript">
 		$(document).ready( function() {
+			function eventCallBack(e){
+				alert('dropped')
+			}
+			//Dragging props
+	    var dragOpts = {
+	        revert:true,
+	        cursor:"move"
+	    };
+			var dropOpts = {
+	        activeClass: "activated",
+	        drop: eventCallBack
+	    }
+			//Make element draggable
+	    $("#fileTree").draggable(dragOpts);
+	    //Make element droppable
+	    $("#target").droppable(dropOpts);
+	
 			$('#fileTree').fileTree({ root: '', script: '<%= content_host_schedule_file_index_path(@host_id, @schedule_id, @file_index.id) + "?authenticity_token=" %>' + encodeURIComponent(AUTH_TOKEN) }, function(file) {
 				alert(file);
 			});
@@ -37,3 +66,4 @@
 
 <h2>Snapshot: <%= @file_index.snapname.gsub!(/_/," ") if @file_index.snapname %></h2>
 <div id="fileTree" class="demo"></div>
+<div id="target"></div>
