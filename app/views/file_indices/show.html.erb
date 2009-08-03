@@ -12,12 +12,21 @@
 			tree.fileTree({ 
 				root: '', 
 				script: '<%= content_host_schedule_file_index_path(@host_id, @schedule_id, @file_index.id) + "?authenticity_token=" %>' + encodeURIComponent(AUTH_TOKEN),
-				spinnerImage: '/images/jqueryFileTreeImages/spinner.gif',
+				spinnerImage: '/images/jqueryFileTreeImages/spinner.png',
 				fakeTopRoot: true,
 				fakeTopRootText: '/',
+				moveCallback: function(from,to,dir) {
+					$('#log').append($('<div />').text("move "+(dir?"directory":"file")+" from " + from + " to " + to));
+
+				},
+				fileCallback: function(file) {
+					$('#log').append($('<div />').text("chosed " + file));
+				},
 				dirExpandCallback: function(dir) {
+					$('#log').append($('<div />').text("expanded " + dir));
 				},
 				dirCollapseCallback: function(dir) {
+					$('#log').append($('<div />').text("collapsed" + dir));
 					return true;
 				}
 				
