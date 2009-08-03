@@ -45,14 +45,14 @@
 	        activeClass: "activated",
 	        drop: eventCallBack
 	    }
-			//Make element draggable
-	    $("#draggable").draggable(dragOpts);
-	    //Make element droppable
-	    $("#target").droppable(dropOpts);
 	
 			$('#fileTree').fileTree({ root: '', script: '<%= content_host_schedule_file_index_path(@host_id, @schedule_id, @file_index.id) + "?authenticity_token=" %>' + encodeURIComponent(AUTH_TOKEN) }, function(file) {
 				alert(file);
 			});
+			//Make element draggable
+	    $("#draggable").draggable(dragOpts);
+	    //Make element droppable
+	    $("#target").droppable(dropOpts);
 		});
 	</script>
 <% end %>
