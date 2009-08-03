@@ -1,5 +1,4 @@
-{"error":0,"html":"
-<ul class="jqueryFileTree" style="display: none;">
+{"error":0,"html":"<ul class="jqueryFileTree" style="display: none;">
     <% @dirs_files[0].each do |dir| %>
 	<li class="directory collapsed">
 		<a href="#" rel="<%= @current_dir+dir %>/"><%= dir %></a></li>
@@ -7,5 +6,4 @@
 	<% @dirs_files[1].each do |file| %>
     <li class="file ext_<%=File.extname(file)[1..-1]%>"><a href="#" rel="<%= @current_dir+file %>"><%= file %></a></li>
   <% end %>
-</ul>
-}
+</ul>}
