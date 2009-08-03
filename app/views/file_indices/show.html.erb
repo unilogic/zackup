@@ -33,26 +33,19 @@
 	<%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
   <script type="text/javascript">
 		$(document).ready( function() {
-			function eventCallBack(e){
-				alert('dropped')
-			}
-			//Dragging props
-	    var dragOpts = {
-	        revert:true,
-	        cursor:"move"
-	    };
-			var dropOpts = {
-	        activeClass: "activated",
-	        drop: eventCallBack
-	    }
 	
-			$('#fileTree').fileTree({ root: '', script: '<%= content_host_schedule_file_index_path(@host_id, @schedule_id, @file_index.id) + "?authenticity_token=" %>' + encodeURIComponent(AUTH_TOKEN) }, function(file) {
+			$('#fileTree').fileTree({ 
+				root: '', 
+				script: '<%= content_host_schedule_file_index_path(@host_id, @schedule_id, @file_index.id) + "?authenticity_token=" %>' + encodeURIComponent(AUTH_TOKEN),
+				spinnerImage: '/images/jqueryFileTreeImages/spinner.gif',
+				dragAndDrop: true,
+				fakeTopRoot: true,
+				fakeTopRootText: '/'
+				
+				 }, function(file) {
 				alert(file);
 			});
-			//Make element draggable
-	    $("#draggable").draggable(dragOpts);
-	    //Make element droppable
-	    $("#target").droppable(dropOpts);
+
 		});
 	</script>
 <% end %>
