@@ -3,7 +3,7 @@
 	<li class="directory collapsed">
 		<a href="#" rel="<%= @current_dir+dir %>/"><%= dir %></a></li>
     <%end%>
-	<% @dirs_files[1].each do |file|%>
+	<% @dirs_files[1].each do |file| %>
     <li class="file ext_<%=File.extname(file)[1..-1]%>"><a href="#" rel="<%= @current_dir+file %>"><%= file %></a></li>
     <% end %>
 </ul>
