@@ -14,6 +14,8 @@
 				script: '<%= content_host_schedule_file_index_path(@host_id, @schedule_id, @file_index.id) + "?authenticity_token=" %>' + encodeURIComponent(AUTH_TOKEN),
 				spinnerImage: '/images/jqueryFileTreeImages/spinner.png',
 				fakeTopRoot: true,
+				multiFolder: false,
+				dragAndDrop: true,
 				fakeTopRootText: '/',
 				moveCallback: function(from,to,dir) {
 					$('#log').append($('<div />').text("move "+(dir?"directory":"file")+" from " + from + " to " + to));
