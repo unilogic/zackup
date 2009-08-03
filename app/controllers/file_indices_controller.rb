@@ -7,7 +7,8 @@ class FileIndicesController < ApplicationController
   def show
     @host_id = params[:host_id]
     @schedule_id = params[:schedule_id]
-    @file_index_id = params[:id]
+    # Don't find data here. As it has the potential to be a huge var.
+    @file_index = FileIndex.find(params[:id], :select => "id,snapname")
   end
   
   def content
