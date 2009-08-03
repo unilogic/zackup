@@ -1,9 +1,9 @@
 <ul class="jqueryFileTree" style="display: none;">
     <% @dirs_files[0].each do |dir| %>
-	<li class="directory collapsed">
+	<li class="directory collapsed" id="draggable">
 		<a href="#" rel="<%= @current_dir+dir %>/"><%= dir %></a></li>
-    <%end%>
+  <%end%>
 	<% @dirs_files[1].each do |file| %>
-    <li class="file ext_<%=File.extname(file)[1..-1]%>"><a href="#" rel="<%= @current_dir+file %>"><%= file %></a></li>
-    <% end %>
+    <li class="file ext_<%=File.extname(file)[1..-1]%>" id="draggable"><a href="#" rel="<%= @current_dir+file %>"><%= file %></a></li>
+  <% end %>
 </ul>
