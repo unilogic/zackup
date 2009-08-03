@@ -5,32 +5,6 @@
 	<%= javascript_include_tag 'jquery.event.drop' %>
 	<%= javascript_include_tag 'jquery.filetree' %>
 	<%= stylesheet_link_tag 'jqueryFileTree' %>
-	<style type="text/css">
-      .demo{
-					background-color:#EEEEEE;
-          font-family:Verdana,Arial,Helvetica,sans-serif;
-          font-size:11px;
-          background-color:#FFFFFF;
-          border-color:#BBBBBB #FFFFFF #FFFFFF #BBBBBB;
-          border-style:solid;
-          border-width:1px;
-          height:400px;
-          overflow:scroll;
-          padding:5px;
-          width:200px;
-					cursor: move;
-      }
-	    #target {
-	        width:200px;
-	        height:200px;
-	        border:3px solid #000;
-	    
-	        right:20px;
-	        top:20px;
-	        z-index:1;
-	        float:right;
-	        }
-  </style>
 	<%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
   <script type="text/javascript">
 		$(document).ready( function() {
@@ -61,4 +35,5 @@
 <% end %>
 
 <h2>Snapshot: <%= @file_index.snapname.gsub!(/_/," ") if @file_index.snapname %></h2>
-<div id="fileTree" class="demo"></div>
+<div id="d" class="demo"></div>
+<div id="log"></div>
