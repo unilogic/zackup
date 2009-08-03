@@ -24,9 +24,9 @@ class SetupJob
       raise ArgumentError, "backup_root not specified in settings.yml"
     end
     o = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
-    rand = (0..30).map{ o[rand(o.length)]  }.join
+    rand = (0..5).map{ o[rand(o.length)]  }.join
     
-    self.filesystem = backup_zvol + '/' + self.hostname + '_' + self.ip_address + '_' + rand
+    self.filesystem = backup_zvol + '/' + self.ip_address + '_' + rand
     
     # Check that the filesystem does not already exist.
     check = zfs_list("target" => self.filesystem)

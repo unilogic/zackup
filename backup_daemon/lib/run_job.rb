@@ -103,16 +103,21 @@ class RunJob
           file_index_saved = false
           
           if snap_status[0] == 0
-            compressed_file_index = CustomFind.find(snap_status[1], "#{backup_dirs[job.schedule_id]}/.zfs/snapshot")
-            file_index = FileIndex.new(:data => compressed_file_index, 
-              :basepath => "#{backup_dirs[job.schedule_id]}/.zfs/snapshots",
-              :host_id => job.host_id,
-              :schedule_id => job.schedule_id,
-              :snapname => snap_status[1]
-            )
-            if file_index.save!
-              file_index_saved = true
-            end
+            begin
+              compressed_file_index = CustomFind.find(snap_status[1], "#{backup_dirs[job.schedule_id]}/.zfs/snapshot")
+            
+              file_index = FileIndex.new(:data => compressed_file_index, 
+                :basepath => "#{backup_dirs[job.schedule_id]}/.zfs/snapshots",
+                :host_id => job.host_id,
+                :schedule_id => job.schedule_id,
+                :snapname => snap_status[1]
+                )
+                if file_index.save!
+                  file_index_saved = true
+                end
+              rescue Errno::ENOENT
+                
+              end
           end
           
           if rstatus[0] == 0 && snap_status[0] == 0 && file_index_saved
