@@ -32,16 +32,16 @@ class SetupJob
     (0..5).each do
       rand = (0..5).map{ o[rand(o.length)]  }.join
       filesystem = backup_zvol + '/' + self.ip_address + '_' + rand
-      check = zfs_list("target" => self.filesystem)
-      if check[0] != 0 && check[1] =~ /dataset does not exist/
+      check = zfs_list("target" => filesystem)
+      if check[0] == 1 && check[1] =~ /dataset does not exist/
         rstatus = zfs_create({"properties" => { "quota" => self.size }, "filesystem" => filesystem})
         snapdir_status = set_snapdir
-        unless snapdir_status[0] == 0
-          status = snapdir_status
-          break
-        else
+        if snapdir_status[0] == 0
           self.filesystem = filesystem
           status = rstatus
+          break
+        else
+          status = snapdir_status
           break
         end
       end
