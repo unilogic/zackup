@@ -94,10 +94,11 @@ UL.jqueryFileTree A:hover {
 .jqueryFileTree LI div.spinner { position: absolute; left: 0; top: 0; padding: 0; margin: 0; }
 
 /* Core Styles */
-.jqueryFileTree LI.directory { background: url(/images/jqueryFileTreeImages/directory.png) left top no-repeat; }
-.jqueryFileTree LI.expanded { background: url(/images/jqueryFileTreeImages/folder_open.png) left top no-repeat; }
-.jqueryFileTree LI.file { background: url(/images/jqueryFileTreeImages/file.png) left top no-repeat; }
-.jqueryFileTree LI.wait { background: url(/images/jqueryFileTreeImages/spinner.gif) left top no-repeat; }
+.jqueryFileTree LI.directory { background: url(img/directory.png) left top no-repeat; }
+.jqueryFileTree LI.expanded { background: url(img/folder_open.png) left top no-repeat; }
+.jqueryFileTree LI.file { background: url(img/file.png) left top no-repeat; }
+.jqueryFileTree LI.wait { background: none; position: relative;}
+
 /* File Extensions*/
 .jqueryFileTree LI.ext_3gp { background: url(/images/jqueryFileTreeImages/film.png) left top no-repeat; }
 .jqueryFileTree LI.ext_afp { background: url(/images/jqueryFileTreeImages/code.png) left top no-repeat; }
