@@ -24,25 +24,23 @@ class SetupJob
       raise ArgumentError, "backup_root not specified in settings.yml"
     end
     o = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
-    rand = (0..5).map{ o[rand(o.length)]  }.join
     
-    self.filesystem = backup_zvol + '/' + self.ip_address + '_' + rand
-    
-    # Check that the filesystem does not already exist.
-    check = zfs_list("target" => self.filesystem)
-    if check[0] == 1 && check[1] =~ /dataset does not exist/
-      rstatus = zfs_create({"properties" => { "quota" => self.size }, "filesystem" => self.filesystem})
-      snapdir_status = set_snapdir
-      unless snapdir_status[0] == 0
-        return snapdir_status
-      else
-        return rstatus
+    # Check that the filesystem does not already exist. We loop 5 times looking for a new filesystem name.
+    # Break once we find a non-existant name.
+    (0..5).each do
+      rand = (0..5).map{ o[rand(o.length)]  }.join
+      filesystem = backup_zvol + '/' + self.ip_address + '_' + rand
+      check = zfs_list("target" => self.filesystem)
+      if check[0] != 0 && check[1] =~ /dataset does not exist/
+        rstatus = zfs_create({"properties" => { "quota" => self.size }, "filesystem" => filesystem})
+        snapdir_status = set_snapdir
+        unless snapdir_status[0] == 0
+          return snapdir_status
+        else
+          self.filesystem = filesystem
+          return rstatus
+        end
       end
-    else
-      # Technically this is an error condition so let RunJob know that, but we don't want the job to error out.
-      check[0] = 0
-      check[1] = "#{self.filesystem} already exists"
-      return check
     end
   end
   
