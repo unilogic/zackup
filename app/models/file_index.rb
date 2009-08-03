@@ -14,7 +14,7 @@ class FileIndex < ActiveRecord::Base
     hash_arg = ""
     files = []
     dirs = []
-    if path.length == 0
+    if path.nil? || path.length == 0
       hash_arg = "['#{self.snapname}']"
     else
       hash_arg = "['#{self.snapname}']"

@@ -5,9 +5,14 @@ class FileIndicesController < ApplicationController
   end
   
   def show
+    @host_id = params[:host_id]
+    @schedule_id = params[:schedule_id]
+    @file_index_id = params[:id]
+  end
+  
+  def content
     @file_index = FileIndex.find(params[:id])
     @current_dir = params[:dir]
-    @dirs_files = @file_index.get_content(@current_dir)
-    
+    @dirs_files = @file_index.get_content(@current_dir) 
   end
 end
