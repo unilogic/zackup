@@ -6,8 +6,8 @@ class FileIndicesController < ApplicationController
   
   def show
     @file_index = FileIndex.find(params[:id])
-    @current_ = params[:dir]
-    @dirs_files = @file_index.get_content(@parent)
+    @current_dir = params[:dir]
+    @dirs_files = @file_index.get_content(@current_dir)
     
   end
 end
