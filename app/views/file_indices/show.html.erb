@@ -2,6 +2,7 @@
 	<%= javascript_include_tag 'jquery' %>
 	<%= javascript_include_tag 'jquery.easing' %>
 	<%= javascript_include_tag 'jqueryFileTree' %>
+	<%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
 	<%= stylesheet_link_tag 'jqueryFileTree' %>
 	<style type="text/css">
       body {
