@@ -33,19 +33,16 @@
 	<%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
   <script type="text/javascript">
 		$(document).ready( function() {
-	
-			$('#fileTree').fileTree({ 
+			tree = $('<div />');
+			tree.fileTree({ 
 				root: '', 
 				script: '<%= content_host_schedule_file_index_path(@host_id, @schedule_id, @file_index.id) + "?authenticity_token=" %>' + encodeURIComponent(AUTH_TOKEN),
 				spinnerImage: '/images/jqueryFileTreeImages/spinner.gif',
 				dragAndDrop: true,
 				fakeTopRoot: true,
-				fakeTopRootText: '/'
-				
-				 }, function(file) {
-				alert(file);
+				fakeTopRootText: '/'	
 			});
-
+			$('#fileTree').append( tree );
 		});
 	</script>
 <% end %>
@@ -59,4 +56,3 @@
 
 <h2>Snapshot: <%= @file_index.snapname.gsub!(/_/," ") if @file_index.snapname %></h2>
 <div id="fileTree" class="demo"></div>
-<div id="target"></div>
