@@ -12,7 +12,7 @@ class FileIndicesController < ApplicationController
   
   def content
     @file_index = FileIndex.find(params[:id])
-    @current_dir = params[:dir]
+    @current_dir = params[:dir] || ""
     @dirs_files = @file_index.get_content(@current_dir) 
   end
 end
