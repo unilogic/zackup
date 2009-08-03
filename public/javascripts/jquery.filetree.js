@@ -34,7 +34,7 @@
 //           spinnerSpeed   - speed of spinner
 //           dragAndDrop    - enable drag and frop functionallity, requires jquery.event.drag.js and jquery.event.drop.js
 //
-/
+
 //
 // History:
 //
