@@ -6,10 +6,10 @@
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title><%= controller.controller_name %>: <%= controller.action_name %></title>
   <%= stylesheet_link_tag 'application' %>
-
-	<%= javascript_include_tag 'prototype' %>
-	<%= javascript_include_tag 'sorttable' %>
-
+	<% unless controller.controller_name == 'file_indices' %>
+		<%= javascript_include_tag 'prototype' %>
+		<%= javascript_include_tag 'sorttable' %>
+	<% end %>
 	<%= yield :head %>
 </head>
 <body>
