@@ -6,8 +6,8 @@ class FileIndicesController < ApplicationController
   
   def show
     @file_index = FileIndex.find(params[:id])
-    @parent = params[:dir]
-    @dir = Jqueryfiletree.new(@parent).get_content
+    @current_ = params[:dir]
+    @dirs_files = @file_index.get_content(@parent)
     
   end
 end

@@ -13,7 +13,12 @@ class CustomFind
           dest << '["' + base + '"]'
       
         end
-        eval("data#{dest}")
+        if File.directory?(path)
+          eval("data#{dest} = {}")
+        else
+          eval("data#{dest} = nil")
+        end
+        
       end
       zdirs = Zlib::Deflate.deflate(YAML::dump(data), 9)
       return zdirs
