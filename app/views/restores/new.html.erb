@@ -8,6 +8,6 @@
 <% form_for [@host, @restore] do |f| %>
 	<%= f.label :name %>
 	<%= f.text_field :name %>
-	<%= f.collection_select :schedule_id, @schedules, :id, :name)%>
+	<%= f.collection_select(:schedule_id, @schedules, :id, :name)%>
 	<%= submit_tag 'Next' %>
 <% end %>
