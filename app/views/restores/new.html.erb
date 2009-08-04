@@ -6,8 +6,10 @@
 
 <h2>Create New Store Job</h2>
 <% form_for [@host, @restore] do |f| %>
+	<%= f.hidden_field :user_id, { :value => current_user.id } %>
 	<%= f.label :name %>
-	<%= f.text_field :name %>
+	<%= f.text_field :name %><br/>
+	<%= f.label "Schedule" %>
 	<%= collection_select(:schedule, :schedule_id, @schedules, :id, :name)%>
 	<%= submit_tag 'Next' %>
 <% end %>
