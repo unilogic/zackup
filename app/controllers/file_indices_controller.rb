@@ -48,4 +48,20 @@ class FileIndicesController < ApplicationController
     end
     
   end
+  
+  def remove
+    current_dir = params[:dir]
+    item = params[:item]
+    snapname = params[:snapname]
+    
+    @restore = Restore.find(params[:restore_id])
+    
+    if @restore.data && @restore.data.delete({snapname => item}) && @restore.save!
+      flash[:notice] = "#{item} was delete from restore!"
+      redirect_to host_restore_schedule_file_index_path(params[:host_id], params[:restore_id], params[:schedule_id], params[:id], :dir => current_dir)
+    else
+      flash[:error] = "Could not delete #{item} from restore!"
+      redirect_to host_restore_schedule_file_index_path(params[:host_id], params[:restore_id], params[:schedule_id], params[:id], :dir => current_dir)
+    end
+  end
 end

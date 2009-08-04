@@ -34,7 +34,7 @@
 		<% end %>
 	  <% @dirs_files[0].each do |dir| %>
 			<li class="directory collapsed">
-				<%= link_to image_tag('add.png'), 
+				<%= link_to image_tag('add.png'),
 					add_host_restore_schedule_file_index_path(
 							@host_id, 
 							@restore.id, 
@@ -80,6 +80,19 @@
 				<tr>
 					<td><%= item.keys.first.gsub(/_/," ") %></td>
 					<td><%= item.values.first %></td>
+					<td>
+						<%= link_to image_tag('cancel_16.png'),
+							remove_host_restore_schedule_file_index_path(
+								@host_id, 
+								@restore.id, 
+								@schedule_id, 
+								@file_index.id,
+								:dir => @current_dir,
+								:item => item.values.first,
+								:snapname => item.keys.first
+							)
+						%>
+					</td>
 				</tr>
 			<% end %>
 		</table>
