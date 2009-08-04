@@ -71,4 +71,21 @@ class FileIndicesController < ApplicationController
       redirect_to host_restore_schedule_file_index_path(params[:host_id], params[:restore_id], params[:schedule_id], params[:id], :dir => current_dir)
     end
   end
+  
+  def finish
+    restore = Restore.find(params[:restore_id])
+    schedule = Schedule.find(params[:schedule_id])
+    host = Host.find(params[:host_id])
+    
+    @job = Job.new(
+      :operation => 'restore', 
+      :status => 'assigned',
+      :backup_node_id => schedule.backup_node.id,
+      :host_id => params[:host_id],
+      :schedule_id => params[:schedule_id],
+      :start_at => Time.now,
+      :data => {'restore_data' => restore.data, 
+    )
+  end
+  
 end
