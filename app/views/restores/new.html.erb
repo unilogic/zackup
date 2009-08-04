@@ -4,7 +4,7 @@
 	</ul>
 <% end %>
 
-<% form_for @restore do |f| %>
+<% form_for @restore, :url => host_restore_path(@host_id), :html => { :method => :post } do |f| %>
 	<%= f.label :name %>
 	<%= f.text_field :name %>
 <% end %>
