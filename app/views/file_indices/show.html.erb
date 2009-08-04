@@ -72,13 +72,15 @@
 
 <div class="restore_set">
 	<% if @restore.data %>
-		<table>
-			<th>Snapshot</th>
-			<th>Item</th>
+	<% rowclass = cycle('','alt', :name => "row_class") %>
+		<table id="stdtable" class="sortable" cellspacing="0">
+			<th scope="col" id="tblheader">Snapshot</th>
+			<th scope="col" id="tblheader">Item</th>
 			<% @restore.data.each do |item| %>
 				<tr>
-					<td><%= item.keys.first.gsub(/_/," ") %></td>
-					<td><%= item.values.first %></td>
+					<% current_row = rowclass %>
+					<td class='<%=current_row %>' ><%= item.keys.first.gsub(/_/," ") %></td>
+					<td class='<%=current_row %>' ><%= item.values.first %></td>
 				</tr>
 			<% end %>
 		</table>
