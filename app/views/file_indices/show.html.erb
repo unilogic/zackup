@@ -42,7 +42,7 @@
 							@file_index.id,
 							:dir => @current_dir,
 							:item => dir
-						) 
+						), :method => :post
 				%>
 				<%= link_to dir, host_restore_schedule_file_index_path(
 					@host_id, 
@@ -63,7 +63,7 @@
 							@file_index.id,
 							:dir => @current_dir,
 							:item => file
-						)
+						), :method => :post
 				%>
 				<%= file %>
 			</li>
@@ -91,7 +91,9 @@
 								:dir => @current_dir,
 								:item => item.values.first,
 								:snapname => item.keys.first
-							)
+							), 
+							:confirm => "Are you sure?", 
+							:method => :delete
 						%>
 					</td>
 				</tr>
