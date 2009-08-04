@@ -3,6 +3,7 @@ class Host < ActiveRecord::Base
   has_many :config_items, :through => :host_configs
   has_many :schedules, :dependent => :destroy
   has_many :jobs, :dependent => :destroy
+  has_many :restores, :dependent => :destroy
   
   def disable
     status_config = self.find_host_config_by_name('status')

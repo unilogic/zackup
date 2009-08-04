@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090728012650) do
+ActiveRecord::Schema.define(:version => 20090804040100) do
 
   create_table "config_items", :force => true do |t|
     t.string   "name"
@@ -19,6 +19,16 @@ ActiveRecord::Schema.define(:version => 20090728012650) do
     t.boolean  "configurable"
     t.integer  "parent_id"
     t.string   "display_type"
+  end
+
+  create_table "file_indices", :force => true do |t|
+    t.string   "snapname"
+    t.string   "basepath"
+    t.integer  "schedule_id"
+    t.integer  "host_id"
+    t.binary   "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "host_configs", :force => true do |t|
@@ -62,6 +72,15 @@ ActiveRecord::Schema.define(:version => 20090728012650) do
     t.boolean  "backup_node"
     t.boolean  "scheduler_node"
     t.datetime "last_seen"
+  end
+
+  create_table "restores", :force => true do |t|
+    t.string   "name"
+    t.text     "data"
+    t.integer  "user_id"
+    t.integer  "host_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "retention_policies", :force => true do |t|
