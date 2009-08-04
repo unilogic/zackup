@@ -103,3 +103,17 @@
 	<% end %>
 </div>
 <div class="clear"></div>
+
+	<% form_for :file_index, @file_index, 
+		:url => 
+			finish_host_restore_schedule_file_index(
+				@host_id, 
+				@restore.id, 
+				@schedule_id, 
+				@file_index.id,
+				:dir => @current_dir,
+			), 
+		:method => :post do |f| %>
+			
+		<%= f.submit "Finish", :confirm => "Are you sure you're done?" %>
+	<% end %>

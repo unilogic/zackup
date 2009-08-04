@@ -79,13 +79,21 @@ class FileIndicesController < ApplicationController
     
     @job = Job.new(
       :operation => 'restore', 
-      :status => 'assigned',
-      :backup_node_id => schedule.backup_node.id,
+      :backup_node_id => schedule.backup_node_id,
       :host_id => params[:host_id],
       :schedule_id => params[:schedule_id],
       :start_at => Time.now,
-      :data => {'restore_data' => restore.data, 
+      :data => {'restore_data' => restore.data, host.host_config_to_yaml_by_name('backup_dir')}
     )
+    @job.assign
+    
+    if @job.save!
+      flash[:notice] = "Sucessfully created restore job!"
+      redirect_to host_path(host)
+    else
+      flash[:error] = "Could not create restore job!"
+      redirect_to host_restore_schedule_file_index_path(params[:host_id], params[:restore_id], params[:schedule_id], params[:id], :dir => current_dir)
+    end
   end
   
 end
