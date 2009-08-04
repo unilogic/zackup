@@ -9,17 +9,22 @@ ul.filetree li {
 	list-style: none;
 	padding: 0px;
 	padding-left: 20px;
+	margin-left: 10px;
 	margin: 0px;
 	white-space: nowrap;
 }
 
 ul.filetree a {
-	color: #aaa;
+	color: #c75f3e;
 	text-decoration: none;
 	display: block;
 	padding: 0px 2px;
 }
 
+div.current_dir {
+	background: url(/images/file_extentions/folder_open.png) left top no-repeat;
+	padding-left: 20px;
+}
 /* Core Styles */
 .filetree li.directory { background: url(/images/file_extentions/directory.png) left top no-repeat; }
 .filetree li.expanded { background: url(/images/file_extentions/folder_open.png) left top no-repeat; }
