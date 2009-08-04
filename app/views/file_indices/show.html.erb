@@ -12,7 +12,7 @@
 <h2>Snapshot: <%= @file_index.snapname.gsub!(/_/," ") if @file_index.snapname %></h2>
 <div class="filetree">
 	<div class='current_dir'><%= @current_dir %></div>
-	<ul>
+	<ul class="filetree">
 		<% if File.dirname(@current_dir) != "." %>
 			<li class="directory collapsed">	
 				<%= link_to 'Parent Directory', host_schedule_file_index_path(@host_id, @schedule_id, @file_index.id, :dir => File.dirname(@current_dir)) %>
@@ -37,3 +37,4 @@
 <div class="restore_set">
 	
 </div>
+<div class="clear"></div>

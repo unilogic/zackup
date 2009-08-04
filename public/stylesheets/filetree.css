@@ -1,4 +1,4 @@
-.filetree {
+div.filetree {
 	float: left;
 	border: 1px solid;
 }
@@ -30,7 +30,7 @@ ul.filetree img {
 	
 }
 
-.filetree div.current_dir {
+ul.filetree div.current_dir {
 	background: url(/images/file_extentions/folder_open.png) left top no-repeat;
 	padding-left: 20px;
 	font-size: 11px;
@@ -107,4 +107,8 @@ ul.filetree img {
 .restore_set {
 	float: right;
 	border: 1px solid;
+}
+
+.clear {
+	clear: both;
 }
