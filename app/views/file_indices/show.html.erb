@@ -76,6 +76,7 @@
 		<table id="stdtable" class="sortable" cellspacing="0">
 			<th scope="col" id="tblheader">Snapshot</th>
 			<th scope="col" id="tblheader">Item</th>
+			<th scope="col" id="tblheader"></th>
 			<% @restore.data.each do |item| %>
 				<tr>
 					<td><%= item.keys.first.gsub(/_/," ") %></td>
