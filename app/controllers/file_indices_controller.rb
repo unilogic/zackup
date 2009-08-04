@@ -39,7 +39,9 @@ class FileIndicesController < ApplicationController
     @restore = Restore.find(params[:restore_id])
     
     if @restore.data
-      @restore.data << {@file_index.snapname => "#{current_dir}/#{add_item}"}
+      unless @restore.data.include?({@file_index.snapname => "#{current_dir}/#{add_item}"})
+        @restore.data << {@file_index.snapname => "#{current_dir}/#{add_item}"}
+      end
     else
       @restore.data = [{@file_index.snapname => "#{current_dir}/#{add_item}"}]
     end
