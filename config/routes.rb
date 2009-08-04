@@ -48,7 +48,7 @@ ActionController::Routing::Routes.draw do |map|
     end
     host.resources :restores do |restore|
       restore.resources :schedules do |schedule|
-        schedule.resources :file_indices, :collection => { :get_file_index => :get }
+        schedule.resources :file_indices, :collection => { :get_file_index => :post }
       end
     end
   end

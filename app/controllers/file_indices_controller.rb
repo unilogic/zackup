@@ -7,8 +7,7 @@ class FileIndicesController < ApplicationController
   end
   
   def get_file_index
-    
-    redirect_to :show
+    redirect_to host_restore_schedule_file_index_path(params[:host_id], params[:restore_id], params[:schedule_id], params[:file_index][:id])
   end
   
   def show
