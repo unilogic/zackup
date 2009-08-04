@@ -29,10 +29,16 @@ class FileIndicesController < ApplicationController
     host_id = params[:host_id]
     schedule_id = params[:schedule_id]
     
-    file_index_id = params[:file_index_id]
     current_dir = params[:dir]
     add_item = params[:item]
     
+    @file_index = FileIndex.find(parmas[:file_index_id], :select => "id,snapname")
+    @restore = Restore.find[params[:restore_id]]
     
+    if @restore.data
+      @restore.data << {@file_index.snapname => "#{current_dir}/#{add_item}"}
+    else
+      
+    end
   end
 end
