@@ -21,9 +21,9 @@ ul.filetree a {
 }
 
 /* Core Styles */
-.filetree li.directory { background: url(img/directory.png) left top no-repeat; }
-.filetree li.expanded { background: url(img/folder_open.png) left top no-repeat; }
-.filetree li.file { background: url(img/file.png) left top no-repeat; }
+.filetree li.directory { background: url(/images/file_extentions/directory.png) left top no-repeat; }
+.filetree li.expanded { background: url(/images/file_extentions/folder_open.png) left top no-repeat; }
+.filetree li.file { background: url(/images/file_extentions/file.png) left top no-repeat; }
 .filetree li.wait { background: none; position: relative;}
 
 /* File Extensions*/
