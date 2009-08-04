@@ -1,6 +1,6 @@
 <% rowclass = cycle('','alt', :name => "row_class") %>
 <tr>
-	<td scope="row" class='<%= cycle('spec','specalt') %>'><%= host.name %></td>
+	<td scope="row" class='<%= cycle('spec','specalt') %>'><%= link_to host.name, host_path(host) %></td>
 	<td class='<%= rowclass %>'><%= host.hostname.capitalize! if host.hostname %></td>
 	<td class='<%= rowclass %>'><%= host.ip_address %></td>
 	<td class='<%= rowclass %>'><%= host.status.capitalize! if host.status %></td>
