@@ -1,7 +1,7 @@
 ul.filetree {
 	font-size: 11px;
 	line-height: 18px;
-	padding: 0 0 0 20px;
+	padding: 0 0 0 15px;
 	margin: 0px;
 }
 
@@ -25,6 +25,7 @@ div.current_dir {
 	font-size: 11px;
 	line-height: 18px;
 }
+
 /* Core Styles */
 .filetree li.directory { background: url(/images/file_extentions/directory.png) left top no-repeat; }
 .filetree li.expanded { background: url(/images/file_extentions/folder_open.png) left top no-repeat; }
