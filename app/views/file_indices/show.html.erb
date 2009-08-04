@@ -20,7 +20,7 @@
 		<% end %>
 	  <% @dirs_files[0].each do |dir| %>
 			<li class="directory collapsed">
-					<%= link_to dir, host_schedule_file_index_path(@host_id, @schedule_id, @file_index.id, :dir => dir) %>
+					<%= link_to dir, host_schedule_file_index_path(@host_id, @schedule_id, @file_index.id, :dir => "#{@current_dir}/#{dir}" ) %>
 			</li>
 	  <% end %>
 		<% @dirs_files[1].each do |file| %>
