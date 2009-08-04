@@ -1,41 +1,5 @@
 <% content_for 'head' do %>
-	<%= javascript_include_tag 'jquery' %>
-	<%= javascript_include_tag 'jquery.event.drag' %>
-	<%= javascript_include_tag 'jquery.timers.js' %>
-	<%= javascript_include_tag 'jquery.event.drop' %>
-	<%= javascript_include_tag 'jquery.filetree' %>
-	<%= stylesheet_link_tag 'jqueryFileTree' %>
-	<%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
-  <script type="text/javascript">
-		$(document).ready( function() {
-		
-			$('#d').fileTree({ 
-				root: '', 
-				script: '<%= content_host_schedule_file_index_path(@host_id, @schedule_id, @file_index.id) + "?authenticity_token=" %>' + encodeURIComponent(AUTH_TOKEN),
-				spinnerImage: '/images/jqueryFileTreeImages/spinner.png',
-				fakeTopRoot: true,
-				multiFolder: false,
-				dragAndDrop: true,
-				fakeTopRootText: '/',
-				moveCallback: function(from,to,dir) {
-					$('#log').append($('<div />').text("move "+(dir?"directory":"file")+" from " + from + " to " + to));
-
-				},
-				fileCallback: function(file) {
-					$('#log').append($('<div />').text("chosed " + file));
-				},
-				dirExpandCallback: function(dir) {
-					$('#log').append($('<div />').text("expanded " + dir));
-				},
-				dirCollapseCallback: function(dir) {
-					$('#log').append($('<div />').text("collapsed" + dir));
-					return true;
-				}
-				
-			});
-		
-		});
-	</script>
+	<%= stylesheet_link_tag 'filetree' %>
 <% end %>
 
 <% content_for 'sub_menu' do %>
@@ -46,5 +10,14 @@
 <% end %>
 
 <h2>Snapshot: <%= @file_index.snapname.gsub!(/_/," ") if @file_index.snapname %></h2>
-<div id="d"></div>
-<div id="log"></div>
+<div id="d">
+	<ul class="filetree">
+	    <% @dirs_files[0].each do |dir| %>
+		<li class="directory collapsed">
+			<a href="#" rel="<%= @current_dir+dir %>/"><%= dir %></a></li>
+	  <%end%>
+		<% @dirs_files[1].each do |file| %>
+	    <li class="file ext_<%=File.extname(file)[1..-1]%>"><a href="#" rel="<%= @current_dir+file %>"><%= file %></a></li>
+	  <% end %>
+	</ul>
+</div>
