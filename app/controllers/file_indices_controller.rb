@@ -32,7 +32,7 @@ class FileIndicesController < ApplicationController
     current_dir = params[:dir]
     add_item = params[:item]
     
-    @file_index = FileIndex.find(params[:file_index_id], :select => "id,snapname")
+    @file_index = FileIndex.find(params[:id], :select => "id,snapname")
     @restore = Restore.find[params[:restore_id]]
     
     if @restore.data
