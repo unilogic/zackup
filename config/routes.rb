@@ -46,6 +46,7 @@ ActionController::Routing::Routes.draw do |map|
     host.resources :schedules, :member => { :disable => :get, :enable => :get }, :collection => {:get_on_form => :get}, :has_one => :retention_policy do |schedule|
       schedule.resources :file_indices, :member => { :content=> :post }, :collection => { :get_file_index => :get }
     end
+    host.resources :restores
   end
   map.resources :jobs, :member => { :update_status => :post }
   map.resources :nodes
