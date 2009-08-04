@@ -17,6 +17,7 @@ class FileIndicesController < ApplicationController
     @remote_id = params[:remote_id]
     
     @file_index = FileIndex.find(params[:id])
+    @file_indices = FileIndex.find_all_by_host_id_and_schedule_id(params[:host_id], params[:schedule_id], :select => "id,snapname")
     
     @current_dir = params[:dir] || ""
     @current_dir.gsub!(/^\/*/, "/")
