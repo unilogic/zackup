@@ -14,10 +14,13 @@ class FileIndicesController < ApplicationController
   def show
     @host_id = params[:host_id]
     @schedule_id = params[:schedule_id]
+    @remote_id = params[:remote_id]
     
     @file_index = FileIndex.find(params[:id])
+    
     @current_dir = params[:dir] || ""
     @current_dir.gsub!(/^\/*/, "/")
+    
     @dirs_files = @file_index.get_content(@current_dir)
   end
   

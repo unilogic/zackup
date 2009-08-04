@@ -10,6 +10,13 @@
 <% end %>
 
 <h2>Snapshot: <%= @file_index.snapname.gsub!(/_/," ") if @file_index.snapname %></h2>
+
+<% form_for :file_index, @file_index, :url => get_file_index_host_restore_schedule_file_indices_path(@host_id, @restore_id, @schedule_id) do |f| %>
+	<%= f.label "Select Backup To Browse"%>
+	<%= f.collection_select(:id, @file_indices, :id, :snapname) %>
+	<%= f.submit('Go') %>
+<% end %>
+
 <div class="filetree">
 	<div class='current_dir'><%= @current_dir %></div>
 	<ul class="filetree">
