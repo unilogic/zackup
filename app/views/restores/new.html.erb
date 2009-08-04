@@ -1,10 +1,10 @@
 <% content_for 'sub_menu' do %>
 	<ul id="sub_menu">
-			<li><%= link_to 'View Host', host_path(@host_id) %></li>
+			<li><%= link_to 'View Host', host_path(@host.id) %></li>
 	</ul>
 <% end %>
 
-<% form_for :restore, @restore, :url => host_restore_path(@host_id), :html => { :method => :post } do |f| %>
+<% form_for [@host, @restore] do |f| %>
 	<%= f.label :name %>
 	<%= f.text_field :name %>
 <% end %>
