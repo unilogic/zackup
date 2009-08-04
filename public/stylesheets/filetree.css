@@ -3,6 +3,13 @@ div.filetree {
 	border: 1px solid;
 }
 
+div.filetree div.current_dir {
+	background: url(/images/file_extentions/folder_open.png) left top no-repeat;
+	padding-left: 20px;
+	font-size: 11px;
+	line-height: 18px;
+}
+
 ul.filetree {
 	font-size: 11px;
 	line-height: 18px;
@@ -28,13 +35,6 @@ ul.filetree img {
 	padding-top: 1px;
 	left: 26px;
 	
-}
-
-ul.filetree div.current_dir {
-	background: url(/images/file_extentions/folder_open.png) left top no-repeat;
-	padding-left: 20px;
-	font-size: 11px;
-	line-height: 18px;
 }
 
 /* Core Styles */
