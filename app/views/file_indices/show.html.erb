@@ -72,11 +72,16 @@
 
 <div class="restore_set">
 	<% if @restore.data %>
-		<ul>
-		<% @restore.data.each do |item| %>
-			<li><%= "#{item.keys.first} => #{item.values.first}" %></li>
-		<% end %>
-		</ul>
+		<table>
+			<th>Snapshot</th>
+			<th>Item</th>
+			<% @restore.data.each do |item| %>
+				<tr>
+					<td><%= item.keys.first.gsub!(/_/," ")} %></td>
+					<td><%= item.values.first %></td>
+				</tr>
+			<% end %>
+		</table>
 	<% end %>
 </div>
 <div class="clear"></div>
