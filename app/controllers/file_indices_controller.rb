@@ -83,7 +83,7 @@ class FileIndicesController < ApplicationController
       :host_id => params[:host_id],
       :schedule_id => params[:schedule_id],
       :start_at => Time.now,
-      :data => {'restore_data' => restore.data, host.host_config_to_yaml_by_name('backup_dir')}
+      :data => {'restore_data' => restore.data, 'backup_dir' => host.host_config_to_yaml_by_name('backup_dir')}
     )
     @job.assign
     
