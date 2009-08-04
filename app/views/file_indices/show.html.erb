@@ -13,7 +13,7 @@
 <div class="filetree">
 	<div class='current_dir'><%= @current_dir %></div>
 	<ul class="filetree">
-		<% if File.dirname(@current_dir) != "/" %>
+		<% if @current_dir != "/" %>
 			<li class="directory collapsed">	
 				<%= link_to 'Parent Directory', host_schedule_file_index_path(@host_id, @schedule_id, @file_index.id, :dir => File.dirname(@current_dir)) %>
 			</li>
