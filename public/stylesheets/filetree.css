@@ -1,3 +1,8 @@
+.filetree {
+	float: left;
+	border: 1px solid;
+}
+
 ul.filetree {
 	font-size: 11px;
 	line-height: 18px;
@@ -25,7 +30,7 @@ ul.filetree img {
 	
 }
 
-div.current_dir {
+.filetree div.current_dir {
 	background: url(/images/file_extentions/folder_open.png) left top no-repeat;
 	padding-left: 20px;
 	font-size: 11px;
@@ -98,3 +103,8 @@ div.current_dir {
 .filetree li.ext_xls { background: url(/images/file_extentions/xls.png) left top no-repeat; }
 .filetree li.ext_xml { background: url(/images/file_extentions/code.png) left top no-repeat; }
 .filetree li.ext_zip { background: url(/images/file_extentions/zip.png) left top no-repeat; }
+
+.restore_set {
+	float: right;
+	border: 1px solid;
+}
