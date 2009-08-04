@@ -1,5 +1,5 @@
 class RestoresController < ApplicationController
-  def index
+  def new
     @host_id = params[:host_id]
   end
 end
