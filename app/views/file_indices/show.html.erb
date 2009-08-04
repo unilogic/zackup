@@ -77,7 +77,7 @@
 			<th>Item</th>
 			<% @restore.data.each do |item| %>
 				<tr>
-					<td><%= item.keys.first.gsub!(/_/," ") %></td>
+					<td><%= item.keys.first.gsub(/_/," ") %></td>
 					<td><%= item.values.first %></td>
 				</tr>
 			<% end %>
