@@ -112,18 +112,11 @@ ul.filetree img {
 	width: 400px;
 }
 
-.restore_set ul {
-	font-size: 11px;
-	line-height: 18px;
-	padding: 0 0 0 15px;
-	margin: 0px;
-}
-
-.restore_set li {
-	list-style: none;
-	padding: 0 0 0 18px;
-	margin: 0 0 0 2px;
+.restore_set td {
 	white-space: nowrap;
+}
+.restore_set table {
+	width: 100%;
 }
 
 .restore_set a {
