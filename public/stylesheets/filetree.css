@@ -1,6 +1,8 @@
 div.filetree {
 	float: left;
 	border: 1px solid;
+	width: 400px;
+	padding: 10px;
 }
 
 div.filetree div.current_dir {
@@ -33,7 +35,7 @@ ul.filetree a {
 ul.filetree img {
 	position: absolute;
 	padding-top: 1px;
-	left: 26px;
+	left: 36px;
 	
 }
 
@@ -107,6 +109,7 @@ ul.filetree img {
 .restore_set {
 	float: right;
 	border: 1px solid;
+	width: 400px;
 }
 
 .clear {
