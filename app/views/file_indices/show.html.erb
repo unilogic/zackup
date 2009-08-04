@@ -10,7 +10,7 @@
 <% end %>
 
 <h2>Snapshot: <%= @file_index.snapname.gsub!(/_/," ") if @file_index.snapname %></h2>
-<div id="d">
+<div class="filetree">
 	<ul class="filetree">
 	    <% @dirs_files[0].each do |dir| %>
 		<li class="directory collapsed">

@@ -1,3 +1,25 @@
+ul.filetree {
+	font-size: 11px;
+	line-height: 18px;
+	padding: 0px;
+	margin: 0px;
+}
+
+ul.filetree li {
+	list-style: none;
+	padding: 0px;
+	padding-left: 20px;
+	margin: 0px;
+	white-space: nowrap;
+}
+
+ul.filetree a {
+	color: #aaa;
+	text-decoration: none;
+	display: block;
+	padding: 0px 2px;
+}
+
 /* Core Styles */
 .filetree li.directory { background: url(img/directory.png) left top no-repeat; }
 .filetree li.expanded { background: url(img/folder_open.png) left top no-repeat; }
