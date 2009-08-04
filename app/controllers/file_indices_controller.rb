@@ -30,8 +30,10 @@ class FileIndicesController < ApplicationController
     current_dir = params[:dir]
     add_item = params[:item]
     
-    #Strip off any leading slashes
-    add_item.gsub!(/^\/*/, "")
+    #Strip off slash, so we don't end up with double slash below.
+    if current_dir == "/"
+      current_dir = ""
+    end
     
     @file_index = FileIndex.find(params[:id], :select => "id,snapname")
     @restore = Restore.find(params[:restore_id])
