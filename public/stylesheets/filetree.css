@@ -1,15 +1,13 @@
 ul.filetree {
 	font-size: 11px;
 	line-height: 18px;
-	padding: 0px;
+	padding: 0 0 0 20px;
 	margin: 0px;
 }
 
 ul.filetree li {
 	list-style: none;
-	padding: 0px;
-	padding-left: 20px;
-	margin-left: 10px;
+	padding: 0 0 0 20px;
 	margin: 0px;
 	white-space: nowrap;
 }
@@ -24,6 +22,8 @@ ul.filetree a {
 div.current_dir {
 	background: url(/images/file_extentions/folder_open.png) left top no-repeat;
 	padding-left: 20px;
+	font-size: 11px;
+	line-height: 18px;
 }
 /* Core Styles */
 .filetree li.directory { background: url(/images/file_extentions/directory.png) left top no-repeat; }
