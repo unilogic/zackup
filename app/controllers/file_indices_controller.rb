@@ -30,6 +30,9 @@ class FileIndicesController < ApplicationController
     current_dir = params[:dir]
     add_item = params[:item]
     
+    #Strip off any leading slashes
+    add_item.gsub!(/^\/*/, "")
+    
     @file_index = FileIndex.find(params[:id], :select => "id,snapname")
     @restore = Restore.find(params[:restore_id])
     
@@ -40,10 +43,10 @@ class FileIndicesController < ApplicationController
     end
     
     if @restore.save!
-      flash[:notice] = "#{add_item} added to restore!"
+      flash[:notice] = "#{add_item} has been added to the restore!"
       redirect_to host_restore_schedule_file_index_path(params[:host_id], params[:restore_id], params[:schedule_id], params[:id], :dir => current_dir)
     else
-      flash[:error] = "Could not add #{add_item} to restore!"
+      flash[:error] = "Could not add #{add_item} to the restore!"
       redirect_to host_restore_schedule_file_index_path(params[:host_id], params[:restore_id], params[:schedule_id], params[:id], :dir => current_dir)
     end
     
@@ -57,10 +60,10 @@ class FileIndicesController < ApplicationController
     @restore = Restore.find(params[:restore_id])
     
     if @restore.data && @restore.data.delete({snapname => item}) && @restore.save!
-      flash[:notice] = "#{item} was delete from restore!"
+      flash[:notice] = "#{item} was delete from the restore!"
       redirect_to host_restore_schedule_file_index_path(params[:host_id], params[:restore_id], params[:schedule_id], params[:id], :dir => current_dir)
     else
-      flash[:error] = "Could not delete #{item} from restore!"
+      flash[:error] = "Could not delete #{item} from the restore!"
       redirect_to host_restore_schedule_file_index_path(params[:host_id], params[:restore_id], params[:schedule_id], params[:id], :dir => current_dir)
     end
   end
