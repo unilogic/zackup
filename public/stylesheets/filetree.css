@@ -12,10 +12,16 @@ ul.filetree li {
 	white-space: nowrap;
 }
 
+ul.filetree li {
+	list-style: none;
+	padding: 0 0 0 20px;
+	margin: 0px;
+	white-space: nowrap;
+}
+
 ul.filetree a {
 	color: #c75f3e;
 	text-decoration: none;
-	display: block;
 	padding: 0px 2px;
 }
 
