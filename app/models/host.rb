@@ -79,12 +79,12 @@ class Host < ActiveRecord::Base
     return parsed_configs.to_yaml
   end
   
-  def host_config_to_yaml_by_name(name)
+  def formatted_host_config_by_name(name)
     host_config = self.find_host_config_by_name(name)
     if host_config
       parsed_configs = {}
       parsed_configs[host_config.name] = { :config_item_id => host_config.config_item_id, :value => host_config.value }
-      return parsed_configs.to_yaml
+      return parsed_configs
     end
   end
 end
