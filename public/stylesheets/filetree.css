@@ -112,6 +112,26 @@ ul.filetree img {
 	width: 400px;
 }
 
+.restore_set ul {
+	font-size: 11px;
+	line-height: 18px;
+	padding: 0 0 0 15px;
+	margin: 0px;
+}
+
+.restore_set li {
+	list-style: none;
+	padding: 0 0 0 18px;
+	margin: 0 0 0 2px;
+	white-space: nowrap;
+}
+
+.restore_set a {
+	color: #c75f3e;
+	text-decoration: none;
+	padding: 0px 2px;
+}
+
 .clear {
 	clear: both;
 }

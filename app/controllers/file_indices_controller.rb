@@ -41,10 +41,10 @@ class FileIndicesController < ApplicationController
     
     if @restore.save!
       flash[:notice] = "#{add_item} added to restore!"
-      redirect_to host_restore_schedule_file_index_path(params[:host_id], params[:restore_id], params[:schedule_id], params[:id])
+      redirect_to host_restore_schedule_file_index_path(params[:host_id], params[:restore_id], params[:schedule_id], params[:id], :dir => current_dir)
     else
       flash[:error] = "Could not add #{add_item} to restore!"
-      redirect_to host_restore_schedule_file_index_path(params[:host_id], params[:restore_id], params[:schedule_id], params[:id])
+      redirect_to host_restore_schedule_file_index_path(params[:host_id], params[:restore_id], params[:schedule_id], params[:id], :dir => current_dir)
     end
     
   end
