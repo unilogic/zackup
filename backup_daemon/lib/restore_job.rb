@@ -6,7 +6,7 @@ include Archive::Tar::Minitar
 
 class RestoreJob
 
-  FIELDS = %w{ hostname ip_address host_type directories exclusions local_backup_dir }.map! { |s| s.to_sym }.freeze
+  FIELDS = %w{ data download_dir_base download_url_base backup_dir }.map! { |s| s.to_sym }.freeze
   attr_accessor *FIELDS
   @@settings = DaemonKit::Config.load('settings').to_h
 
