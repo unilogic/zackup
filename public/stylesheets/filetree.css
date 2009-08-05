@@ -1,5 +1,13 @@
-.snap_select {
+.top_matter {
 	padding-bottom: 20px;
+}
+
+.top_matter div.snap_select {
+	float: left;
+}
+
+.top_matter div.finish {
+	float: right;
 }
 
 div.filetree {
