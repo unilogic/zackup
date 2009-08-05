@@ -1,19 +1,17 @@
-.top_matter {
-	padding-bottom: 20px;
-}
-
 .top_matter div.snap_select {
 	float: left;
+	padding-bottom: 20px;
 }
 
 .top_matter div.finish {
 	float: right;
+	padding-bottom: 20px;
 }
 
 div.filetree {
 	float: left;
 	border: 1px solid;
-	width: 400px;
+	width: 425px;
 	padding: 10px;
 }
 
@@ -121,7 +119,7 @@ ul.filetree img {
 .restore_set {
 	float: right;
 	border: 1px solid;
-	width: 400px;
+	width: 425px;
 }
 
 .restore_set td {
