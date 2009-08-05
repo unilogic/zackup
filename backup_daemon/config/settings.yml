@@ -9,7 +9,7 @@ development:
   #Match this timezone to the one selected in Rail's environment.rb
   time_zone: 'Eastern Time (US & Canada)'
   
-  #For Restores
+  #For Restores, ensure the trailing slash is included!
   download_dir_base: '/usr/local/www/zackup/public/restores/'
   download_url_base: 'http://129.21.26.130/restores/'
   

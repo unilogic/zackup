@@ -55,25 +55,32 @@ class RestoreJob
   def build_tgz(items)
     o = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
     rand = (0..55).map{ o[rand(o.length)]  }.join
-    
-    unless File.exists? self.download_dir_base
-      Dir.mkdir self.download_dir_base
-    end
+
     
     tgz_filename = self.download_dir_base + '/' + rand + '.tgz'
     tgz_filename.gsub!(/\/\/*/, "/")
-    
-    Dir.chdir(self.backup_dir + '/.zfs/snapshot') do
-      tgz = Zlib::GzipWriter.new(File.open(tgz_filename, 'wb'))
-      Output.open(tgz) do |output|
-        items.each do |item|
-          Find.find(item) do |path|
-            Minitar.pack_file(path, output)
+    begin
+      
+      unless File.exists? self.download_dir_base
+        Dir.mkdir self.download_dir_base
+      end
+      
+      Dir.chdir(self.backup_dir + '/.zfs/snapshot') do
+        tgz = Zlib::GzipWriter.new(File.open(tgz_filename, 'wb'))
+        Output.open(tgz) do |output|
+          items.each do |item|
+            Find.find(item) do |path|
+              Minitar.pack_file(path, output)
+            end
           end
         end
       end
+      return 0, self.download_url_base + tgz_filename
+      
+    rescue
+      return 1, $!
     end
-    return 0, tgz_filename
+    
   end
   
 end
