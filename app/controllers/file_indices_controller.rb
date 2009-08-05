@@ -90,7 +90,7 @@ class FileIndicesController < ApplicationController
     
     if @job.save! && restore.update_attributes!(:job_id => @job.id)
       flash[:notice] = "Sucessfully created restore job!"
-      redirect_to host_restore_path(host, restore)
+      redirect_to host_restores_path(host)
     else
       flash[:error] = "Could not create restore job!"
       redirect_to host_restore_schedule_file_index_path(params[:host_id], params[:restore_id], params[:schedule_id], params[:id], :dir => current_dir)
