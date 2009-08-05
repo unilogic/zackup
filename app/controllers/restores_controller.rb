@@ -18,6 +18,7 @@ class RestoresController < ApplicationController
   def create
     @restore = Restore.new(params[:restore])
     @restore.host_id = params[:host_id]
+    @restore.schedule_id = params[:schedule][:schedule_id]
     
     if @restore.save!
       redirect_to host_restore_schedule_file_indices_path(params[:host_id], @restore.id, params[:schedule][:schedule_id])
