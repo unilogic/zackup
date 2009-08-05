@@ -1,4 +1,14 @@
 class RestoresController < ApplicationController
+  
+  def index
+    @host = Host.find(params[:host_id])
+    @restores = Restore.find_all_by_host_id(params[:host_id])
+  end
+  
+  def show
+    @restore = Restore.find(params[:id])
+  end
+  
   def new
     @host = Host.find(params[:host_id])
     @restore = Restore.new(:host_id => params[:host_id])

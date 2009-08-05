@@ -1,0 +1,9 @@
+<% rowclass = cycle('','alt', :name => "row_class") %>
+<tr>
+	<td scope="row" class='<%= cycle('spec','specalt') %>'><%= link_to restore.name, host_restore_path(@host, restore) %></td>
+	<td class='<%= rowclass %>'><%= restore.schedule.name if restore.schedule %></td>
+	<td class='<%= rowclass %>'><%= restore.job.status.capitalize! if restore.job && restore.job.status %></td>
+	<td class='<%= rowclass %>'><%= link_to image_tag('floppy_disk.png'), restore.links if restore.links %>
+	<td class='<%= rowclass %>'><%= link_to image_tag('edit.png'), edit_host_restore_path(@host, restore) %></td>
+	<td class='<%= rowclass %>'><%= link_to image_tag('delete.png'), host_restore_path(@host, restore), :method => :delete, :confirm => "Are you sure you want to delete the host: #{restore.name}" %></td>
+</tr>

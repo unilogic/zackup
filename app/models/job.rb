@@ -7,6 +7,7 @@ class Job < ActiveRecord::Base
   belongs_to :scheduler_node, :class_name => "Node"
   belongs_to :backup_node, :class_name => "Node"
   belongs_to :schedule
+  has_one :restore
   
   validates_inclusion_of :operation, :in => %w( backup restore setup maintenance )
   

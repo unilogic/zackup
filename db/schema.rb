@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090804040100) do
+ActiveRecord::Schema.define(:version => 20090804232759) do
 
   create_table "config_items", :force => true do |t|
     t.string   "name"
@@ -81,6 +81,10 @@ ActiveRecord::Schema.define(:version => 20090804040100) do
     t.integer  "host_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "schedule_id"
+    t.string   "status"
+    t.string   "links"
+    t.integer  "job_id"
   end
 
   create_table "retention_policies", :force => true do |t|
