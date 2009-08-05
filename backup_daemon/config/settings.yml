@@ -11,7 +11,7 @@ development:
   
   #For Restores, ensure the trailing slash is included!
   download_dir_base: '/usr/local/www/zackup/public/restores/'
-  download_url_base: 'http://129.21.26.130/restores/'
+  download_url_base: 'http://129.21.26.130:3000/restores/'
   
 test:
   ip_address: 127.0.0.1
