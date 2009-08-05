@@ -97,6 +97,10 @@ class RunJob
             :directories => job.data['backup_directories'][:value]
           )
          
+          if job.data['ssh_port'] && job.data['ssh_port'][:value]
+            backupJob.port = job.data['ssh_port'][:value]
+          end
+          
           rbsync = backupJob.run(job.data)
           rstatus = rbsync.pull
           

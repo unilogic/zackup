@@ -7,11 +7,11 @@ require 'zfs'
 include Zfs
 
 class BackupJob
-  FIELDS = %w{ hostname ip_address host_type directories exclusions local_backup_dir }.map! { |s| s.to_sym }.freeze
+  FIELDS = %w{ hostname ip_address host_type directories exclusions local_backup_dir port }.map! { |s| s.to_sym }.freeze
   attr_accessor *FIELDS
   @@settings = DaemonKit::Config.load('settings').to_h
   
-  DEFAULTS = { :hostname => nil, :ip_address => nil , :host_type => nil, :directories => nil, :exclusions => nil }.freeze
+  DEFAULTS = { :hostname => nil, :ip_address => nil , :host_type => nil, :directories => nil, :exclusions => nil, :post => 22 }.freeze
   
   def initialize(args = {})
     args = args ? args.merge(DEFAULTS).merge(args) : DEFAULTS
@@ -39,7 +39,7 @@ class BackupJob
   
   def run(args)
 
-    if self.host_type == 'sftp'
+    if self.host_type == 'ssh'
       
       key = ""
       key_pass = ""
@@ -48,14 +48,14 @@ class BackupJob
         # Note if the key is stored unencrypted already, this line will not complain, 
         # and simply verify its a valid RSA key.
         begin
-          key_pass = ZackupCrypt.the_key.decrypt64(args['sftp_private_key_password'][:value])
+          key_pass = ZackupCrypt.the_key.decrypt64(args['ssh_private_key_password'][:value])
         
         # Theres a chance the password isn't encrypted so we'll use the original string.
         rescue OpenSSL::Cipher::CipherError
-          key_pass = args['sftp_private_key_password'][:value]
+          key_pass = args['ssh_private_key_password'][:value]
         end
         
-        key = OpenSSL::PKey::RSA.new(args['sftp_private_key'][:value], key_pass)
+        key = OpenSSL::PKey::RSA.new(args['ssh_private_key'][:value], key_pass)
       rescue OpenSSL::Cipher::CipherError
         message = "Could not decrypt the private key password for #{self.hostname}"
         DaemonKit.logger.warn message
@@ -65,7 +65,7 @@ class BackupJob
         DaemonKit.logger.warn message
         return 1, message
       end
-      rstatus = do_ssh_backup(args['sftp_login'][:value], key)
+      rstatus = do_ssh_backup(args['ssh_login'][:value], key)
       return rstatus
     end
   end
@@ -121,7 +121,7 @@ class BackupJob
       option_args = "-o stricthostkeychecking=no -o userknownhostsfile=/dev/null -o batchmode=yes -o passwordauthentication=no "
       
       #remote remote_paths local_path argv
-      ssh_args = "ssh -l #{ssh_login} -i #{tempfile.path} #{option_args}"
+      ssh_args = "ssh -l #{ssh_login} -p #{self.port} -i #{tempfile.path} #{option_args}"
       
       exclude_args = ""
       if self.exclusions && exclude_array = self.exclusions.split("\n")
