@@ -1,6 +1,8 @@
+require 'find'
 require 'zlib'
 require 'archive/tar/minitar'
 include Archive::Tar
+include Archive::Tar::Minitar
 
 class RestoreJob
 
@@ -40,22 +42,36 @@ class RestoreJob
     end
     
     restore_items = []
-    data.each do |item| 
-      restore_items << item.keys.first + '/' + item.values.first
+    data.each do |item|
+      # Assemble the path, and make sure we don't have double slashes "//"
+      restore_items << item.to_a.reverse.join('/').gsub!(/\/\/*/, "/")
     end
     
-    tgz = build_tgz(restore_items)
+    tgz_filename = build_tgz(restore_items)
   end
   
   private 
   
   def build_tgz(items)
-     o = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
+    o = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
     rand = (0..55).map{ o[rand(o.length)]  }.join
+    
+    unless File.exists? self.download_dir_base
+      Dir.mkdir self.download_dir_base
+    end
+    
     tgz_filename = self.download_dir_base + '/' + rand + '.tgz'
-    Dir.chdir(self.backup + '/.zfs/snapshot') do
+    tgz_filename.gsub!(/\/\/*/, "/")
+    
+    Dir.chdir(self.backup_dir + '/.zfs/snapshot') do
       tgz = Zlib::GzipWriter.new(File.open(tgz_filename, 'wb'))
-      Minitar.pack(items, tgz)
+      Output.open(tgz) do |output|
+        items.each do |item|
+          Find.find(item) do |path|
+            Minitar.pack_file(path, output)
+          end
+        end
+      end
     end
     return 0, tgz_filename
   end
