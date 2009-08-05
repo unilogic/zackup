@@ -37,7 +37,8 @@ class RunJob
           job.save!
         end
         
-        if job.data['hostname'][:value] && job.data['ip_address'][:value]
+        # Not sure this should live on. Or what ops it should be run in.
+        if job.data['hostname'] && job.data['ip_address'] && job.data['hostname'][:value] && job.data['ip_address'][:value]
           unless self.check_hostname(job.data['hostname'][:value], job.data['ip_address'][:value])
             DaemonKit.logger.warn "Hostname #{job.data['hostname'][:value]} does not match IP address given. Tested by resolving hostname. SKIPPING!"
             next
