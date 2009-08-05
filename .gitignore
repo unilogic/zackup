@@ -4,3 +4,4 @@ log/*
 tmp/*
 log/rooster_daemon.pid
 database.yml
+public/restores/*

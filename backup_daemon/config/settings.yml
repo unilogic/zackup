@@ -2,9 +2,16 @@ development:
   ip_address: 127.0.0.1
   hostname: localhost
   loop_interval: 30
+  
   #Zvol Used to Store all Backups
   backup_zvol: rpool/backup
+  
+  #Match this timezone to the one selected in Rail's environment.rb
   time_zone: 'Eastern Time (US & Canada)'
+  
+  #For Restores
+  download_dir_base: '/usr/local/www/zackup/public/restores/'
+  download_url_base: 'http://129.21.26.130/restores/'
   
 test:
   ip_address: 127.0.0.1

@@ -2,6 +2,9 @@ require 'job'
 require 'node'
 require 'run_job'
 
+require 'zlib'
+require 'archive/tar/minitar'
+
 # Change this file to be a wrapper around your daemon code.
 
 # Do your post daemonization configuration here

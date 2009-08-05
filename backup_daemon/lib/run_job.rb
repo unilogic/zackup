@@ -1,5 +1,6 @@
 require 'setup_job'
 require 'backup_job'
+require 'restore_job'
 require 'file_index'
 require 'custom_find'
 
@@ -43,6 +44,7 @@ class RunJob
           end
         end
         
+        ##### SETUP ######
         if job.operation == 'setup'
           setupJob = SetupJob.new(:ip_address => job.data['ip_address'][:value],
             :hostname => job.data['hostname'][:value],
@@ -72,9 +74,11 @@ class RunJob
             DaemonKit.logger.warn "Error while trying to setup host, see job id: #{job.id} for more information."
           end
         
+        ##### MAINTENANCE ######
         elsif job.operation == 'maintenance'
           nil
           
+        ##### BACKUP ######
         elsif job.operation == 'backup'
           
           # Make sure we have a backup dir for this job's schedule before we go on.
@@ -145,9 +149,30 @@ class RunJob
             job.save!
             DaemonKit.logger.warn "Error while trying to run backup job for host, #{job.data['ip_address'][:value]}. See job id: #{job.id} for more information."
           end
-          
+        
+        ##### RESTORE ###### 
         elsif job.operation == 'restore'
-          nil
+          if job.data['restore_data'] && job.data['backup_dir'] && backup_dirs = job.data['backup_dir'][:value]
+            backup_dirs = YAML::load(backup_dirs)
+            restoreJob = RestoreJob.new(
+              :data => job.data['restore_data'],
+              :backup_dir => backup_dirs[job.schedule_id]
+            )
+            
+            rstatus = restoreJob.run
+            
+            if rstatus[0] == 0
+              job.finish
+              job.data['download_url'] = rstatus[1]
+              job.save!
+              DaemonKit.logger.info "Successfully ran restore job for Restore ID: #{job.data['restore_id']}"
+            else
+              job.error
+              job.data['error'] = {'exit_code' => exit_code, 'message' => rstatus[1]}
+              job.save!
+              DaemonKit.logger.warn "Error while trying to run restore job for Restore ID:  #{job.data['restore_id']}. See job id: #{job.id} for more information."
+            end
+          end
         end
       end # End if
     end # End each
