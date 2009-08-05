@@ -80,14 +80,15 @@ class FileIndicesController < ApplicationController
     @job = Job.new(
       :operation => 'restore', 
       :backup_node_id => schedule.backup_node_id,
-      :host_id => params[:host_id],
-      :schedule_id => params[:schedule_id],
+      :host_id => host.id,
+      :schedule_id => schedule.id,
       :start_at => Time.now,
       :data => {'restore_data' => restore.data, 'restore_id' => restore.id, 'backup_dir' => host.formatted_host_config_by_name('backup_dir')['backup_dir']}
     )
     @job.assign
     
-    if @job.save!
+    
+    if @job.save! && restore.update_attributes!(:job_id => @job.id)
       flash[:notice] = "Sucessfully created restore job!"
       redirect_to host_path(host)
     else

@@ -2,7 +2,7 @@ class RestoresController < ApplicationController
   
   def index
     @host = Host.find(params[:host_id])
-    @restores = Restore.find_all_by_host_id(params[:host_id])
+    @restores = @host.restores
   end
   
   def show
