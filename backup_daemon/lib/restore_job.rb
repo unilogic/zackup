@@ -77,7 +77,10 @@ class RestoreJob
         Output.open(tgz) do |output|
           items.each do |item|
             Find.find(item) do |path|
-              Minitar.pack_file(path, output)
+              # This ignores Symlinks that don't resolve.
+              if File.exists? path
+                Minitar.pack_file(path, output)
+              end
             end
           end
         end
