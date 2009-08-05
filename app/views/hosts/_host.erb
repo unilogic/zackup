@@ -6,6 +6,7 @@
 	<td class='<%= rowclass %>'><%= host.status.capitalize! if host.status %></td>
 	<td class='<%= rowclass %>'><%= host.status.downcase! == 'disabled' || host.status.downcase! == 'new' ? link_to('Enable', enable_host_path(host)) : link_to('Disable', disable_host_path(host)) if host.status %></td>
 	<td class='<%= rowclass %>'><%= link_to image_tag('schedule.png'), host_schedules_path(host) %></td>
+	<td class='<%= rowclass %>'><%= link_to image_tag('box_upload.png'), host_restores_path(host) %></td>
 	<td class='<%= rowclass %>'><%= link_to image_tag('edit.png'), edit_host_path(host) %></td>
 	<td class='<%= rowclass %>'><%= link_to image_tag('delete.png'), host_path(host), :method => :delete, :confirm => "Are you sure you want to delete the host: #{host.name}" %></td>
 </tr>
