@@ -59,6 +59,13 @@ class RestoreJob
     
     tgz_filename = self.download_dir_base + '/' + rand + '.tgz'
     tgz_filename.gsub!(/\/\/*/, "/")
+    
+    while File.exists? tgz_filename
+      rand = (0..55).map{ o[rand(o.length)]  }.join
+      tgz_filename = self.download_dir_base + '/' + rand + '.tgz'
+      tgz_filename.gsub!(/\/\/*/, "/")
+    end
+    
     begin
       
       unless File.exists? self.download_dir_base
@@ -75,7 +82,7 @@ class RestoreJob
           end
         end
       end
-      return 0, self.download_url_base + tgz_filename
+      return 0, self.download_url_base + File.basename(tgz_filename)
       
     rescue
       return 1, $!
