@@ -208,7 +208,7 @@ module Scheduler
             
             else
               config_item = ConfigItem.find_by_name('backup_dir')
-              HostConfig.create(:host_id => schedule.host.id, :config_item_id => config_item.id, :value => {schedule.id => job.data['backup_dir'][:value]})
+              HostConfig.create(:host_id => schedule.host.id, :config_item_id => config_item.id, :value => {schedule.id => backup_dir})
             end
           end
         end
