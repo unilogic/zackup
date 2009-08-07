@@ -1,6 +1,6 @@
 class JobsController < ApplicationController
   def index
-    @jobs = Job.find(:all, :order => "id DESC")
+    @jobs = Job.paginate(:all, :page => params[:page], :order => "id DESC")
   end
   
   def show
