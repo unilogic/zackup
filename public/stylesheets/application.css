@@ -287,3 +287,9 @@ td.specalt {
 .sub_form_del_button {
 	float: right;
 }
+
+.pagination {
+	padding-top: 20px;
+	text-align: center;
+	font-size: 11px;
+}
