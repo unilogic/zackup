@@ -35,7 +35,7 @@ module Scheduler
         end
         schedule_alt = nil
         
-        
+        # Parse out retention policy for this schedule.
         rstatus = parseRetentionPolicy(schedule,options)
         if rstatus == 1
           Rails.logger.error "Zackup::Scheduler - No retention policy found for schedule: #{schedule.name} for host #{schedule.host.name}. SKIPPING!"
@@ -312,17 +312,21 @@ module Scheduler
     )
     
     if keep_snaps.length > 0 && drop_snaps.length > 0
-      job.data = {'drop_snaps' => (drop_snaps - keep_snaps)}
+      drop_snaps -= keep_snaps
     elsif keep_snaps.length > 0
-      job.data = {'drop_snaps' => (file_indices - keep_snaps)}
-    elsif drop_snaps.length > 0
-      job.data = {'drop_snaps' => drop_snaps}
-    else
-      
+      drop_snaps = file_indices - keep_snaps
     end
-    job.assign
-    unless job.save!
-      return 2
+    
+    #elsif drop_snaps.length > 0
+    #  job.data = {'drop_snaps' => drop_snaps}
+    #end
+      
+    unless drop_snaps.empty?
+      job.data = {'drop_snaps' => drop_snaps}
+      job.assign
+      unless job.save!
+        return 2
+      end
     end
     
   end # End parseRetentionPolicy
