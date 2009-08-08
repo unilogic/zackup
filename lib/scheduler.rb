@@ -40,7 +40,9 @@ module Scheduler
         if rstatus == 1
           Rails.logger.error "Zackup::Scheduler - No retention policy found for schedule: #{schedule.name} for host #{schedule.host.name}. SKIPPING!"
           return 1
-        end
+        elsif rstatus == 2
+          Rails.logger.warn "Zackup::Scheduler - Retention policy found for schedule: #{schedule.name} for host #{schedule.host.name} could not be saved!"
+        end  
         
         
         if backup_dirs = schedule.host.find_host_config_by_name('backup_dir')
@@ -317,7 +319,9 @@ module Scheduler
           
         end
         job.assign
-        
+        unless job.save!
+          return 2
+        end
       end
     end
     
