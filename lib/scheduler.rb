@@ -1,3 +1,5 @@
+require 'chronic'
+
 module Scheduler
   
   def parseSchedules(options)
@@ -32,6 +34,14 @@ module Scheduler
           return 3
         end
         schedule_alt = nil
+        
+        
+        rstatus = parseRetentionPolicy(schedule,options)
+        if rstatus == 1
+          Rails.logger.error "Zackup::Scheduler - No retention policy found for schedule: #{schedule.name} for host #{schedule.host.name}. SKIPPING!"
+          return 1
+        end
+        
         
         if backup_dirs = schedule.host.find_host_config_by_name('backup_dir')
           begin
@@ -238,4 +248,78 @@ module Scheduler
     return schedule
   end
   
+  def parseRetentionPolicy(schedule,options)
+    
+    unless retention_policy = schedule.retention_policy
+      return 1
+    end
+    unless file_indices = FileIndex.find_all_by_host_id_and_schedule_id(schedule.host_id, schedule.id, :select => "id,snapname", :order => 'created_at')
+      return 0
+    end
+    
+    min_time = Chronic.parse("#{retention_policy.keep_min_time} #{retention_policy.min_time_type} before now")
+    
+    max_time = Chronic.parse("#{retention_policy.keep_max_time} #{retention_policy.max_time_type} before now")
+    
+    min_versions = retention_policy.keep_min_versions
+    
+    max_versions = retention_policy.keep_max_versions
+    
+    keep_snaps = []
+    
+    drop_snaps = []
+    
+    # Take latest min_versions worth of elements from file_indices
+    if min_versions
+      keep_snaps << file_indices.reverse[0..min_versions - 1]
+    end
+    
+    # Take the oldest max_versions worth of elements from file_indices
+    if max_versions
+      unless max_versions >= file_indices.length
+        drop_snaps << file_indices[max_versions..-1]
+      end
+    end
+    
+    if min_time || max_time
+      file_indices.each do |file_index|
+        if file_index.snapname && time_parsed = Time.parse(file_index.snapname)
+          if min_time
+            if time_parsed >= min_time
+              keep_snaps << file_index
+            end
+          end
+          if max_time
+            if time_parsed < max_time
+              drop_snaps << file_index
+            end
+          end
+        end
+        
+        keep_snaps.uniq!
+        drop_snaps.uniq!
+        
+        job = Job.new(
+          :backup_node_id => schedule.backup_node_id,
+          :host_id => schedule.host_id,
+          :schedule_id => schedule.id,
+          :start_at => Time.now,
+          :operation => 'maintenance'
+        )
+        
+        if keep_snaps.length > 0 && drop_snaps.length > 0
+          job.data = {'drop_snaps' => (drop_snaps - keep_snaps)}
+        elsif keep_snaps.length > 0
+          job.data = {'drop_snaps' => (file_indices - keep_snaps)}
+        elsif drop_snaps.length > 0
+          job.data = {'drop_snaps' => drop_snaps}
+        else
+          
+        end
+        job.assign
+        
+      end
+    end
+    
+  end
 end
