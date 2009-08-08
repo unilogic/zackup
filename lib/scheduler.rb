@@ -297,33 +297,34 @@ module Scheduler
             end
           end
         end
-        
-        keep_snaps.uniq!
-        drop_snaps.uniq!
-        
-        job = Job.new(
-          :backup_node_id => schedule.backup_node_id,
-          :host_id => schedule.host_id,
-          :schedule_id => schedule.id,
-          :start_at => Time.now,
-          :operation => 'maintenance'
-        )
-        
-        if keep_snaps.length > 0 && drop_snaps.length > 0
-          job.data = {'drop_snaps' => (drop_snaps - keep_snaps)}
-        elsif keep_snaps.length > 0
-          job.data = {'drop_snaps' => (file_indices - keep_snaps)}
-        elsif drop_snaps.length > 0
-          job.data = {'drop_snaps' => drop_snaps}
-        else
-          
-        end
-        job.assign
-        unless job.save!
-          return 2
-        end
       end
     end
     
-  end
-end
+    keep_snaps.uniq!
+    drop_snaps.uniq!
+    
+    job = Job.new(
+      :backup_node_id => schedule.backup_node_id,
+      :host_id => schedule.host_id,
+      :schedule_id => schedule.id,
+      :start_at => Time.now,
+      :operation => 'maintenance'
+    )
+    
+    if keep_snaps.length > 0 && drop_snaps.length > 0
+      job.data = {'drop_snaps' => (drop_snaps - keep_snaps)}
+    elsif keep_snaps.length > 0
+      job.data = {'drop_snaps' => (file_indices - keep_snaps)}
+    elsif drop_snaps.length > 0
+      job.data = {'drop_snaps' => drop_snaps}
+    else
+      
+    end
+    job.assign
+    unless job.save!
+      return 2
+    end
+    
+  end # End parseRetentionPolicy
+  
+end # End Module
