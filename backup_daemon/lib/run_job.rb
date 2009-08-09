@@ -80,6 +80,9 @@ class RunJob
         ##### MAINTENANCE ######
         elsif job.operation == 'maintenance'
           drop_snaps = job.data['drop_snaps']
+          backup_dirs = YAML::load(job.data['backup_dir'][:value])
+          
+          rstatus = MaintenanceJob.destroy_snaps(drop_snaps, backup_dirs[job.schedule_id])
           
         ##### BACKUP ######
         elsif job.operation == 'backup'
