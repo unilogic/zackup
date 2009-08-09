@@ -10,7 +10,8 @@ class MaintainceJob
       drop_snaps.each do |drop_snap|
         # args = {"flags" => "rRf", "filesystem" => "/pool/folder", volume => "pool", "snapshot" => "snapName"}
         rstatus = zfs_destroy("snapshot" => "#{filesystem}@#{drop_snap.snapname}")
-        unless rstatus[0] == 0
+       
+        unless rstatus[0] == 0 && drop_snap.destroy
           return rstatus
         end
       end
