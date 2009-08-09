@@ -302,6 +302,8 @@ module Scheduler
     
     keep_snaps.uniq!
     drop_snaps.uniq!
+    keep_snaps.flatten!
+    drop_snaps.flatten!
     
     job = Job.new(
       :backup_node_id => schedule.backup_node_id,
@@ -322,7 +324,7 @@ module Scheduler
     #end
       
     unless drop_snaps.empty?
-      job.data = {'drop_snaps' => drop_snaps}
+      job.data = {'drop_snaps' => drop_snaps.flatten}
       job.assign
       unless job.save!
         return 2
