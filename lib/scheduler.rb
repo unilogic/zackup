@@ -255,9 +255,15 @@ module Scheduler
     unless retention_policy = schedule.retention_policy
       return 1
     end
-    unless file_indices = FileIndex.find_all_by_host_id_and_schedule_id(schedule.host_id, schedule.id, :select => "id, snapname, basepath", :order => 'created_at DESC')
+    unless file_indices = FileIndex.find_all_by_host_id_and_schedule_id(schedule.host_id, schedule.id, :select => "id, snapname", :order => 'created_at DESC')
       return 0
     end
+    
+    unless host = schedule.host
+      return 0
+    end
+    
+    host.formatted_host_config_by_name('backup_dir')
     
     min_time = Chronic.parse("#{retention_policy.keep_min_time} #{retention_policy.min_time_type} before now")
     
@@ -330,7 +336,10 @@ module Scheduler
     #end
       
     unless drop_snaps.empty?
-      job.data = {'drop_snaps' => drop_snaps.flatten}
+      job.data = {
+        'drop_snaps' => drop_snaps,
+        'backup_dir' => host.formatted_host_config_by_name('backup_dir')['backup_dir']
+      }
       job.assign
       unless job.save!
         return 2

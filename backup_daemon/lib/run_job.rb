@@ -1,6 +1,8 @@
 require 'setup_job'
 require 'backup_job'
 require 'restore_job'
+require 'maintenance_job'
+
 require 'file_index'
 require 'custom_find'
 
@@ -77,7 +79,7 @@ class RunJob
         
         ##### MAINTENANCE ######
         elsif job.operation == 'maintenance'
-          nil
+          drop_snaps = job.data['drop_snaps']
           
         ##### BACKUP ######
         elsif job.operation == 'backup'
