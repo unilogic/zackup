@@ -18,5 +18,7 @@ class MaintenanceJob
     else
       return list
     end
+    
+    return 0, ""
   end
 end

@@ -84,6 +84,17 @@ class RunJob
           
           rstatus = MaintenanceJob.destroy_snaps(drop_snaps, backup_dirs[job.schedule_id])
           
+          if rstatus[0] == 0
+            job.finish
+            DaemonKit.logger.info "Successfully ran maintenance job id: #{job.id}."
+          else
+            job.error
+            job.data['error'] = {'exit_code' => rstatus[0], 'message' => rstatus[1]}
+            DaemonKit.logger.warn "Error while running maintenance job. See job id: #{job.id} for more information."
+          end
+          
+          job.save!
+             
         ##### BACKUP ######
         elsif job.operation == 'backup'
           
