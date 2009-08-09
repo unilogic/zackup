@@ -1,7 +1,7 @@
 require 'zfs'
 include Zfs
 
-class MaintenanceJob Job
+class MaintenanceJob
   def self.destroy_snaps(drop_snaps, backup_dir)
     list = zfs_list("target" => backup_dir)
     if list[0] == 0
