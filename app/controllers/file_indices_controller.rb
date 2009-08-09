@@ -4,7 +4,7 @@ class FileIndicesController < ApplicationController
     @host_id = params[:host_id]
     @schedule_id = params[:schedule_id]
     @restore_id = params[:restore_id]
-    @file_indices = FileIndex.find_all_by_host_id_and_schedule_id(params[:host_id], params[:schedule_id], :select => "id,snapname")
+    @file_indices = FileIndex.find_all_by_host_id_and_schedule_id(params[:host_id], params[:schedule_id], :select => "id,snapname", :order => 'created_at DESC')
   end
   
   def get_file_index
@@ -16,7 +16,7 @@ class FileIndicesController < ApplicationController
     @schedule_id = params[:schedule_id]
 
     @file_index = FileIndex.find(params[:id])
-    @file_indices = FileIndex.find_all_by_host_id_and_schedule_id(params[:host_id], params[:schedule_id], :select => "id,snapname")
+    @file_indices = FileIndex.find_all_by_host_id_and_schedule_id(params[:host_id], params[:schedule_id], :select => "id,snapname", :order => 'created_at DESC')
     @restore = Restore.find(params[:restore_id])
     
     @current_dir = params[:dir] || ""
