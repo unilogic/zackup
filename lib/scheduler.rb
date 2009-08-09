@@ -255,7 +255,7 @@ module Scheduler
     unless retention_policy = schedule.retention_policy
       return 1
     end
-    unless file_indices = FileIndex.find_all_by_host_id_and_schedule_id(schedule.host_id, schedule.id, :select => "id,snapname", :order => 'created_at')
+    unless file_indices = FileIndex.find_all_by_host_id_and_schedule_id(schedule.host_id, schedule.id, :select => "id, snapname, basepath", :order => 'created_at')
       return 0
     end
     
