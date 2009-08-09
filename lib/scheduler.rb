@@ -255,7 +255,7 @@ module Scheduler
     unless retention_policy = schedule.retention_policy
       return 1
     end
-    unless file_indices = FileIndex.find_all_by_host_id_and_schedule_id(schedule.host_id, schedule.id, :select => "id, snapname, basepath", :order => 'created_at')
+    unless file_indices = FileIndex.find_all_by_host_id_and_schedule_id(schedule.host_id, schedule.id, :select => "id, snapname, basepath", :order => 'created_at DESC')
       return 0
     end
     
@@ -273,7 +273,7 @@ module Scheduler
     
     # Take latest min_versions worth of elements from file_indices
     if min_versions
-      keep_snaps << file_indices.reverse[0..min_versions - 1]
+      keep_snaps << file_indices[0..min_versions - 1]
     end
     
     # Take the oldest max_versions worth of elements from file_indices
