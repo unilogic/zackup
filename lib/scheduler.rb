@@ -313,12 +313,18 @@ module Scheduler
       :operation => 'maintenance'
     )
     
+    #If we have both keep and drop snaps we remove any of keep_snaps' elements from drop_snaps
     if keep_snaps.length > 0 && drop_snaps.length > 0
       drop_snaps -= keep_snaps
+    # If we just have keep_snaps we remove any of keep_snaps' elements from the original file_indices
+    # and then use whats left over. In otherwords we just keep whats specified to save, and delete everything else.
     elsif keep_snaps.length > 0
       drop_snaps = file_indices - keep_snaps
     end
     
+    # Lastly if drop_snaps is specified and keep_snaps is not. We simply use drop_snaps as is. 
+    # This is commented out as this logic already applies. However its left here for to show what happens when drop_snap
+    # is used alone.
     #elsif drop_snaps.length > 0
     #  job.data = {'drop_snaps' => drop_snaps}
     #end
