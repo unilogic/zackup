@@ -12,5 +12,5 @@
 <% form_for @user, :url => account_path do |f| %>
   <%= f.error_messages %>
   <%= render :partial => "form", :object => f %>
-  <%= f.submit "Register" %>
+  <div class="submit"><%= f.submit "Register" %></div>
 <% end %>
