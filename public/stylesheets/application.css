@@ -277,6 +277,11 @@ td.specalt {
  	padding: 5px; 
 }
 
+.under_form {
+	font-size: 11px;
+	color: #3670A7;
+}
+
 /* Sub Forms */
 .sub_form_add {
 	border: 1px solid #ccc;
