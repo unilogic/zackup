@@ -99,7 +99,13 @@ class RunJob
         elsif job.operation == 'backup'
           
           # Make sure we have a backup dir for this job's schedule before we go on.
-          backup_dirs = YAML::load(job.data['backup_dir'][:value])
+          begin
+            backup_dirs = YAML::load(job.data['backup_dir'][:value])
+          rescue NoMethodError
+            DaemonKit.logger.warn "Could not find a backup_dir for host #{job.data['hostname'][:value]}, schedule id #{job.schedule_id}, SKIPPING!"
+            next
+          end
+          
           unless backup_dirs && backup_dirs[job.schedule_id]
             DaemonKit.logger.warn "Could not find a backup_dir for host #{job.data['hostname'][:value]}, schedule id #{job.schedule_id}, SKIPPING!"
             next
