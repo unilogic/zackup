@@ -37,8 +37,11 @@ class NodesController < ApplicationController
     cpu_data = []
     
     stats.each do |stat|
-      cpu_avgs = YAML::load(stat.cpu_load_avg)
-      cpu_data << [stat.created_at.to_i, cpu_avgs[0]]
+      if stat.created_at && stat.cpu_load_avg
+        cpu_avgs = YAML::load(stat.cpu_load_avg)
+        # Need milliseconds
+        cpu_data << [(stat.created_at.to_f * 1000).to_i, cpu_avgs[0]]
+      end
     end
     @cpu.data = [{'data' => cpu_data, 'label' => 'CPU Load Avg'}]
     
