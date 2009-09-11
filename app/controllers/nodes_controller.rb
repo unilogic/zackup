@@ -40,7 +40,7 @@ class NodesController < ApplicationController
       cpu_avgs = YAML::load(stat.cpu_load_avg)
       cpu_data << [stat.created_at.to_i, cpu_avgs[0]]
     end
-    @cpu.data = [{'data' => [[1,2], [2,4], [3,6]], 'label' => 'CPU Load Avg'}]
+    @cpu.data = [{'data' => cpu_data, 'label' => 'CPU Load Avg'}]
     
     @disk = Chartr::LineChart.new(:yaxis => {:min => 0}, :xaxis => {:min => 0}, :lines => {:fill => true})
     
