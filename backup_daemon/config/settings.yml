@@ -4,7 +4,7 @@ development:
   loop_interval: 30
   
   #Zvol Used to Store all Backups
-  backup_zvol: rpool/backup
+  backup_zvol: backup
   
   #Match this timezone to the one selected in Rail's environment.rb
   time_zone: 'Eastern Time (US & Canada)'

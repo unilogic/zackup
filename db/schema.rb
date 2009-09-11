@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090804232759) do
+ActiveRecord::Schema.define(:version => 20090910235531) do
 
   create_table "config_items", :force => true do |t|
     t.string   "name"
@@ -32,9 +32,9 @@ ActiveRecord::Schema.define(:version => 20090804232759) do
   end
 
   create_table "host_configs", :force => true do |t|
-    t.integer  "host_id",                       :null => false
-    t.integer  "config_item_id",                :null => false
-    t.text     "value",          :limit => 255, :null => false
+    t.integer  "host_id",        :null => false
+    t.integer  "config_item_id", :null => false
+    t.text     "value",          :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(:version => 20090804232759) do
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "data",              :limit => 255
+    t.text     "data"
     t.integer  "host_id"
     t.integer  "schedule_id"
     t.datetime "finished_at"
@@ -130,6 +130,14 @@ ActiveRecord::Schema.define(:version => 20090804232759) do
     t.text     "settings"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "stats", :force => true do |t|
+    t.integer "schedule_id"
+    t.integer "node_id"
+    t.string  "disk_used"
+    t.string  "disk_avail"
+    t.string  "cpu_load_avg"
   end
 
   create_table "users", :force => true do |t|
