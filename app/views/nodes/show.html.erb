@@ -1,10 +1,8 @@
 <% content_for 'head' do %>
         <%= chartr_includes %>
 <% end %>
-<% @c = Chartr::LineChart.new(:yaxis => {:min => 0}, :xaxis => {:min => 0}, :lines => {:fill => true}) %>
-  <% @c.data = [{'data' => [[1,2], [2,4], [3,6]], 'label' => 'CPU Load Avg'}] %>
 
     <div id="linechart" style="width:600px;height:300px;">
     </div>
 
-<%= javascript_tag(@c.output('linechart')) %>
+<%= javascript_tag(@cpu.output('linechart')) %>

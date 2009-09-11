@@ -23,8 +23,23 @@ class NodesController < ApplicationController
     node = Node.find(params[:id])
     
     stats = Stat.find_all_by_node_id node
+#    xaxis:{
+#    			mode:'time', 
+#    			labelsAngle:45
+#    		},
+#    		selection: {
+#    			mode: 'x'
+#    		},
+#    		HtmlText: false
+#    		
+    @cpu = Chartr::LineChart.new(:xaxis => {:mode => 'time', :labelsAngle => 45}, :HtmlText => false, :lines => {:fill => true})
     
-    @cpu = Chartr::LineChart.new(:yaxis => {:min => 0}, :xaxis => {:min => 0}, :lines => {:fill => true})
+    cpu_data = []
+    
+    stats.each do |stat|
+      cpu_avgs = YAML::load(stat.cpu_load_avg)
+      cpu_data << [stat.created_at.to_i, cpu_avgs[0]]
+    end
     @cpu.data = [{'data' => [[1,2], [2,4], [3,6]], 'label' => 'CPU Load Avg'}]
     
     @disk = Chartr::LineChart.new(:yaxis => {:min => 0}, :xaxis => {:min => 0}, :lines => {:fill => true})
