@@ -23,21 +23,14 @@ class NodesController < ApplicationController
     node = Node.find(params[:id])
     
     stats = Stat.find_all_by_node_id node
-#    xaxis:{
-#    			mode:'time', 
-#    			labelsAngle:45
-#    		},
-#    		selection: {
-#    			mode: 'x'
-#    		},
-#    		HtmlText: false
-#    		
+ 		
     @cpu = Chartr::LineChart.new(
       :xaxis => {:mode => 'time', :labelsAngle => 45},
       :HtmlText => false,
       :lines => {:fill => true},
       :points => {:show => true},
-      :mouse => {:track => true}
+      :mouse => {:track => true},
+      :lines => {:show => true}
     )
     
     cpu_data = []
