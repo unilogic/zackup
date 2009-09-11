@@ -1,3 +1,7 @@
+<% content_for 'head' do %>
+	<%= chartr_includes %>
+<% end %>
+
 <% @c = Chartr::BarChart.new(:bars => {:barWidth => 0.5}, :yaxis => {:min => 0}) %>
   <% @c.data = [[[1,2], [2,4], [3,6]], [[1.5,1], [2.5,1], [3.5,8]]] %>
 
