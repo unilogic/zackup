@@ -85,7 +85,7 @@ loop do
       exit 1
     end
     if myJobs = @node.backup_jobs
-      RunJob.run(myJobs)
+      RunJob.run(myJobs, @node)
     end  
   end
   sleep @settings['loop_interval'] || 60

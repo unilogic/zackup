@@ -5,6 +5,13 @@ require 'maintenance_job'
 
 require 'file_index'
 require 'custom_find'
+require 'stats'
+
+require 'sys/cpu'
+include Sys
+
+require 'zfs'
+include Zfs
 
 class RunJob
   
@@ -30,7 +37,7 @@ class RunJob
     return false
   end
   
-  def self.run(jobs)
+  def self.run(jobs, node)
     jobs.each do |job|
       if job.aasm_events_for_current_state.include? :finish
         
@@ -202,8 +209,73 @@ class RunJob
           end
         end
       end # End if
+      
+      get_stats(job, node)
+      
     end # End each
     
   end # End run method
+  
+  def get_stats(job, node)
+    begin
+      backup_dirs = YAML::load(job.data['backup_dir'][:value])
+    rescue NoMethodError
+      DaemonKit.logger.warn "Could not find a backup_dir for host #{job.data['hostname'][:value]}, while trying to add stats, SKIPPING!"
+      return nil
+    end
+    
+    settings = DaemonKit::Config.load('settings').to_h
+    stat = Stat.new
+    stat.cpu_load_avg = CPU.load_avg
+    stat.node_id = node.id
+    unless backup_zvol = settings['backup_zvol']
+      DaemonKit.logger.warn "backup_root not specified in settings.yml, can't add stats!"
+      return nil
+    end
+    
+    # args = {"flags" => "rHp", "field" => "field1,field2", "source" => "source1,source2", "properties" => "nfsshare,iscsishare", 
+    # "target" => "filesystem|volume|snapshot"}
+    node_stats = zfs_get("flags" => "p", "target" => settings['backup_zvol'], "field" => "property,value", "properties" => "used,available")
+    if node_stats[0] == 0
+      node_stats[1].each do |stat|
+        if stat["property"] == 'used'
+          stat.disk_used = stat["value"]
+        elsif stat["property"] == 'avail'
+          stat.disk_avail = stat["value"]
+        end
+      end
+      if stat.disk_used && stat.disk_avail
+        stat.save!
+      else
+        DaemonKit.logger.warn "Get_stats: zfs_get return sucessfully, but I couldn't find \"used\" or \"available\" disk space for node #{node.id}"
+      end
+    else
+      DaemonKit.logger.warn "Get_stats: zfs_get returned with an error, #{node_stats[1]}"
+    end    
+    
+    stat = nil
+    
+    if backup_dirs && backup_dirs[job.schedule_id]
+      schedule_stats = zfs_get("flags" => "p", "target" => backup_dirs[job.schedule_id], "field" => "property,value", "properties" => "used,available")
+      if schedule_stats[0] == 0
+        stat = Stat.new
+        stat.schedule_id = job.schedule_id
+        schedule_stats[1].each do |stat|
+          if stat["property"] == 'used'
+            stat.disk_used = stat["value"]
+          elsif stat["property"] == 'available'
+            stat.disk_avail = stat["value"]
+          end
+        end
+        if stat.disk_used && stat.disk_avail
+          stat.save!
+        else
+          DaemonKit.logger.warn "Get_stats: zfs_get return sucessfully, but I couldn't find \"used\" or \"available\" disk space for backup_dir #{backup_dirs[job.schedule_id]}"
+        end
+      else
+        DaemonKit.logger.warn "Get_stats: zfs_get returned with an error, #{schedule_stats[1]}"
+      end
+    end
+  end # End getStats
   
 end # End Class
