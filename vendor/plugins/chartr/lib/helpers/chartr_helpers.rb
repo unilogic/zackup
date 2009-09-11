@@ -5,7 +5,7 @@ module ActionView::Helpers
       return "<!--[if IE]>\n" +
         javascript_include_tag('chartr/excanvas.js', 'chartr/base64.js') +
         "\n<![endif]-->" +
-        javascript_include_tag("chartr/canvas2image.js", "chartr/canvastext.js", "chartr/flotr.debug-0.2.0-test.js")
+        javascript_include_tag("chartr/canvas2image.js", "chartr/canvastext.js", "chartr/flotr.js")
     end
   end
 end

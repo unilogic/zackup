@@ -20,6 +20,16 @@ class NodesController < ApplicationController
   
   def show
     
+    node = Node.find(params[:id])
+    
+    stats = Stat.find_all_by_node_id node
+    
+    @cpu = Chartr::LineChart.new(:yaxis => {:min => 0}, :xaxis => {:min => 0}, :lines => {:fill => true})
+    @cpu.data = [{'data' => [[1,2], [2,4], [3,6]], 'label' => 'CPU Load Avg'}]
+    
+    @disk = Chartr::LineChart.new(:yaxis => {:min => 0}, :xaxis => {:min => 0}, :lines => {:fill => true})
+    
+    
   end
   
   def edit
