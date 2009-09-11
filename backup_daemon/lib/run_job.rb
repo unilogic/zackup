@@ -210,13 +210,13 @@ class RunJob
         end
       end # End if
       
-      get_stats(job, node)
+      self.get_stats(job, node)
       
     end # End each
     
   end # End run method
   
-  def get_stats(job, node)
+  def self.get_stats(job, node)
     begin
       backup_dirs = YAML::load(job.data['backup_dir'][:value])
     rescue NoMethodError
@@ -237,11 +237,11 @@ class RunJob
     # "target" => "filesystem|volume|snapshot"}
     node_stats = zfs_get("flags" => "p", "target" => settings['backup_zvol'], "field" => "property,value", "properties" => "used,available")
     if node_stats[0] == 0
-      node_stats[1].each do |stat|
-        if stat["property"] == 'used'
-          stat.disk_used = stat["value"]
-        elsif stat["property"] == 'avail'
-          stat.disk_avail = stat["value"]
+      node_stats[1].each do |node_stat|
+        if node_stat["property"] == 'used'
+          stat.disk_used = node_stat["value"]
+        elsif node_stat["property"] == 'available'
+          stat.disk_avail = node_stat["value"]
         end
       end
       if stat.disk_used && stat.disk_avail
@@ -256,15 +256,25 @@ class RunJob
     stat = nil
     
     if backup_dirs && backup_dirs[job.schedule_id]
-      schedule_stats = zfs_get("flags" => "p", "target" => backup_dirs[job.schedule_id], "field" => "property,value", "properties" => "used,available")
+      list = zfs_list("target" => backup_dirs[job.schedule_id])
+      filesystem = ""
+      if list[0] == 0
+        filesystem = list[1].first['name']
+      else
+        DaemonKit.logger.warn "Get_stats: Can't convert mountpoint into filesystem name"
+        return nil
+      end
+      
+      schedule_stats = zfs_get("flags" => "p", "target" => filesystem, "field" => "property,value", "properties" => "used,available")
+      
       if schedule_stats[0] == 0
         stat = Stat.new
         stat.schedule_id = job.schedule_id
-        schedule_stats[1].each do |stat|
-          if stat["property"] == 'used'
-            stat.disk_used = stat["value"]
-          elsif stat["property"] == 'available'
-            stat.disk_avail = stat["value"]
+        schedule_stats[1].each do |schedule_stat|
+          if schedule_stat["property"] == 'used'
+            stat.disk_used = schedule_stat["value"]
+          elsif schedule_stat["property"] == 'available'
+            stat.disk_avail = schedule_stat["value"]
           end
         end
         if stat.disk_used && stat.disk_avail
