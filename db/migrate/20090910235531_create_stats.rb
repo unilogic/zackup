@@ -6,6 +6,7 @@ class CreateStats < ActiveRecord::Migration
       t.string :disk_used
       t.string :disk_avail
       t.string :cpu_load_avg
+      t.timestamps
     end
   end
 
