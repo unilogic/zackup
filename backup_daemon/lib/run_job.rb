@@ -210,7 +210,7 @@ class RunJob
         end
       end # End if
       
-      self.get_stats(job, node)
+      get_stats(job, node)
       
     end # End each
     
