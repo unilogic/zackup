@@ -208,10 +208,11 @@ class RunJob
             end
           end
         end
+        
+        # Add stats to the db.
+        get_stats(job, node)
+        
       end # End if
-      
-      get_stats(job, node)
-      
     end # End each
     
   end # End run method
@@ -219,7 +220,7 @@ class RunJob
   def self.get_stats(job, node)
     begin
       backup_dirs = YAML::load(job.data['backup_dir'][:value])
-    rescue NoMethodError
+    rescue NoMethodError, TypeError
       DaemonKit.logger.warn "Could not find a backup_dir for host #{job.data['hostname'][:value]}, while trying to add stats, SKIPPING!"
       return nil
     end
