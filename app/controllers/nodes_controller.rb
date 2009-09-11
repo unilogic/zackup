@@ -18,6 +18,10 @@ class NodesController < ApplicationController
     end
   end
   
+  def show
+    
+  end
+  
   def edit
     @node = Node.find(params[:id])
   end
