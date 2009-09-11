@@ -4,5 +4,6 @@ class Schedule < ActiveRecord::Base
   has_one :retention_policy, :dependent => :destroy
   has_many :jobs, :dependent => :destroy
   has_many :restores, :dependent => :destroy
+  has_many :stats
   
 end

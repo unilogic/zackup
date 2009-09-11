@@ -32,7 +32,13 @@ class NodesController < ApplicationController
 #    		},
 #    		HtmlText: false
 #    		
-    @cpu = Chartr::LineChart.new(:xaxis => {:mode => 'time', :labelsAngle => 45}, :HtmlText => false, :lines => {:fill => true})
+    @cpu = Chartr::LineChart.new(
+      :xaxis => {:mode => 'time', :labelsAngle => 45},
+      :HtmlText => false,
+      :lines => {:fill => true},
+      :points => {:show => true},
+      :mouse => {:track => true}
+    )
     
     cpu_data = []
     
