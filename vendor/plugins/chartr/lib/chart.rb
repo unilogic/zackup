@@ -23,7 +23,7 @@ class Hash
 end
 
 class Chartr::Chart
-  attr_accessor :data
+  attr_accessor :data, :options
 
   # Initialize the chart with the options listed here:
   # http://solutoire.com/flotr/docs/options/
