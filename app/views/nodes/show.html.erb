@@ -6,8 +6,11 @@
 
 <div id="cpu_linechart" style="width:600px;height:300px;">
 </div>
+<p><button id="cpu_linechart-reset-btn">Reset</button></p>
+
 <div id="disk_linechart" style="width:600px;height:300px;">
 </div>
+<p><button id="disk_linechart-reset-btn">Reset</button></p>
 
-<%= javascript_tag(@cpu.output('cpu_linechart')) %>
-<%= javascript_tag(@disk.output('disk_linechart')) %>
+<%= javascript_tag(@cpu.output_select('cpu_linechart')) %>
+<%= javascript_tag(@disk.output_select('disk_linechart')) %>
