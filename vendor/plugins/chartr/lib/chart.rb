@@ -43,7 +43,7 @@ class Chartr::Chart
   
   def output_select(canvasname)
     return "document.observe('dom:loaded', function(){
-    		      var options = #{options_to_json(@options)};
+    		      var options = #{@options.to_json};
           		function drawGraph(opts){
           			var o = Object.extend(Object.clone(options), opts || {});
           			return Flotr.draw(

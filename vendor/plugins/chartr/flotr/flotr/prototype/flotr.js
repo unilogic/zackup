@@ -855,6 +855,10 @@ Flotr.Graph = Class.create({
 					if(decimals < 0) decimals = 0;
 					
 					v = v.toFixed(decimals);
+					
+					if (o.mode == 'disk') {
+						o.tickFormatter = Flotr.diskTickFormatter;
+					}
 					axis.ticks.push({ v: v, label: o.tickFormatter(v) });
 				}
 			}
