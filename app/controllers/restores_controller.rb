@@ -1,4 +1,5 @@
 class RestoresController < ApplicationController
+  before_filter :require_user
   
   def index
     @host = Host.find(params[:host_id])

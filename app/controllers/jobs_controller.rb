@@ -1,4 +1,6 @@
 class JobsController < ApplicationController
+  before_filter :require_user
+  
   def index
     @jobs = Job.paginate(:all, :page => params[:page], :order => "id DESC")
   end

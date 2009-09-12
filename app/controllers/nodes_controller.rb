@@ -1,4 +1,6 @@
 class NodesController < ApplicationController
+  before_filter :require_user
+  
   def index
     @nodes = Node.all
   end
@@ -20,10 +22,10 @@ class NodesController < ApplicationController
   
   def show
     
-    node = Node.find(params[:id])
+    @node = Node.find(params[:id])
     
     # Grab all node stats for this node for the past day.
-    stats = Stat.find_all_by_node_id node, :conditions => ["created_at > ?", 1.days.ago.localtime]
+    stats = Stat.find_all_by_node_id @node, :conditions => ["created_at > ?", 1.days.ago.localtime]
  		
     @cpu = Chartr::LineChart.new(
       :xaxis => {:mode => 'time', :labelsAngle => 45},

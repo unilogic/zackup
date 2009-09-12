@@ -1,4 +1,6 @@
 class RetentionPoliciesController < ApplicationController
+  before_filter :require_user
+  
   def edit
     @schedule = Schedule.find(params[:schedule_id])
     @host = Host.find(params[:host_id])

@@ -1,6 +1,6 @@
-#include Scheduler
-
 class SettingsController < ApplicationController
+  before_filter :require_user
+  
   # View form of settings
   def index
     

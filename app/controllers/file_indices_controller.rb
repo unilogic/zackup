@@ -1,4 +1,5 @@
 class FileIndicesController < ApplicationController
+  before_filter :require_user
   
   def index
     @host_id = params[:host_id]

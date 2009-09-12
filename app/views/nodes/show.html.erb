@@ -2,10 +2,12 @@
         <%= chartr_includes %>
 <% end %>
 
-    <div id="cpu_linechart" style="width:600px;height:300px;">
-    </div>
-	<div id="disk_linechart" style="width:600px;height:300px;">
-    </div>
+<h2>Node <%= @node.hostname %>: 24-hr Stats %></h2>
+
+<div id="cpu_linechart" style="width:600px;height:300px;">
+</div>
+<div id="disk_linechart" style="width:600px;height:300px;">
+</div>
 
 <%= javascript_tag(@cpu.output('cpu_linechart')) %>
 <%= javascript_tag(@disk.output('disk_linechart')) %>
