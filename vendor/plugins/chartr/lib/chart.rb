@@ -36,4 +36,33 @@ class Chartr::Chart
   def output(canvasname)
     return "Flotr.draw($('#{canvasname}'), #{@data.to_json}, #{@options.to_json});"
   end
+  
+  def output_select(canvasname)
+    return "document.observe('dom:loaded', function(){
+    		      var options = #{@options.to_json};
+          		function drawGraph(opts){
+          			var o = Object.extend(Object.clone(options), opts || {});
+          			return Flotr.draw(
+          				$('#{canvasname}'), 
+          				#{@data.to_json},
+          				o
+          			);
+          		}	
+
+          		var f = drawGraph();			
+
+          		$('#{canvasname}').observe('flotr:select', function(evt){
+
+          			var area = evt.memo[0];
+
+          			f = drawGraph({
+          				xaxis: {min:area.x1, max:area.x2, mode:'time', labelsAngle:45},
+          				yaxis: {min:area.y1, max:area.y2}
+          			});
+          		});
+
+          		$('#{canvasname}-reset-btn').observe('click', function(){drawGraph()});
+          	});
+        	"
+  end
 end
