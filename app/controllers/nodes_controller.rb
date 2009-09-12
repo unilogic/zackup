@@ -33,7 +33,9 @@ class NodesController < ApplicationController
     )
     
     cpu_data = []
-    disk_data = []
+    disk_data_used = []
+    disk_data_avail = []
+    
     stats.each do |stat|
       if stat.created_at && stat.cpu_load_avg
         cpu_avgs = YAML::load(stat.cpu_load_avg)
