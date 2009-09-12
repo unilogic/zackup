@@ -123,14 +123,6 @@ var Flotr = {
 	defaultTickFormatter: function(val){
 		return val+'';
 	},
-	/**
-	 * Formats the mouse tracker values.
-	 * @param {Object} obj - Track value Object {x:..,y:..}
-	 * @return {String} Formatted track string
-	 */
-	defaultTrackFormatter: function(obj){
-		return '('+obj.x+', '+obj.y+')';
-	},
 	
 	/**
 	 * Tick formatter for disk storage.
@@ -150,6 +142,15 @@ var Flotr = {
 		else {
 			return val + " B";
 		}
+	},
+	
+	/**
+	 * Formats the mouse tracker values.
+	 * @param {Object} obj - Track value Object {x:..,y:..}
+	 * @return {String} Formatted track string
+	 */
+	defaultTrackFormatter: function(obj){
+		return '('+obj.x+', '+obj.y+')';
 	},
 	
 	/**
