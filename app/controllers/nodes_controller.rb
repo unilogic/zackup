@@ -22,19 +22,18 @@ class NodesController < ApplicationController
     
     node = Node.find(params[:id])
     
-    stats = Stat.find_all_by_node_id node
+    stats = Stat.find_all_by_node_id node, :conditions => ["created_at > ?", 10.minutes.ago.localtime]
  		
     @cpu = Chartr::LineChart.new(
       :xaxis => {:mode => 'time', :labelsAngle => 45},
       :HtmlText => false,
-      :lines => {:fill => true},
       :points => {:show => true},
       :mouse => {:track => true},
-      :lines => {:show => true}
+      :lines => {:show => true, :fill => true}
     )
     
     cpu_data = []
-    
+    disk_data = []
     stats.each do |stat|
       if stat.created_at && stat.cpu_load_avg
         cpu_avgs = YAML::load(stat.cpu_load_avg)
@@ -44,7 +43,16 @@ class NodesController < ApplicationController
     end
     @cpu.data = [{'data' => cpu_data, 'label' => 'CPU Load Avg'}]
     
-    @disk = Chartr::LineChart.new(:yaxis => {:min => 0}, :xaxis => {:min => 0}, :lines => {:fill => true})
+    
+    @disk = Chartr::LineChart.new(
+      :xaxis => {:mode => 'time', :labelsAngle => 45},
+      :HtmlText => false,
+      :points => {:show => true},
+      :mouse => {:track => true},
+      :lines => {:show => true, :fill => true}
+    )
+    
+    
     
     
   end
