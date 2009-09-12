@@ -44,7 +44,7 @@ class SchedulesController < ApplicationController
         :selection => { :mode => 'x' },
         :yaxis => 
           {
-            :tickFormatter => 'diskTickFormatter'
+            :tickFormatter => 'Flotr.diskTickFormatter'
               
           }
       )
