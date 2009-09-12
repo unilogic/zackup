@@ -14,13 +14,48 @@ class SchedulesController < ApplicationController
     @backup_nodes = Node.find_all_by_backup_node(true)
   end
   
+  def show
+    @schedule = Schedule.find(params[:id])
+
+    # Grab all node stats for this node for the past day.
+    stats = Stat.find_all_by_schedule_id @schedule, :conditions => ["created_at > ?", 1.days.ago.localtime]
+
+    disk_data_used = []
+    disk_data_avail = []
+
+    #Build data arrays.
+    stats.each do |stat|
+      if stat.created_at
+        # Need milliseconds
+        created_at_in_ms = (stat.created_at.to_f * 1000).to_i
+        if stat.disk_used
+          disk_data_used << [created_at_in_ms, stat.disk_used]
+        end
+        if stat.disk_avail
+          disk_data_avail << [created_at_in_ms, stat.disk_avail]
+        end
+      end
+    end
+
+     @disk = Chartr::LineChart.new(
+        :xaxis => {:mode => 'time', :labelsAngle => 45},
+        :HtmlText => false,
+        :lines => {:show => true, :fill => true}
+      )
+
+      @disk.data = [
+        {'data' => disk_data_used, 'label' => 'Disk Space Used (Bytes)'}, 
+        {'data' => disk_data_avail, 'label' => 'Disk Space Avail (Bytes)'}]
+    
+    
+  end
+  
   def create
     if params[:schedule][:hour] && params[:schedule][:minute]
       params[:schedule][:start_time] = "#{params[:schedule][:hour]}:#{params[:schedule][:minute]} #{Time.now.zone}"
       params[:schedule].delete(:hour)
       params[:schedule].delete(:minute)
     end
-    
     
     if params[:schedule][:repeat] == 'weekly' && ! params[:schedule][:on]
       days = []

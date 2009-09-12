@@ -44,8 +44,12 @@ class NodesController < ApplicationController
         # Need milliseconds
         created_at_in_ms = (stat.created_at.to_f * 1000).to_i
         cpu_data << [created_at_in_ms, cpu_avgs[0]]
-        disk_data_used << [created_at_in_ms, stat.disk_used]
-        disk_data_avail << [created_at_in_ms, stat.disk_avail]
+        if stat.disk_used
+          disk_data_used << [created_at_in_ms, stat.disk_used]
+        end
+        if stat.disk_avail
+          disk_data_avail << [created_at_in_ms, stat.disk_avail]
+        end
       end
     end
     

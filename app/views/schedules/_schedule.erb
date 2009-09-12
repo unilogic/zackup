@@ -1,6 +1,8 @@
 <% rowclass = cycle('','alt', :name => "row_class") %>
 <tr>
-	<td scope="row" class='<%= cycle('spec','specalt') %>'><%= schedule.name %></td>
+	<td scope="row" class='<%= cycle('spec','specalt') %>'>
+		<%= link_to schedule.name, host_schedule_path(schedule.host_id, schedule) %>
+	</td>
 	<td><%= "#{schedule.start_date.strftime("%b %d, %Y")} #{schedule.start_time}" %></td>
 	<td class='<%= rowclass %>'><%= schedule.repeat %></td>
 	<td class='<%= rowclass %>'><%= every_sentance(schedule) %></td>
