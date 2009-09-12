@@ -44,17 +44,8 @@ class SchedulesController < ApplicationController
         :selection => { :mode => 'x' },
         :yaxis => 
           {
-            :tickFormatter => 
-              'function suffixFormatter(val, axis) {
-              if (val > 1000000000)
-                return (val / 1000000000).toFixed(axis.tickDecimals) + " GB";
-              else if (val > 1000000)
-                return (val / 1000000).toFixed(axis.tickDecimals) + " MB";
-              else if (val > 1000)
-                return (val / 1000).toFixed(axis.tickDecimals) + " kB";
-              else
-                return val.toFixed(axis.tickDecimals) + " B";
-              }'
+            :tickFormatter => Flotr.diskTickFormatter
+              
           }
       )
 

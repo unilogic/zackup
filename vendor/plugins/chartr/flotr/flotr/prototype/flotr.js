@@ -130,7 +130,25 @@ var Flotr = {
 	 */
 	defaultTrackFormatter: function(obj){
 		return '('+obj.x+', '+obj.y+')';
-	}, 
+	},
+	
+	/**
+	 * Tick formatter for disk storage.
+	 * @param {String, Integer} val - tick value integer
+	 * @return {String} formatted tick string
+	 */
+	diskTickFormatter: function(val){
+		if (val > 1000000000)
+			return (val / 1000000000) + " GB";
+		else if (val > 1000000)
+			return (val / 1000000) + " MB";
+		else if (val > 1000)
+			return (val / 1000) + " kB";
+		else
+			return val + " B";
+		}
+	},
+	
 	/**
 	 * Utility function to convert file size values in bytes to kB, MB, ...
 	 * @param value {Number} - The value to convert
