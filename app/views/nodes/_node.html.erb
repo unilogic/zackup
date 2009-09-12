@@ -1,6 +1,6 @@
 <% rowclass = cycle('','alt', :name => "row_class") %>
 <tr>
-	<td scope="row" class='<%= cycle('spec','specalt') %>'><%= node.hostname %></td>
+	<td scope="row" class='<%= cycle('spec','specalt') %>'><%= link_to node.hostname, node_path(node) %></td>
 	<td class='<%= rowclass %>'><%= node.ip_address %></td>
 	<td class='<%= rowclass %>'><%= node.description %></td>
 	<td class='<%= rowclass %>'><%= node.services %></td>

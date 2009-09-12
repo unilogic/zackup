@@ -38,9 +38,13 @@ class NodesController < ApplicationController
       if stat.created_at && stat.cpu_load_avg
         cpu_avgs = YAML::load(stat.cpu_load_avg)
         # Need milliseconds
-        cpu_data << [(stat.created_at.to_f * 1000).to_i, cpu_avgs[0]]
+        created_at_in_ms = (stat.created_at.to_f * 1000).to_i
+        cpu_data << [created_at_in_ms, cpu_avgs[0]]
+        disk_data_used << [created_at_in_ms, stat.disk_used]
+        disk_data_avail << [created_at_in_ms, stat.disk_avail]
       end
     end
+    
     @cpu.data = [{'data' => cpu_data, 'label' => 'CPU Load Avg'}]
     
     
@@ -52,7 +56,9 @@ class NodesController < ApplicationController
       :lines => {:show => true, :fill => true}
     )
     
-    
+    @disk.data = [
+      {'data' => disk_data_used, 'label' => 'Disk Space Used (Bytes)'}, 
+      {'data' => disk_data_avail, 'label' => 'Disk Space Avail (Bytes)'}]
     
     
   end
