@@ -1,0 +1,10 @@
+<% content_for 'head' do %>
+	<%= chartr_includes %>
+<% end %>
+
+<h2>Schedule <%= @schedule.name %>: 24-hr Stats</h2>
+
+<div id="disk_linechart" style="width:600px;height:300px;">
+</div>
+
+<%= javascript_tag(@disk.output('disk_linechart')) %>
