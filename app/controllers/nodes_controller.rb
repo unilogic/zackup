@@ -61,7 +61,8 @@ class NodesController < ApplicationController
       :xaxis => {:mode => 'time', :labelsAngle => 45},
       :HtmlText => false,
       :lines => {:show => true, :fill => true},
-      :selection => { :mode => 'x' }
+      :selection => { :mode => 'x' },
+      :yaxis => {:mode => 'disk'}
     )
     
     @disk.data = [
