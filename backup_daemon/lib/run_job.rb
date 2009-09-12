@@ -208,16 +208,16 @@ class RunJob
             end
           end
         end
-        
-        # Add stats to the db.
-        get_stats(job, node)
-        
+        get_schedule_stats(job)
       end # End if
+      
+      # Add stats to the db.
+      get_node_stats(node)
     end # End each
     
   end # End run method
   
-  def self.get_stats(job, node)
+  def self.get_schedule_stats(job)
     begin
       backup_dirs = YAML::load(job.data['backup_dir'][:value])
     rescue NoMethodError, TypeError
@@ -225,6 +225,43 @@ class RunJob
       return nil
     end
     
+     stat = nil
+
+      if backup_dirs && backup_dirs[job.schedule_id]
+        list = zfs_list("target" => backup_dirs[job.schedule_id])
+        filesystem = ""
+        if list[0] == 0
+          filesystem = list[1].first['name']
+        else
+          DaemonKit.logger.warn "Get_stats: Can't convert mountpoint into filesystem name"
+          return nil
+        end
+
+        schedule_stats = zfs_get("flags" => "p", "target" => filesystem, "field" => "property,value", "properties" => "used,available")
+
+        if schedule_stats[0] == 0
+          stat = Stat.new
+          stat.schedule_id = job.schedule_id
+          schedule_stats[1].each do |schedule_stat|
+            if schedule_stat["property"] == 'used'
+              stat.disk_used = schedule_stat["value"]
+            elsif schedule_stat["property"] == 'available'
+              stat.disk_avail = schedule_stat["value"]
+            end
+          end
+          if stat.disk_used && stat.disk_avail
+            stat.save!
+          else
+            DaemonKit.logger.warn "Get_stats: zfs_get return sucessfully, but I couldn't find \"used\" or \"available\" disk space for backup_dir #{backup_dirs[job.schedule_id]}"
+          end
+        else
+          DaemonKit.logger.warn "Get_stats: zfs_get returned with an error, #{schedule_stats[1]}"
+        end
+      end
+  end #End get_schedule_stats 
+  
+  def self.get_node_stats(node)
+
     settings = DaemonKit::Config.load('settings').to_h
     stat = Stat.new
     stat.cpu_load_avg = CPU.load_avg
@@ -253,40 +290,6 @@ class RunJob
     else
       DaemonKit.logger.warn "Get_stats: zfs_get returned with an error, #{node_stats[1]}"
     end    
-    
-    stat = nil
-    
-    if backup_dirs && backup_dirs[job.schedule_id]
-      list = zfs_list("target" => backup_dirs[job.schedule_id])
-      filesystem = ""
-      if list[0] == 0
-        filesystem = list[1].first['name']
-      else
-        DaemonKit.logger.warn "Get_stats: Can't convert mountpoint into filesystem name"
-        return nil
-      end
-      
-      schedule_stats = zfs_get("flags" => "p", "target" => filesystem, "field" => "property,value", "properties" => "used,available")
-      
-      if schedule_stats[0] == 0
-        stat = Stat.new
-        stat.schedule_id = job.schedule_id
-        schedule_stats[1].each do |schedule_stat|
-          if schedule_stat["property"] == 'used'
-            stat.disk_used = schedule_stat["value"]
-          elsif schedule_stat["property"] == 'available'
-            stat.disk_avail = schedule_stat["value"]
-          end
-        end
-        if stat.disk_used && stat.disk_avail
-          stat.save!
-        else
-          DaemonKit.logger.warn "Get_stats: zfs_get return sucessfully, but I couldn't find \"used\" or \"available\" disk space for backup_dir #{backup_dirs[job.schedule_id]}"
-        end
-      else
-        DaemonKit.logger.warn "Get_stats: zfs_get returned with an error, #{schedule_stats[1]}"
-      end
-    end
-  end # End getStats
+  end # End get_node_stats
   
 end # End Class
