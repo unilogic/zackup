@@ -208,13 +208,15 @@ class RunJob
             end
           end
         end
+        
+        # Add stats to the db.
         get_schedule_stats(job)
+        
       end # End if
       
-      # Add stats to the db.
-      get_node_stats(node)
+
     end # End each
-    
+    get_node_stats(node)
   end # End run method
   
   def self.get_schedule_stats(job)
