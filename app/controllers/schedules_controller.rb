@@ -42,11 +42,6 @@ class SchedulesController < ApplicationController
         :HtmlText => false,
         :lines => {:show => true, :fill => true},
         :selection => { :mode => 'x' },
-        :yaxis => 
-          {
-            :tickFormatter => 'diskTickFormatter'
-              
-          }
       )
 
       @disk.data = [
