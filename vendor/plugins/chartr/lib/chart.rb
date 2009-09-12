@@ -33,13 +33,17 @@ class Chartr::Chart
     @data = []
   end
 
+  def options_to_json(options)
+    options_to_json = options.to_json.gsub(/(\"tickFormatter\":)(\")(.+)(\")/,"\\1\\3")
+  end
+  
   def output(canvasname)
     return "Flotr.draw($('#{canvasname}'), #{@data.to_json}, #{@options.to_json});"
   end
   
   def output_select(canvasname)
     return "document.observe('dom:loaded', function(){
-    		      var options = #{@options.to_json};
+    		      var options = #{options_to_json(@options)};
           		function drawGraph(opts){
           			var o = Object.extend(Object.clone(options), opts || {});
           			return Flotr.draw(
