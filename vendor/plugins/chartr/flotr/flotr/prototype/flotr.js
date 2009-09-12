@@ -138,13 +138,16 @@ var Flotr = {
 	 * @return {String} formatted tick string
 	 */
 	diskTickFormatter: function(val){
-		if (val > 1000000000)
+		if (val > 1000000000){ 
 			return (val / 1000000000) + " GB";
-		else if (val > 1000000)
+		}
+		else if (val > 1000000) {
 			return (val / 1000000) + " MB";
-		else if (val > 1000)
+		}
+		else if (val > 1000) {
 			return (val / 1000) + " kB";
-		else
+		}
+		else {
 			return val + " B";
 		}
 	},
