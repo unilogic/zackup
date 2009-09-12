@@ -30,7 +30,8 @@ class NodesController < ApplicationController
     @cpu = Chartr::LineChart.new(
       :xaxis => {:mode => 'time', :labelsAngle => 45},
       :HtmlText => false,
-      :lines => {:show => true, :fill => true}
+      :lines => {:show => true, :fill => true},
+      :selection => { :mode => 'x' }
     )
     
     cpu_data = []
@@ -59,7 +60,8 @@ class NodesController < ApplicationController
     @disk = Chartr::LineChart.new(
       :xaxis => {:mode => 'time', :labelsAngle => 45},
       :HtmlText => false,
-      :lines => {:show => true, :fill => true}
+      :lines => {:show => true, :fill => true},
+      :selection => { :mode => 'x' }
     )
     
     @disk.data = [
