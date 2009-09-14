@@ -37,7 +37,7 @@ class RunJob
     return false
   end
   
-  def self.run(jobs, node)
+  def self.run(jobs)
     jobs.each do |job|
       if job.aasm_events_for_current_state.include? :finish
         
@@ -216,7 +216,7 @@ class RunJob
       
 
     end # End each
-    get_node_stats(node)
+    
   end # End run method
   
   def self.get_schedule_stats(job)
