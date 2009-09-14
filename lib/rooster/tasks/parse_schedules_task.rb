@@ -14,9 +14,12 @@ class ParseSchedulesTask < Rooster::Task
         log "#{self.name} starting at #{Time.now.to_s(:db)}"
         
         parseSchedules(options)
-        
+        cleanJobs
+        cleanStats
       ensure
         log "#{self.name} completed at #{Time.now.to_s(:db)}"
+        
+        # We release the db connection as we sleep.
         ActiveRecord::Base.connection_pool.release_connection
       end
     end

@@ -25,7 +25,14 @@
 			<td class='form_label'><%= f.label :new_job_based_start, "When Starting a New Job, Base the Start Time of Job on the Latest" %></td>
 			<td><%= f.select :new_job_based_start, [['Start','start'], ['Finish','finish']] %></td>
 		</tr>
-		
+		<tr>
+			<td class='form_label'><%= f.label :keep_stats, "Keep Stats Data for N Days" %></td>
+			<td><%= f.text_field :keep_stats %></td>
+		</tr>
+		<tr>
+			<td class='form_label'><%= f.label :keep_jobs, "Keep Finished, Errored, and Canceled Jobs for N Days" %></td>
+			<td><%= f.text_field :keep_jobs %></td>
+		</tr>
 	</table>
 	<%= submit_tag 'Update' %>
 <% end %>

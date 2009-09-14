@@ -26,14 +26,7 @@ class NodesController < ApplicationController
     
     # Grab all node stats for this node for the past day.
     stats = Stat.find_all_by_node_id @node, :conditions => ["created_at > ?", 1.days.ago.localtime]
- 		
-    @cpu = Chartr::LineChart.new(
-      :xaxis => {:mode => 'time', :labelsAngle => 45},
-      :HtmlText => false,
-      :lines => {:show => true, :fill => true},
-      :selection => { :mode => 'x' }
-    )
-    
+ 		 
     cpu_data = []
     disk_data_used = []
     disk_data_avail = []
@@ -53,6 +46,13 @@ class NodesController < ApplicationController
         end
       end
     end
+    
+    @cpu = Chartr::LineChart.new(
+        :xaxis => {:mode => 'time', :labelsAngle => 45},
+        :HtmlText => false,
+        :lines => {:show => true, :fill => true},
+        :selection => { :mode => 'x' }
+      )
     
     @cpu.data = [{'data' => cpu_data, 'label' => 'CPU Load Avg'}]
     

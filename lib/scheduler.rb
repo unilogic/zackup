@@ -166,9 +166,7 @@ module Scheduler
           end
         end
       end
-    
     end
-    
   end
   
   def parseExistingJobs(schedule)
@@ -199,7 +197,7 @@ module Scheduler
           if backup_dir = job_backup_dirs[schedule.id]
             if host_config = host.find_host_config_by_name('backup_dir')
             
-              # For safety if for some reason we find a job for a schedule that already has a backu_dir set
+              # For safety if for some reason we find a job for a schedule that already has a backup_dir set
               # we'll skip it for now.
               # TODO: figure out how better to handle this condition
               host_config_value = ""
@@ -348,4 +346,23 @@ module Scheduler
     
   end # End parseRetentionPolicy
   
+  # Cleanup old jobs.
+  def cleanJobs
+    if Setting.default.keep_jobs.days
+      cleaned_jobs = Job.destroy_all(["start_at <= :c AND (status = 'finished' OR status = 'errored' OR status = 'canceled')", {:c => Setting.default.keep_jobs.days.ago.localtime}])
+      if cleaned_jobs
+        Rails.logger.info "Zackup::Scheduler - #{cleaned_jobs.count} Jobs Finished, Errored, and Canceled Jobs Pruned"
+      end
+    end
+  end # End cleanJobs
+  
+  # Cleanup old stats.
+  def cleanStats
+    if Setting.default.keep_stats
+      cleaned_stats = Stat.destroy_all(:conditions => ["created_at <= ?", Setting.default.keep_stats.days.ago.localtime])
+      if cleaned_stats
+        Rails.logger.info "Zackup::Scheduler - #{cleaned_stats.count} Stats Pruned"
+      end
+    end
+  end # End cleanStats
 end # End Module

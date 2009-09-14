@@ -9,6 +9,8 @@ class Setting < ActiveRecord::Base
   setting :max_error_retries, :integer, 3
   setting :force_backup_runs, :boolean, false
   setting :new_job_based_start, :string, 'start'  
+  setting :keep_stats, :integer, 7
+  setting :keep_jobs, :integer, 7
   
   def initialize
     super
