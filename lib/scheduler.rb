@@ -359,7 +359,7 @@ module Scheduler
   # Cleanup old stats.
   def cleanStats
     if Setting.default.keep_stats
-      cleaned_stats = Stat.destroy_all(:conditions => ["created_at <= ?", Setting.default.keep_stats.days.ago.localtime])
+      cleaned_stats = Stat.destroy_all(["created_at <= ?", Setting.default.keep_stats.days.ago.localtime])
       if cleaned_stats
         Rails.logger.info "Zackup::Scheduler - #{cleaned_stats.count} Stats Pruned"
       end
