@@ -38,13 +38,14 @@ class SchedulesController < ApplicationController
     end
 
      @disk = Chartr::LineChart.new(
-        :xaxis => {:mode => 'time', :labelsAngle => 45, :autoscaleMargin => 10},
+        :xaxis => {:mode => 'time', :labelsAngle => 45},
         :HtmlText => false,
         :lines => {:show => true, :fill => true},
         :selection => { :mode => 'x' },
         :yaxis => 
           {
-            :mode => 'disk'
+            :mode => 'disk',
+            :autoscaleMargin => 10
           }
       )
 
