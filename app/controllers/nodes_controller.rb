@@ -58,7 +58,7 @@ class NodesController < ApplicationController
     
     
     @disk = Chartr::LineChart.new(
-      :xaxis => {:mode => 'time', :labelsAngle => 45},
+      :xaxis => {:mode => 'time', :labelsAngle => 45, :autoscaleMargin => 10},
       :HtmlText => false,
       :lines => {:show => true, :fill => true},
       :selection => { :mode => 'x' },
