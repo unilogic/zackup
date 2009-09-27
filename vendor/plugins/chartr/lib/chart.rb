@@ -61,7 +61,7 @@ class Chartr::Chart
 
           			f = drawGraph({
           				xaxis: {min:area.x1, max:area.x2, mode:'time', labelsAngle:45},
-          				yaxis: {min:area.y1, max:area.y2}
+          				yaxis: {min:area.y1, max:area.y2, mode:'data'}
           			});
           		});
 

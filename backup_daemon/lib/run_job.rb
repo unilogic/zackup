@@ -7,8 +7,8 @@ require 'file_index'
 require 'custom_find'
 require 'stats'
 
-require 'sys/cpu'
-include Sys
+#require 'sys/cpu'
+#include Sys
 
 require 'zfs'
 include Zfs
@@ -266,7 +266,10 @@ class RunJob
 
     settings = DaemonKit::Config.load('settings').to_h
     stat = Stat.new
-    stat.cpu_load_avg = CPU.load_avg
+    stat.cpu_load_avg = `uptime`.chomp.split(' ')[9,12].join(' ')
+    
+    # Sys CPU Bus Errors... :-(
+    #stat.cpu_load_avg = CPU.load_avg
     #stat.cpu_load_avg = [0.1, 0.2, 0.3]
     stat.node_id = node.id
     unless backup_zvol = settings['backup_zvol']
