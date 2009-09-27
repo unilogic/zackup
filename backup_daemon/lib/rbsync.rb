@@ -57,8 +57,8 @@ class Rbsync
     else
     
       DaemonKit.logger.info "Rbsync: Pulling #{self.remote_paths} to #{self.local_path}"
-      DaemonKit.logger.info "Rbsync: Running: rsync #{rsync_args} \"#{full_remote}\" \"#{local}\" 2>&1"
-      result = %x[rsync #{rsync_args} \"#{full_remote}\" \"#{local}\" 2>&1]
+      DaemonKit.logger.info "Rbsync: Running: rsync #{rsync_args} #{full_remote} \"#{local}\" 2>&1"
+      result = %x[rsync #{rsync_args} #{full_remote} \"#{local}\" 2>&1]
       return $?.exitstatus,result
     end
   end
