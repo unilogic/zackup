@@ -133,11 +133,13 @@ ActiveRecord::Schema.define(:version => 20090910235531) do
   end
 
   create_table "stats", :force => true do |t|
-    t.integer "schedule_id"
-    t.integer "node_id"
-    t.string  "disk_used"
-    t.string  "disk_avail"
-    t.string  "cpu_load_avg"
+    t.integer  "schedule_id"
+    t.integer  "node_id"
+    t.string   "disk_used"
+    t.string   "disk_avail"
+    t.string   "cpu_load_avg"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|

@@ -25,7 +25,7 @@ class NodesController < ApplicationController
     @node = Node.find(params[:id])
     
     # Grab all node stats for this node for the past day.
-    stats = Stat.find_all_by_node_id @node, :conditions => ["created_at > ?", 1.days.ago.localtime]
+    stats = Stat.find_all_by_node_id @node
  		 
     cpu_data = []
     disk_data_used = []
@@ -37,8 +37,8 @@ class NodesController < ApplicationController
         cpu_avgs = YAML::load(stat.cpu_load_avg)
         # Need milliseconds
         created_at_in_ms = (stat.created_at.to_f * 1000).to_i
-        cpu_data << [created_at_in_ms, cpu_avgs[0]]
-        if stat.disk_used
+	cpu_data << [created_at_in_ms, cpu_avgs]
+	if stat.disk_used
           disk_data_used << [created_at_in_ms, stat.disk_used]
         end
         if stat.disk_avail
@@ -50,7 +50,7 @@ class NodesController < ApplicationController
     @cpu = Chartr::LineChart.new(
         :xaxis => {:mode => 'time', :labelsAngle => 45},
         :HtmlText => false,
-        :lines => {:show => true, :fill => true},
+        :lines => {:show => true, :fill => false},
         :selection => { :mode => 'x' }
       )
     
@@ -60,9 +60,9 @@ class NodesController < ApplicationController
     @disk = Chartr::LineChart.new(
       :xaxis => {:mode => 'time', :labelsAngle => 45},
       :HtmlText => false,
-      :lines => {:show => true, :fill => true},
+      :lines => {:show => true, :fill => false},
       :selection => { :mode => 'x' },
-      :yaxis => {:mode => 'disk', :autoscaleMargin => 10}
+      :yaxis => {:mode => 'disk', :autoscaleMargin => 1}
     )
     
     @disk.data = [
